@@ -1,4 +1,33 @@
 {
   "scene": "Scene_Game_NW-DemoLive",
-  "markers": []
+  "markers": [
+    {
+      "id": "skip-1",
+      "type": "skip",
+      "name": "Triple jump",
+      "pos": [
+        -84.98,
+        -13.79,
+        375.61
+      ],
+      "path": [
+        [
+          -55.79,
+          -13.95,
+          362.06
+        ],
+        [
+          -46.54,
+          -10.87,
+          350.31
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "This is a test",
+      "sourcePath": null
+    }
+  ]
 }
