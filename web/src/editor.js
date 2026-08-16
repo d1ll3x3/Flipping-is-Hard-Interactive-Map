@@ -58,8 +58,14 @@ export class Editor {
       </form>
       <button id="save" class="primary">Save to the repo</button>
       <p class="hint" id="saveHint"></p>
-      <button id="export">Export markers.json</button>
-      <p class="hint">Downloads the whole marker list as a file, to commit by hand.</p>
+      <div class="row-buttons">
+        <button id="export">Export</button>
+        <button id="import">Import</button>
+      </div>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+      <p class="hint" id="fileHint">Export downloads the marker list as a file; Import loads
+        one back in. An import replaces everything on the map but changes nothing in the
+        repo until you press Save.</p>
     `;
 
     this.form = this.panel.querySelector('#form');
@@ -71,6 +77,10 @@ export class Editor {
     this.panel.querySelector('#undoPoint').addEventListener('click', () => this.undoPoint());
     this.panel.querySelector('#clearPath').addEventListener('click', () => this.clearPath());
     this.panel.querySelector('#export').addEventListener('click', () => this.export());
+    this.fileHint = this.panel.querySelector('#fileHint');
+    this.importFile = this.panel.querySelector('#importFile');
+    this.panel.querySelector('#import').addEventListener('click', () => this.importFile.click());
+    this.importFile.addEventListener('change', () => this.import(this.importFile.files[0]));
     this.saveButton = this.panel.querySelector('#save');
     this.saveHint = this.panel.querySelector('#saveHint');
     this.saveButton.addEventListener('click', () => this.save());
@@ -246,6 +256,41 @@ export class Editor {
       this.saveHint.textContent = `Not saved: ${error.message}`;
     } finally {
       this.saveButton.disabled = false;
+    }
+  }
+
+  /**
+   * Loads a markers.json back in, replacing what is on the map.
+   *
+   * Replacing rather than merging, because the file Export writes is the whole list and
+   * merging two of them would need an answer for every id that appears in both. Nothing is
+   * committed either way, so an import that turns out to be the wrong file is undone by
+   * reloading the page.
+   */
+  async import(file) {
+    if (!file) return;
+    // Cleared so that picking the same file twice in a row still fires a change event.
+    this.importFile.value = '';
+
+    try {
+      const data = JSON.parse(await file.text());
+      if (!Array.isArray(data.markers)) throw new Error('there is no "markers" array in it');
+
+      const before = this.markers.items.length;
+      const scene = this.markers.replaceAll(data);
+
+      this.showForm(null);
+      this.ui?.renderDetail(null);
+
+      const after = this.markers.items.length;
+      const mismatch =
+        scene && scene !== this.sceneName ? ` It says it belongs to ${scene}, not ${this.sceneName}.` : '';
+
+      this.fileHint.textContent =
+        `Imported ${after} marker${after === 1 ? '' : 's'}, replacing ${before}.` +
+        `${mismatch} Nothing is saved until you press Save.`;
+    } catch (error) {
+      this.fileHint.textContent = `Could not import ${file.name}: ${error.message}`;
     }
   }
 

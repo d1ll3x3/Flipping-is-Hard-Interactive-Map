@@ -57,10 +57,21 @@ export class Markers {
     const response = await fetch(url, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`Could not load ${url}: HTTP ${response.status}`);
 
-    const data = await response.json();
+    return this.replaceAll(await response.json());
+  }
+
+  /**
+   * Swaps the whole list for the contents of a markers.json, whether fetched or imported
+   * from a file. Returns the scene the file says it belongs to, which the caller may want
+   * to check against the level actually on screen.
+   */
+  replaceAll(data) {
     this.items = (data.markers ?? []).map(normalize);
+    this.selected = null;
     this.rebuild();
-    return data.scene;
+    this.onChange();
+
+    return data.scene ?? null;
   }
 
   // ─────────────────────────────────────────────────────────────────── mutation ──
