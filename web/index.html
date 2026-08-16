@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FIH Map — interactive map of Flipping is Hard</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="viewport"></div>
+
+    <div id="loading">
+      <p>Loading map…</p>
+      <progress id="progress" max="100" value="0"></progress>
+    </div>
+
+    <aside id="panel">
+      <header>
+        <h1>FIH Map</h1>
+        <span id="count"></span>
+      </header>
+
+      <input id="search" type="search" placeholder="Search skips, routes, notes…" />
+      <div id="filters"></div>
+      <div id="list"></div>
+
+      <details id="layers-box">
+        <summary>Layers</summary>
+        <div id="layers"></div>
+      </details>
+
+      <section id="editor" hidden></section>
+    </aside>
+
+    <article id="detail"></article>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

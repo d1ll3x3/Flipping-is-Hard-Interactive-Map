@@ -1,0 +1,33 @@
+{
+  "scene": "Scene_Game_NW-DemoLive",
+  "exportedAt": "2026-08-16 16:32:23",
+  "builtAt": "2026-08-16T15:25:40.342Z",
+  "lodLevel": 0,
+  "nodes": 4084,
+  "vertices": 3455167,
+  "bytes": 9803432,
+  "bounds": {
+    "min": [
+      -661,
+      -108.062996,
+      -696
+    ],
+    "max": [
+      640.2,
+      442.424,
+      633.2
+    ]
+  },
+  "areas": [
+    "NW_LowestGround_Area_v2_Combined",
+    "NW_L1_Tutorial_Area_v6_Combined",
+    "NW_L2_Military_Area_v2_Combined",
+    "NW_L3_Playground_Area_Demo_v5_Combined",
+    "SpawnableArea_Beacons_NW-demo",
+    "SpawnableArea_Checkpoints_NW-demo",
+    "SpawnableArea_Collectible_Coins_NW-demo",
+    "NW_RespawnPipeZones_Area",
+    "SpawnableArea_HallOfChampions_Combined",
+    "NetworkedInteractable_Cannon"
+  ]
+}

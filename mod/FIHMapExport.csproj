@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>FIHMapExport</AssemblyName>
+    <RootNamespace>FIHMapExport</RootNamespace>
+    <Version>0.1.0</Version>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <Platforms>AnyCPU</Platforms>
+    <NoWarn>$(NoWarn);NETSDK1138</NoWarn>
+
+    <!-- Built against the interop assemblies BepInEx generates from the installed game,
+         so signatures can never drift from the build the mod actually runs on.
+         Override with: dotnet build -p:GameDir="path\to\game" -->
+    <GameDir Condition="'$(GameDir)' == ''">I:\SteamLibrary\steamapps\common\Flipping is Hard Demo</GameDir>
+    <InteropDir>$(GameDir)\BepInEx\interop</InteropDir>
+
+    <!-- dotnet build -p:Deploy=true copies the dll into the game's plugin folder. -->
+    <Deploy Condition="'$(Deploy)' == ''">false</Deploy>
+  </PropertyGroup>
+
+  <Target Name="CheckInterop" BeforeTargets="BeforeBuild">
+    <Error Condition="!Exists('$(GameDir)')"
+           Text="GameDir does not exist: '$(GameDir)'. Pass -p:GameDir=&quot;path\to\game&quot;." />
+    <Error Condition="!Exists('$(InteropDir)\Assembly-CSharp.dll')"
+           Text="$(InteropDir)\Assembly-CSharp.dll not found. Install BepInEx 6 IL2CPP into the game and run it once to generate the interop assemblies, or pass -p:GameDir=..." />
+    <Message Importance="high" Text="FIHMapExport: building against $(InteropDir)" />
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="$(InteropDir)\*.dll" Private="false" />
+  </ItemGroup>
+
+  <Target Name="DeployToGame" AfterTargets="Build" Condition="'$(Deploy)' == 'true'">
+    <MakeDir Directories="$(GameDir)\BepInEx\plugins\FIHMapExport" />
+    <!-- The game holds the dll open while it runs, and having it open during a build is
+         normal. That should not fail the build. -->
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\BepInEx\plugins\FIHMapExport"
+          ContinueOnError="WarnAndContinue" Retries="2" RetryDelayMilliseconds="300">
+      <Output TaskParameter="CopiedFiles" ItemName="DeployedFile" />
+    </Copy>
+    <Message Importance="high" Condition="'@(DeployedFile)' != ''"
+             Text="FIHMapExport: deployed to $(GameDir)\BepInEx\plugins\FIHMapExport" />
+    <Warning Condition="'@(DeployedFile)' == ''"
+             Text="FIHMapExport: NOT deployed to $(GameDir) - close the game and build again." />
+  </Target>
+
+</Project>

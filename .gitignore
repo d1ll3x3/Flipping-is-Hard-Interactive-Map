@@ -1,0 +1,18 @@
+node_modules/
+
+# Intermediate export: hundreds of MB of ripped meshes and textures, rebuildable from the
+# game with tools/rip-assets.mjs. Only raw/scene.json is worth keeping (see below).
+raw/*
+!raw/scene.json
+
+# AssetRipper is downloaded, not authored.
+tools/AssetRipper/
+tools/AssetRipper_win_x64.zip
+tools/assetripper.log
+
+# Build output
+web/dist/
+
+# Mod build
+mod/bin/
+mod/obj/
