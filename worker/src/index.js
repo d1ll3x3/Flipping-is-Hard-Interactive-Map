@@ -100,6 +100,11 @@ async function save({ markers, scene, baseSha }, env) {
       content: base64(content),
       sha: baseSha ?? (await currentSha(env)),
       branch: env.BRANCH,
+      // Otherwise GitHub attributes the commit to whoever owns the token, personal email
+      // and all, in a public repository. These commits are made by the editor, not by a
+      // person, and the address is GitHub's own no-reply.
+      author: { name: env.COMMIT_NAME, email: env.COMMIT_EMAIL },
+      committer: { name: env.COMMIT_NAME, email: env.COMMIT_EMAIL },
     },
   });
 
@@ -115,7 +120,10 @@ async function github(env, path, { method = 'GET', body } = {}) {
   const response = await fetch(`https://api.github.com/repos/${env.REPO}/${path}`, {
     method,
     headers: {
-      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+      // Trimmed: a token pasted into a terminal easily arrives with a trailing newline or
+      // space, and GitHub answers a malformed Authorization header with a bare 400 that
+      // says nothing about why.
+      Authorization: `Bearer ${(env.GITHUB_TOKEN ?? '').trim()}`,
       Accept: 'application/vnd.github+json',
       // GitHub rejects API requests without one.
       'User-Agent': 'fih-map-editor',

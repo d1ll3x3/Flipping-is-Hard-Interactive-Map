@@ -9,3 +9,8 @@ REPO = "d1ll3x3/Flipping-is-Hard-Interactive-Map"
 BRANCH = "main"
 FILE_PATH = "web/public/data/markers.json"
 ALLOWED_ORIGINS = "https://d1ll3x3.github.io,http://localhost:5173"
+
+# Who the commits are attributed to. GitHub's no-reply address, so the token owner's
+# personal email does not end up in the history of a public repository.
+COMMIT_NAME = "fih-map editor"
+COMMIT_EMAIL = "188931332+d1ll3x3@users.noreply.github.com"
