@@ -4,7 +4,7 @@
     {
       "id": "skip-1",
       "type": "skip",
-      "name": "Alt Gap",
+      "name": "Triple jump",
       "pos": [
         -84.98,
         -13.79,
@@ -22,15 +22,299 @@
           350.31
         ]
       ],
-      "lookAt": [
-        -107.42,
-        -9.87,
-        379.46
-      ],
+      "lookAt": null,
       "difficulty": null,
       "timeSaved": null,
       "video": null,
-      "notes": "This is a test",
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-2",
+      "type": "skip",
+      "name": "High jump",
+      "pos": [
+        -94.26,
+        -24.09,
+        380.67
+      ],
+      "path": [
+        [
+          -94.08,
+          -19.68,
+          378.71
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-3",
+      "type": "skip",
+      "name": "Tower skip",
+      "pos": [
+        -4.94,
+        58.68,
+        149.39
+      ],
+      "path": [
+        [
+          12.48,
+          25.03,
+          141.93
+        ],
+        [
+          10.02,
+          14.65,
+          124.45
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-4",
+      "type": "skip",
+      "name": "Wall skip",
+      "pos": [
+        11.84,
+        15.4,
+        136.82
+      ],
+      "path": [
+        [
+          10.98,
+          21.02,
+          135.06
+        ],
+        [
+          10.44,
+          14.65,
+          120.42
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-5",
+      "type": "skip",
+      "name": "Cube drop",
+      "pos": [
+        -4.89,
+        59.61,
+        149.64
+      ],
+      "path": [
+        [
+          8.95,
+          15.4,
+          139.81
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-6",
+      "type": "skip",
+      "name": "Cardboard wall jump",
+      "pos": [
+        0.18,
+        14.65,
+        99.79
+      ],
+      "path": [
+        [
+          0.52,
+          17.64,
+          98.55
+        ],
+        [
+          0.58,
+          19.96,
+          98.57
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-7",
+      "type": "skip",
+      "name": "Nail skip",
+      "pos": [
+        -4.46,
+        131,
+        -98.01
+      ],
+      "path": [
+        [
+          -4.66,
+          143.97,
+          -101.48
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-8",
+      "type": "skip",
+      "name": "Triple jump",
+      "pos": [
+        -6.22,
+        143.38,
+        -119.05
+      ],
+      "path": [
+        [
+          -8.08,
+          148.89,
+          -118.44
+        ],
+        [
+          -8.09,
+          151.85,
+          -117.46
+        ],
+        [
+          -8.22,
+          153.3,
+          -118.23
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-9",
+      "type": "skip",
+      "name": "Pad skip",
+      "pos": [
+        -11.64,
+        153.32,
+        -114.51
+      ],
+      "path": [
+        [
+          -13.28,
+          154.68,
+          -113.03
+        ],
+        [
+          -22.65,
+          178.92,
+          -110.49
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-10",
+      "type": "skip",
+      "name": "Ladder",
+      "pos": [
+        -24.41,
+        178.8,
+        -138.21
+      ],
+      "path": [
+        [
+          -24.51,
+          181.72,
+          -137.04
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-11",
+      "type": "skip",
+      "name": "Wall jump ladder",
+      "pos": [
+        -20.66,
+        175.05,
+        -134.84
+      ],
+      "path": [
+        [
+          -20.55,
+          179.39,
+          -137.49
+        ],
+        [
+          -20.49,
+          181.66,
+          -137.04
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-12",
+      "type": "skip",
+      "name": "Pad to ladder",
+      "pos": [
+        -12.58,
+        156.2,
+        -113.75
+      ],
+      "path": [
+        [
+          -20.35,
+          175.05,
+          -133.36
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
       "sourcePath": null
     }
   ]
