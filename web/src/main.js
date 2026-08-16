@@ -72,7 +72,12 @@ async function start() {
   // Cache-busted by build time. Browsers hold on to a multi-megabyte .glb hard, so without
   // this a rebuilt map keeps showing the old one until a forced reload - locally and,
   // worse, for every visitor after a deploy.
-  const version = await fetch(asset('scene-meta.json'))
+  //
+  // no-cache on the metadata itself, or the whole scheme is decorative: a cached
+  // scene-meta.json hands back the previous build's timestamp, the .glb URL comes out
+  // identical, and F5 shows the old map. It only means "revalidate", so an unchanged file
+  // costs a 304 and no download.
+  const version = await fetch(asset('scene-meta.json'), { cache: 'no-cache' })
     .then((r) => r.json())
     .then((meta) => meta.builtAt)
     .catch(() => Date.now());

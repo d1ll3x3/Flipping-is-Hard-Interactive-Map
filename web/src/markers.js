@@ -51,7 +51,10 @@ export class Markers {
   }
 
   async load(url) {
-    const response = await fetch(url);
+    // no-cache, because this file changes every time someone presses Save and a stale copy
+    // is indistinguishable from the save having failed. It only forces revalidation, and
+    // the file is a few kB, so the usual answer is a 304.
+    const response = await fetch(url, { cache: 'no-cache' });
     if (!response.ok) throw new Error(`Could not load ${url}: HTTP ${response.status}`);
 
     const data = await response.json();
