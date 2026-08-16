@@ -1,46 +1,47 @@
 # FIH Map
 
-Mapa 3D interactivo de **Flipping is Hard**, para anotar skips, tiempos, vídeos y ejemplos
-sobre la geometría real del nivel.
+Interactive 3D map of **Flipping is Hard**, for annotating skips, times, videos and examples
+on top of the level's real geometry.
 
-El sitio es estático: carga un único `scene.glb` (~5 MB) con todo el nivel y un
-`markers.json` con las anotaciones.
+**Live site:** https://d1ll3x3.github.io/Flipping-is-Hard-Interactive-Map/
 
-## Por qué hay dos mitades
+The site is static: it loads a single `scene.glb` (~9 MB) holding the whole level, plus a
+`markers.json` with the annotations.
 
-Las mallas del juego no son legibles desde la CPU (`Mesh.vertices` viene vacío en tiempo de
-ejecución), así que la geometría no se puede sacar desde un mod. Pero buena parte del nivel
-se instancia en runtime — todos los objetos `(Clone)` —, así que tampoco está colocada en
-ningún archivo de escena del disco.
+## Why there are two halves
 
-Ninguna de las dos fuentes basta por separado, y de ahí el reparto:
+The game's meshes are not CPU-readable (`Mesh.vertices` comes back empty at runtime), so the
+geometry cannot be pulled out from a mod. But much of the level is instantiated at runtime —
+every `(Clone)` object — so it is not laid out in any scene file on disk either.
 
-| Mitad | Qué aporta | De dónde sale |
+Neither source is enough on its own, hence the split:
+
+| Half | What it provides | Where it comes from |
 |---|---|---|
-| `mod/` | dónde está cada objeto del nivel jugado | plugin BepInEx, en el juego |
-| AssetRipper | las mallas y las texturas | archivos del juego, offline |
-| `tools/` | une ambas en un `scene.glb` | Node |
+| `mod/` | where every object of the played level sits | BepInEx plugin, inside the game |
+| AssetRipper | the meshes and the textures | game files, offline |
+| `tools/` | joins the two into one `scene.glb` | Node |
 
-## Pipeline completo
+## Full pipeline
 
 ```bash
 cd mod && ./build.bat
 ```
 
-Compila el plugin y lo despliega en la Demo. Dentro de un nivel:
+Builds the plugin and deploys it to the Demo. Inside a level:
 
-- `F10` — informe de diagnóstico de la escena (`Export/probe.txt`)
-- `F11` — vuelca `Export/scene.json`: la posición de cada objeto
+- `F10` — scene diagnostic report (`Export/probe.txt`)
+- `F11` — dumps `Export/scene.json`: the position of every object
 
-Ambas teclas y la carpeta de salida se configuran en `FIHMapExport.cfg`, junto al DLL.
+Both keys and the output folder are configured in `FIHMapExport.cfg`, next to the DLL.
 
-Copia ese `scene.json` a `raw/` y lanza AssetRipper:
+Copy that `scene.json` into `raw/` and start AssetRipper:
 
 ```bash
 tools/AssetRipper/AssetRipper.GUI.Free.exe --headless --port 7891
 ```
 
-Carga en él la carpeta `..._Data` del juego, y después:
+Load the game's `..._Data` folder in it, then:
 
 ```bash
 node tools/rip-assets.mjs
@@ -50,68 +51,68 @@ node tools/rip-assets.mjs
 node tools/build-glb.mjs
 ```
 
-El primero descarga una malla `.glb` y una textura `.png` por asset, emparejándolos con el
-volcado por nombre y verificándolos por número de vértices. El segundo los ensambla en
+The first downloads one `.glb` mesh and one `.png` texture per asset, matching them against
+the dump by name and verifying them by vertex count. The second assembles them into
 `web/public/scene.glb`.
 
-## La web
+## The web app
 
 ```bash
 cd web && npm install && npm run dev
 ```
 
-Abre `http://localhost:5173`. Con `?edit=1` aparece el editor: coloca marcadores haciendo
-clic sobre el nivel, rellena sus datos y exporta un `markers.json` para commitear. No hay
-backend a propósito.
+Open `http://localhost:5173`. With `?edit=1` the editor appears: place markers by clicking on
+the level, fill in their data and export a `markers.json` to commit. There is no backend on
+purpose.
 
-### Quién puede editar
+### Who can edit
 
-`?edit=1` pide una frase de paso antes de abrir el editor. **No es autenticación** y no
-pretende serlo: el sitio es estático y todo el JavaScript es público, así que lo único que
-hace es que un visitante que dé con el parámetro no se encuentre el editor abierto. En el
-repositorio solo está el SHA-256 (`web/src/access.js`), nunca la frase; se comparte por otro
-canal con quien deba editar.
+`?edit=1` asks for a passphrase before opening the editor. **This is not authentication** and
+does not pretend to be: the site is static and all of its JavaScript is public, so the only
+thing it achieves is that a visitor who stumbles onto the parameter does not find the editor
+open. Only the SHA-256 is in the repository (`web/src/access.js`), never the passphrase; that
+is shared over another channel with whoever needs to edit.
 
-Quien controla de verdad lo que llega al mapa son los permisos del repositorio: el editor
-solo descarga un `markers.json`, y ese archivo entra por un commit. Para cambiar la frase,
-sustituye el hash de `web/src/access.js` por el que imprime el comando documentado ahí.
+What actually controls that reaches the map is the repository's permissions: the editor only
+downloads a `markers.json`, and that file gets in through a commit. To change the passphrase,
+replace the hash in `web/src/access.js` with the one printed by the command documented there.
 
-## Detalles que costaron encontrar
+## Things that were hard to find
 
-Todos están comentados en el código, pero conviene saberlos antes de tocar nada:
+All of them are commented in the code, but they are worth knowing before touching anything:
 
-- **AssetRipper no mete las submallas de una malla en una sola malla glTF.** Escribe un nodo
-  raíz con un hijo por submalla (`SubMesh_0`, `SubMesh_1`…), cada uno apuntando a su propia
-  malla. Leer solo la primera se lleva por delante todo lo demás en 65 de las 337 mallas del
-  nivel: el microondas se quedaba en su panel frontal, el boost pad en el muelle, la radio en
-  la antena y los trozos combinados de Military en casi nada.
-- **Una misma malla se pinta de varias formas.** 41 mallas se instancian con materiales
-  distintos y la diferencia es el objeto entero: `SM_Phone_v4_Full_LOD0` es un móvil con
-  `M_Phone_Base_Demo` y un microondas con `M_Phone_Microwave`; `SM_GroundBlock_07` es roca o
-  hierba. Hay que crear una variante de malla por juego de materiales, no elegir uno.
-- **AssetRipper refleja el eje X**, no el Z, al convertir de Unity a glTF. Aplicar la
-  convención habitual (negar Z) deja el mapa entero en espejo respecto a su propia
-  geometría. Se verificó comparando los bounds de Unity con los del glTF ripeado.
-- **El color no está en `_MainTex`.** En los shaders `SG_Standard_MSAO` esa textura es solo
-  un mapa de detalle casi blanco; el color real lo pone `T_Global_Atlas`, una paleta
-  direccionada por **UV1**.
-- **Esa paleta no se puede reescalar, comprimir con pérdida ni interpolar**, y sus UV1 no se
-  pueden cuantizar: cada texel es una celda de color distinta, así que cualquier mezcla
-  entre celdas vecinas inventa colores que no existen en el juego.
+- **AssetRipper does not put the submeshes of one mesh into a single glTF mesh.** It writes a
+  root node with one child per submesh (`SubMesh_0`, `SubMesh_1`…), each pointing at a mesh of
+  its own. Reading only the first one drops everything else on 65 of the level's 337 meshes:
+  the microwave was left as its front panel, the boost pad as its spring, the radio as its
+  aerial, and the combined Military chunks as almost nothing.
+- **The same mesh is painted several ways.** 41 meshes are instanced with different materials
+  and the difference is the whole object: `SM_Phone_v4_Full_LOD0` is a phone with
+  `M_Phone_Base_Demo` and a microwave with `M_Phone_Microwave`; `SM_GroundBlock_07` is rock or
+  grass. A mesh variant per material set is needed, not one material picked for all of them.
+- **AssetRipper mirrors the X axis**, not Z, when converting from Unity to glTF. Applying the
+  usual convention (negating Z) leaves the whole map mirrored against its own geometry.
+  Verified by comparing Unity's bounds with the ripped glTF's.
+- **The colour is not in `_MainTex`.** In the `SG_Standard_MSAO` shaders that texture is only
+  a near-white detail map; the real colour comes from `T_Global_Atlas`, a palette addressed
+  through **UV1**.
+- **That palette cannot be resized, lossily compressed or interpolated**, and its UV1 cannot
+  be quantized: every texel is a distinct colour cell, so any blend between neighbouring cells
+  invents colours the game does not contain.
 
-## Despliegue
+## Deployment
 
-`git push` a `main` publica en GitHub Pages mediante `.github/workflows/pages.yml`. El
-workflow pasa el nombre del repositorio como `BASE` para que las rutas resuelvan bien.
+A `git push` to `main` publishes to GitHub Pages through `.github/workflows/pages.yml`. The
+workflow passes the repository name as `BASE` so the paths resolve correctly.
 
-## Licencia y assets
+## Licence and assets
 
-El código es propio. Los assets del juego pertenecen a **Elegant Horse Studios**.
+The code is our own. The game's assets belong to **Elegant Horse Studios**.
 
-`raw/` está en `.gitignore` — son cientos de MB de mallas y texturas en crudo, y se
-regeneran con `rip-assets.mjs`. Pero **`web/public/scene.glb` sí tiene que estar
-commiteado**: el workflow de Pages no puede reconstruirlo, porque eso requiere el juego
-instalado y una sesión en marcha. Son ~5 MB, sin problema para git.
+`raw/` is in `.gitignore` — hundreds of MB of raw meshes and textures, regenerated with
+`rip-assets.mjs`. But **`web/public/scene.glb` does have to be committed**: the Pages workflow
+cannot rebuild it, because that needs the game installed and a session running. It is ~9 MB,
+no trouble for git.
 
-Eso significa que publicar el sitio distribuye geometría y texturas del juego, aunque sea
-en forma derivada y reducida. Si va a ser público, avisa antes al estudio.
+That means publishing the site distributes the game's geometry and textures, even in a derived
+and reduced form. This repository is public, so the studio should be told.
