@@ -18,7 +18,9 @@ export class Editor {
     this.panel.hidden = false;
     document.body.classList.add('editing');
 
-    this.placing = false;
+    // What the next click on the level does: nothing, start a new marker, or extend the
+    // selected marker's path.
+    this.mode = null;
     this.build();
   }
 
@@ -38,18 +40,33 @@ export class Editor {
         <label>Difficulty <input name="difficulty" type="number" min="1" max="5"></label>
         <label>Video <input name="video" type="url" placeholder="https://youtu.be/...?t=42"></label>
         <label>Notes <textarea name="notes" rows="3"></textarea></label>
+        <fieldset>
+          <legend>Path <span id="pathCount"></span></legend>
+          <p class="hint">The route drawn on the map. It starts at the marker; each point
+            you add continues the line, and the last one is the end of the skip.</p>
+          <div class="row-buttons">
+            <button type="button" id="addPoint">Add point</button>
+            <button type="button" id="undoPoint">Undo point</button>
+            <button type="button" id="clearPath">Clear</button>
+          </div>
+        </fieldset>
         <div class="row-buttons">
-          <button type="button" id="setLookAt">Save camera</button>
+          <button type="button" id="setLookAt">Save this view as the marker's camera</button>
           <button type="button" id="delete" class="danger">Delete</button>
         </div>
       </form>
       <button id="export">Export markers.json</button>
+      <p class="hint">Downloads the whole marker list as a file. Commit it to publish.</p>
     `;
 
     this.form = this.panel.querySelector('#form');
     this.hint = this.panel.querySelector('#hint');
+    this.pathCount = this.panel.querySelector('#pathCount');
 
-    this.panel.querySelector('#place').addEventListener('click', () => this.togglePlacing());
+    this.panel.querySelector('#place').addEventListener('click', () => this.setMode('marker'));
+    this.panel.querySelector('#addPoint').addEventListener('click', () => this.setMode('path'));
+    this.panel.querySelector('#undoPoint').addEventListener('click', () => this.undoPoint());
+    this.panel.querySelector('#clearPath').addEventListener('click', () => this.clearPath());
     this.panel.querySelector('#export').addEventListener('click', () => this.export());
     this.panel.querySelector('#setLookAt').addEventListener('click', () => this.setLookAt());
     this.panel.querySelector('#delete').addEventListener('click', () => this.deleteSelected());
@@ -68,12 +85,16 @@ export class Editor {
     this.ui = ui;
   }
 
-  togglePlacing() {
-    this.placing = !this.placing;
-    this.hint.textContent = this.placing
-      ? 'Click the map to place it.'
-      : 'Click the button, then click the map.';
-    document.body.classList.toggle('placing', this.placing);
+  /** Arms the next click on the level, or disarms it when the mode is already on. */
+  setMode(mode) {
+    if (mode === 'path' && !this.markers.selected) {
+      this.hint.textContent = 'Select a marker first.';
+      return;
+    }
+
+    this.mode = this.mode === mode ? null : mode;
+    this.hint.textContent = HINTS[this.mode] ?? HINTS.idle;
+    document.body.classList.toggle('placing', this.mode !== null);
   }
 
   /**
@@ -81,17 +102,42 @@ export class Editor {
    * knows not to treat it as a selection.
    */
   handleClick(point) {
-    if (!this.placing || !point) return false;
+    if (!this.mode || !point) return false;
+
+    if (this.mode === 'path') {
+      const marker = this.markers.selected;
+      // Points stay armed between clicks: a route is several of them in a row, and having
+      // to press the button again for each one made drawing one tedious.
+      this.markers.update(marker.id, { path: [...marker.path, roundedTriple(point)] });
+      this.showPath(marker);
+      return true;
+    }
 
     const marker = this.markers.add({
       type: this.form.elements.type.value || 'skip',
       name: 'New marker',
-      pos: [point.x, point.y, point.z],
+      pos: roundedTriple(point),
     });
 
-    this.togglePlacing();
+    this.setMode(null);
     this.markers.select(marker, { fly: false });
     return true;
+  }
+
+  undoPoint() {
+    const marker = this.markers.selected;
+    if (!marker?.path.length) return;
+
+    this.markers.update(marker.id, { path: marker.path.slice(0, -1) });
+    this.showPath(marker);
+  }
+
+  clearPath() {
+    const marker = this.markers.selected;
+    if (!marker) return;
+
+    this.markers.update(marker.id, { path: [] });
+    this.showPath(marker);
   }
 
   showForm(marker) {
@@ -105,6 +151,12 @@ export class Editor {
     elements.difficulty.value = marker.difficulty ?? '';
     elements.video.value = marker.video ?? '';
     elements.notes.value = marker.notes ?? '';
+    this.showPath(marker);
+  }
+
+  showPath(marker) {
+    const points = marker.path.length;
+    this.pathCount.textContent = points ? `— ${points} point${points === 1 ? '' : 's'}` : '— none yet';
   }
 
   apply() {
@@ -128,7 +180,7 @@ export class Editor {
 
     const { x, y, z } = this.camera.position;
     this.markers.update(marker.id, { lookAt: [round(x), round(y), round(z)] });
-    this.hint.textContent = 'Camera saved.';
+    this.hint.textContent = `Opening "${marker.name}" will now fly the camera to this view.`;
   }
 
   deleteSelected() {
@@ -138,6 +190,9 @@ export class Editor {
       return;
     }
 
+    // Nothing is selected after this, so a still-armed path mode would have no marker to
+    // add points to.
+    this.setMode(null);
     this.markers.remove(marker.id);
 
     // remove() clears the selection but fires no onSelect, so the form and the detail
@@ -159,5 +214,15 @@ export class Editor {
   }
 }
 
+const HINTS = {
+  idle: 'Click the button, then click the map.',
+  marker: 'Click the map to place it.',
+  path: 'Click the map to add points. Press Add point again when you are done.',
+};
+
 const numberOrNull = (value) => (value === '' ? null : Number(value));
 const round = (n) => Math.round(n * 100) / 100;
+
+// Centimetre precision on a level hundreds of units across is already more than anyone can
+// aim for, and it keeps markers.json readable in a diff.
+const roundedTriple = ({ x, y, z }) => [round(x), round(y), round(z)];

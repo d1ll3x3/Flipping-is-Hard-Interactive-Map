@@ -65,6 +65,28 @@ Open `http://localhost:5173`. With `?edit=1` the editor appears: place markers b
 the level, fill in their data and export a `markers.json` to commit. There is no backend on
 purpose.
 
+### Marker format
+
+```jsonc
+{
+  "id": "skip-1",
+  "type": "skip",              // skip | route | checkpoint | note
+  "name": "Tunnel skip",
+  "pos": [x, y, z],            // where the marker sits, and where its path starts
+  "path": [[x, y, z], ...],    // the rest of the route, in order; last point is the end
+  "lookAt": [x, y, z],         // camera position to fly to when the marker is opened
+  "difficulty": 3,             // 1-5
+  "timeSaved": 2.4,            // seconds
+  "video": "https://youtu.be/...?t=42",
+  "notes": "short markdown"
+}
+```
+
+`path` is empty for a marker that is just a spot on the map. When it has points, the map
+draws a line from `pos` through each of them, with a dot at both ends. The marker itself is
+always the start, so a skip cannot end up with its line beginning somewhere its dot is not.
+In the editor, **Add point** stays armed between clicks so a route is drawn in one go.
+
 ### Who can edit
 
 `?edit=1` asks for a passphrase before opening the editor. **This is not authentication** and

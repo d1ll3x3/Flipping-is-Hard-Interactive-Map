@@ -327,6 +327,22 @@ textarea:focus {
   color: var(--danger);
 }
 
+#editor fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.2rem 0;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+}
+
+#editor legend {
+  padding: 0 0.3rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .row-buttons {
   display: flex;
   gap: 0.35rem;

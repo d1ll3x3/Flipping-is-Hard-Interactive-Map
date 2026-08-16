@@ -37,6 +37,12 @@ const sun = new THREE.DirectionalLight(0xffffff, 1.3);
 sun.position.set(1, 2, 1.5);
 scene.add(sun);
 
+// ──────────────────────────────────────────────────────────────────────── level ──
+
+const markers = new Markers(scene, camera, controls);
+let level = null;
+
+// After markers exists: resize also hands it the canvas size, which its path lines need.
 resize();
 addEventListener('resize', resize);
 
@@ -45,12 +51,10 @@ function resize() {
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
+  // The path lines are drawn a fixed number of pixels wide, which their shader can only
+  // work out from the canvas size.
+  markers.setResolution(w, h);
 }
-
-// ──────────────────────────────────────────────────────────────────────── level ──
-
-const markers = new Markers(scene, camera, controls);
-let level = null;
 
 const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
 

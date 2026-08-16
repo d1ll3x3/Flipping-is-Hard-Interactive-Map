@@ -1,4 +1,7 @@
 import * as THREE from 'three';
+import { Line2 } from 'three/examples/jsm/lines/Line2.js';
+import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
+import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 
 /** The kinds of thing a marker can be, and how each one reads on the map. */
 export const TYPES = {
@@ -9,6 +12,12 @@ export const TYPES = {
 };
 
 const RADIUS = 22; // sprite size in pixels, constant regardless of distance
+
+// The line drawn along a marker's path, and the dot closing it off at the far end.
+// Both in pixels, like the sprites: a route across the whole level has to stay readable
+// from the overview as well as from up close.
+const PATH_WIDTH = 7;
+const PATH_END_RADIUS = 14;
 
 /**
  * Owns the marker list, its sprites and the selection. The editor mutates the same list
@@ -31,6 +40,14 @@ export class Markers {
     scene.add(this.group);
 
     this.textures = new Map();
+
+    // Fat lines are drawn in a shader that needs the canvas size to work out how many
+    // pixels wide to be. main.js keeps this in step with the viewport.
+    this.resolution = new THREE.Vector2(1, 1);
+  }
+
+  setResolution(width, height) {
+    this.resolution.set(width, height);
   }
 
   async load(url) {
@@ -77,31 +94,71 @@ export class Markers {
   // ──────────────────────────────────────────────────────────────────── display ──
 
   rebuild() {
-    // Sprites are cheap and the list is small; rebuilding wholesale keeps the sprite set
-    // and the data in step without diffing.
-    for (const sprite of [...this.group.children]) {
-      this.group.remove(sprite);
-      sprite.material.dispose();
+    // Sprites and lines are cheap and the list is small; rebuilding wholesale keeps what
+    // is drawn and the data in step without diffing.
+    for (const object of [...this.group.children]) {
+      this.group.remove(object);
+      object.material.dispose();
+      object.geometry?.dispose();
     }
 
     for (const item of this.items) {
       if (!this.matches(item)) continue;
 
-      const sprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: this.textureFor(item.type),
-          sizeAttenuation: false,
-          depthTest: false, // markers stay visible through the level
-          transparent: true,
-        })
-      );
+      // The path first, so the marker's own dot ends up drawn over it.
+      if (item.path.length) {
+        this.group.add(this.pathLine(item), this.dot(item, lastOf(item.path), PATH_END_RADIUS));
+      }
 
-      sprite.position.fromArray(item.pos);
-      sprite.scale.setScalar(RADIUS / 500);
-      sprite.renderOrder = 10;
-      sprite.userData.marker = item;
-      this.group.add(sprite);
+      this.group.add(this.dot(item, item.pos, RADIUS));
     }
+  }
+
+  /**
+   * The line running from a marker to the end of its path.
+   *
+   * The marker itself is the start - `path` holds only the points after it - so a skip
+   * cannot end up with its line starting somewhere its dot is not.
+   */
+  pathLine(item) {
+    const geometry = new LineGeometry().setPositions([item.pos, ...item.path].flat());
+
+    const line = new Line2(
+      geometry,
+      new LineMaterial({
+        color: new THREE.Color(TYPES[item.type]?.color ?? '#ffffff'),
+        linewidth: PATH_WIDTH,
+        resolution: this.resolution,
+        depthTest: false,
+        transparent: true,
+      })
+    );
+
+    line.computeLineDistances();
+    line.renderOrder = 9;
+    // Clicking the line selects the skip it belongs to, same as clicking either end.
+    line.userData.marker = item;
+
+    return line;
+  }
+
+  /** One of a marker's round handles: its own position, or the far end of its path. */
+  dot(item, pos, radius) {
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        map: this.textureFor(item.type),
+        sizeAttenuation: false,
+        depthTest: false, // markers stay visible through the level
+        transparent: true,
+      })
+    );
+
+    sprite.position.fromArray(pos);
+    sprite.scale.setScalar(radius / 500);
+    sprite.renderOrder = 10;
+    sprite.userData.marker = item;
+
+    return sprite;
   }
 
   matches(item) {
@@ -196,6 +253,9 @@ function normalize(marker) {
     type: TYPES[marker.type] ? marker.type : 'note',
     name: marker.name ?? 'Unnamed',
     pos: marker.pos ?? [0, 0, 0],
+    // The points the route passes through after `pos`, which is its start. Empty for a
+    // marker that is just a spot on the map rather than a run from one place to another.
+    path: (marker.path ?? []).filter((point) => Array.isArray(point) && point.length === 3),
     lookAt: marker.lookAt ?? null,
     difficulty: marker.difficulty ?? null,
     timeSaved: marker.timeSaved ?? null,
@@ -204,6 +264,8 @@ function normalize(marker) {
     sourcePath: marker.sourcePath ?? null,
   };
 }
+
+const lastOf = (list) => list[list.length - 1];
 
 function mintId(items, type) {
   const base = type ?? 'marker';
