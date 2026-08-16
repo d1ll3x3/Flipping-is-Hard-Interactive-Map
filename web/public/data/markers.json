@@ -320,6 +320,317 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-13",
+      "type": "skip",
+      "name": "Pad skip",
+      "pos": [
+        -63.25,
+        185.18,
+        -118.59
+      ],
+      "path": [
+        [
+          -32.57,
+          206.41,
+          -132.69
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-14",
+      "type": "skip",
+      "name": "2nd pad skip",
+      "pos": [
+        -32.93,
+        206.47,
+        -130.73
+      ],
+      "path": [
+        [
+          -37.4,
+          220.24,
+          -116.83
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-15",
+      "type": "skip",
+      "name": "Hermit skip",
+      "pos": [
+        -31.68,
+        206.41,
+        -131.01
+      ],
+      "path": [
+        [
+          -20.62,
+          229.77,
+          -98.76
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-16",
+      "type": "skip",
+      "name": "3rd pad skip",
+      "pos": [
+        -39.76,
+        221.57,
+        -118.15
+      ],
+      "path": [
+        [
+          -57.84,
+          230.64,
+          -130.94
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-17",
+      "type": "skip",
+      "name": "3rd pad hard skip",
+      "pos": [
+        -38.73,
+        221.31,
+        -118.06
+      ],
+      "path": [
+        [
+          -58.42,
+          241.63,
+          -118.81
+        ],
+        [
+          -64.44,
+          243.37,
+          -117
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-18",
+      "type": "skip",
+      "name": "Phone break skip",
+      "pos": [
+        -67.61,
+        243.41,
+        -113.74
+      ],
+      "path": [
+        [
+          -67.51,
+          243.47,
+          -120.01
+        ],
+        [
+          -63.87,
+          233.2,
+          -137.11
+        ],
+        [
+          -8.84,
+          252.58,
+          -117.37
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-19",
+      "type": "skip",
+      "name": "Pyramid first floor skip",
+      "pos": [
+        -7.95,
+        250.54,
+        -99.97
+      ],
+      "path": [
+        [
+          -8.72,
+          253.81,
+          -101.77
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-20",
+      "type": "skip",
+      "name": "First to second floor skip",
+      "pos": [
+        -8.29,
+        253.8,
+        -101.87
+      ],
+      "path": [
+        [
+          -5.99,
+          256.79,
+          -103.06
+        ],
+        [
+          -6.4,
+          259.44,
+          -104.39
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-21",
+      "type": "skip",
+      "name": "First to second floor bis",
+      "pos": [
+        -8.27,
+        253.17,
+        -109.9
+      ],
+      "path": [
+        [
+          -5.93,
+          256.64,
+          -109.65
+        ],
+        [
+          -7.01,
+          259.44,
+          -109.23
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-22",
+      "type": "skip",
+      "name": "Second to Third floor skip",
+      "pos": [
+        -5.99,
+        259.44,
+        -107.82
+      ],
+      "path": [
+        [
+          -3.29,
+          262.27,
+          -107.92
+        ],
+        [
+          -3.16,
+          265.26,
+          -108.02
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-23",
+      "type": "skip",
+      "name": "After pyramid wall jump",
+      "pos": [
+        4.77,
+        276.38,
+        -118.07
+      ],
+      "path": [
+        [
+          4.56,
+          280.4,
+          -119.96
+        ],
+        [
+          4.37,
+          282.88,
+          -119.39
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-24",
+      "type": "skip",
+      "name": "Long jump before cannon ",
+      "pos": [
+        -7.54,
+        294.21,
+        -113.68
+      ],
+      "path": [
+        [
+          -7.9,
+          294.21,
+          -105.15
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
