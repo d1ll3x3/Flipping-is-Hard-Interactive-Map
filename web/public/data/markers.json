@@ -749,6 +749,39 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "route-26",
+      "type": "route",
+      "name": "Advanced route L1",
+      "pos": [
+        -84.85,
+        -13.79,
+        374.03
+      ],
+      "path": [
+        [
+          -55.19,
+          -13.68,
+          362.26
+        ],
+        [
+          -48.3,
+          -10.87,
+          349.03
+        ],
+        [
+          -47.04,
+          -8.93,
+          330.62
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
