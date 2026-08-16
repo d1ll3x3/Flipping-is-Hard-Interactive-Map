@@ -4,7 +4,7 @@
     {
       "id": "skip-1",
       "type": "skip",
-      "name": "Triple jump",
+      "name": "Alt Gap",
       "pos": [
         -84.98,
         -13.79,
@@ -22,7 +22,11 @@
           350.31
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        -111.48,
+        -8.71,
+        383.6
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
