@@ -1,4 +1,22 @@
 {
   "scene": "Scene_Game_NW-DemoLive",
-  "markers": []
+  "markers": [
+    {
+      "id": "skip-1",
+      "type": "skip",
+      "name": "New marker",
+      "pos": [
+        15.06,
+        14.11,
+        144.06
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    }
+  ]
 }
