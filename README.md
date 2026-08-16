@@ -73,7 +73,7 @@ thing it achieves is that a visitor who stumbles onto the parameter does not fin
 open. Only the SHA-256 is in the repository (`web/src/access.js`), never the passphrase; that
 is shared over another channel with whoever needs to edit.
 
-What actually controls that reaches the map is the repository's permissions: the editor only
+What actually controls what reaches the map is the repository's permissions: the editor only
 downloads a `markers.json`, and that file gets in through a commit. To change the passphrase,
 replace the hash in `web/src/access.js` with the one printed by the command documented there.
 
