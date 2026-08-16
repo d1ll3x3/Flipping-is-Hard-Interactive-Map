@@ -782,6 +782,49 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-27",
+      "type": "skip",
+      "name": "Phone break skip",
+      "pos": [
+        -69.58,
+        -13.79,
+        365.31
+      ],
+      "path": [
+        [
+          -59.35,
+          -26.15,
+          350.82
+        ],
+        [
+          -54.31,
+          -17.74,
+          345.15
+        ],
+        [
+          -50.66,
+          -17.74,
+          345.13
+        ],
+        [
+          -50.19,
+          -12.65,
+          343.82
+        ],
+        [
+          -49.61,
+          -10.87,
+          343.76
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
