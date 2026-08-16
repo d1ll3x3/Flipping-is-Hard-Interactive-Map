@@ -7,34 +7,41 @@
  * without putting the passphrase itself in the repository: only its SHA-256 is here, and
  * the passphrase is long and random enough that the hash is not worth attacking.
  *
- * The real protection is elsewhere and always was: the editor has no backend and can only
- * download a markers.json, so a change reaches the site through a commit, and who may
- * commit is decided by the repository's permissions.
+ * Saving to the repository is guarded by the same passphrase, but by the Worker rather
+ * than by this file - see worker/. The hash below cannot stand in for it there: the hash
+ * is public, so a Worker that accepted it would accept anyone who read this bundle.
  *
  * To change the passphrase, replace the hash below with the output of:
  *   node -e "console.log(require('crypto').createHash('sha256').update('YOUR PASSPHRASE').digest('hex'))"
+ * and set the same value as the Worker's EDITOR_HASH secret.
  */
 const EDITOR_HASH = 'b0db1f3c15d7e9807d8dfea881db7a96e2166c787f14cb379c8970552595a7eb';
 
-// Per tab, not persisted: an editor who closes the tab is asked again, and nothing about
-// the passphrase survives on a shared machine.
-const UNLOCKED = 'fih-map.editor';
+// Per tab, not persisted beyond it: an editor who closes the tab is asked again, and
+// nothing survives on a shared machine. The passphrase itself is kept, not just the fact
+// that it was right, because the Worker has to be given it on every save.
+const STORED = 'fih-map.editor';
 
 /** True once the passphrase has been entered correctly in this tab. */
 export async function unlockEditor() {
-  if (sessionStorage.getItem(UNLOCKED) === EDITOR_HASH) return true;
+  if (await isValid(sessionStorage.getItem(STORED))) return true;
 
-  const passphrase = prompt('Editor passphrase:');
-  if (!passphrase) return false;
+  const entered = prompt('Editor passphrase:');
+  if (!entered) return false;
 
-  if ((await sha256(passphrase)) !== EDITOR_HASH) {
+  if (!(await isValid(entered))) {
     alert('Wrong passphrase.');
     return false;
   }
 
-  sessionStorage.setItem(UNLOCKED, EDITOR_HASH);
+  sessionStorage.setItem(STORED, entered);
   return true;
 }
+
+/** The passphrase this tab was unlocked with, for the Worker to check in turn. */
+export const passphrase = () => sessionStorage.getItem(STORED) ?? '';
+
+const isValid = async (candidate) => Boolean(candidate) && (await sha256(candidate)) === EDITOR_HASH;
 
 /**
  * crypto.subtle only exists in a secure context - https, or localhost during development.

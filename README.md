@@ -95,9 +95,17 @@ thing it achieves is that a visitor who stumbles onto the parameter does not fin
 open. Only the SHA-256 is in the repository (`web/src/access.js`), never the passphrase; that
 is shared over another channel with whoever needs to edit.
 
-What actually controls what reaches the map is the repository's permissions: the editor only
-downloads a `markers.json`, and that file gets in through a commit. To change the passphrase,
-replace the hash in `web/src/access.js` with the one printed by the command documented there.
+The same passphrase also authorises **Save to the repo**, the editor's button that commits
+`markers.json` straight to `main` — Pages then republishes the site a minute later. That
+commit is made by a small Cloudflare Worker (`worker/`), because a static site cannot write
+to a repository and a token shipped in its JavaScript would be a token handed to every
+visitor. The Worker holds the token, checks the passphrase and does the commit; see
+[worker/README.md](worker/README.md) for deploying it and for what it does and does not
+protect. Until it is deployed the button is disabled and **Export markers.json** is the way
+to publish, by committing the file by hand.
+
+To change the passphrase, replace the hash in `web/src/access.js` with the one printed by the
+command documented there, and set the same value as the Worker's `EDITOR_HASH` secret.
 
 ## Things that were hard to find
 

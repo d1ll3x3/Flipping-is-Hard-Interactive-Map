@@ -1,4 +1,5 @@
 import { TYPES } from './markers.js';
+import { loadBaseSha, saveMarkers, savingConfigured } from './save.js';
 
 /**
  * Marker authoring, enabled with ?edit=1. Clicking the level places a marker where the
@@ -55,8 +56,10 @@ export class Editor {
           <button type="button" id="delete" class="danger">Delete</button>
         </div>
       </form>
+      <button id="save" class="primary">Save to the repo</button>
+      <p class="hint" id="saveHint"></p>
       <button id="export">Export markers.json</button>
-      <p class="hint">Downloads the whole marker list as a file. Commit it to publish.</p>
+      <p class="hint">Downloads the whole marker list as a file, to commit by hand.</p>
     `;
 
     this.form = this.panel.querySelector('#form');
@@ -68,6 +71,10 @@ export class Editor {
     this.panel.querySelector('#undoPoint').addEventListener('click', () => this.undoPoint());
     this.panel.querySelector('#clearPath').addEventListener('click', () => this.clearPath());
     this.panel.querySelector('#export').addEventListener('click', () => this.export());
+    this.saveButton = this.panel.querySelector('#save');
+    this.saveHint = this.panel.querySelector('#saveHint');
+    this.saveButton.addEventListener('click', () => this.save());
+    this.setUpSaving();
     this.panel.querySelector('#setLookAt').addEventListener('click', () => this.setLookAt());
     this.panel.querySelector('#delete').addEventListener('click', () => this.deleteSelected());
 
@@ -202,6 +209,44 @@ export class Editor {
     if (location.hash.slice(1) === marker.id) history.replaceState(null, '', location.pathname + location.search);
 
     this.hint.textContent = `Deleted "${marker.name}".`;
+  }
+
+  /**
+   * Asks the Worker which revision of markers.json we are starting from. Doing it now
+   * rather than at save time is what lets a save be rejected when someone else got there
+   * first, instead of quietly overwriting them.
+   */
+  async setUpSaving() {
+    if (!savingConfigured()) {
+      this.saveButton.disabled = true;
+      this.saveHint.textContent = 'Saving is not set up on this deployment. Use Export instead.';
+      return;
+    }
+
+    try {
+      await loadBaseSha();
+      this.saveHint.textContent = 'Commits markers.json to main. The site republishes in about a minute.';
+    } catch (error) {
+      this.saveButton.disabled = true;
+      this.saveHint.textContent = `Cannot reach the save service: ${error.message}`;
+    }
+  }
+
+  async save() {
+    this.saveButton.disabled = true;
+    this.saveHint.textContent = 'Saving…';
+
+    try {
+      const result = await saveMarkers(this.sceneName, this.markers.items);
+      this.saveHint.innerHTML =
+        `Saved ${result.markers} marker${result.markers === 1 ? '' : 's'}. ` +
+        `<a href="${result.commit}" target="_blank" rel="noopener">See the commit</a>. ` +
+        'The site republishes in about a minute.';
+    } catch (error) {
+      this.saveHint.textContent = `Not saved: ${error.message}`;
+    } finally {
+      this.saveButton.disabled = false;
+    }
   }
 
   export() {

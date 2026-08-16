@@ -1,0 +1,11 @@
+name = "fih-map-editor"
+main = "src/index.js"
+compatibility_date = "2026-08-16"
+
+# Not secrets - the repository they point at is public and so is the site's own address.
+# The two that are secret (EDITOR_HASH, GITHUB_TOKEN) are set with `wrangler secret put`.
+[vars]
+REPO = "d1ll3x3/Flipping-is-Hard-Interactive-Map"
+BRANCH = "main"
+FILE_PATH = "web/public/data/markers.json"
+ALLOWED_ORIGINS = "https://d1ll3x3.github.io,http://localhost:5173"

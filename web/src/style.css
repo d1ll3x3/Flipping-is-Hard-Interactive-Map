@@ -317,6 +317,12 @@ textarea:focus {
   border-color: var(--accent);
 }
 
+#editor button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  border-color: var(--border);
+}
+
 #editor .primary {
   border-color: var(--accent);
   color: var(--accent);

@@ -16,3 +16,8 @@ web/dist/
 # Mod build
 mod/bin/
 mod/obj/
+
+# Worker
+worker/.wrangler/
+# Local secrets for `wrangler dev` - the deployed Worker uses `wrangler secret put`.
+worker/.dev.vars
