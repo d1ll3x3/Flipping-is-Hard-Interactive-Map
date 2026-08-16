@@ -7,9 +7,10 @@
  */
 import { passphrase } from './access.js';
 
-// Set after deploying the Worker - `wrangler deploy` prints the URL. Empty until then,
-// which the editor reads as "saving is not set up here" rather than failing on click.
-const SAVE_URL = '';
+// Printed by `wrangler deploy`. Not a secret: it answers only to the origins listed in the
+// Worker's ALLOWED_ORIGINS, and only to the passphrase. Empty would mean "saving is not set
+// up here", which the editor shows instead of failing on click.
+const SAVE_URL = 'https://fih-map-editor.fih-map-editor-worker.workers.dev/';
 
 export const savingConfigured = () => SAVE_URL !== '';
 

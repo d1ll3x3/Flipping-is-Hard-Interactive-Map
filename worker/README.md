@@ -48,7 +48,8 @@ npx wrangler deploy
 ```
 
 Deploy prints the Worker's URL. Put it in `SAVE_URL` in `web/src/save.js`, then commit and
-push so the published site picks it up.
+push so the published site picks it up. The one in use is
+`https://fih-map-editor.fih-map-editor-worker.workers.dev/`.
 
 ## What this protects, and what it does not
 
