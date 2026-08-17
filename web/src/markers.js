@@ -204,6 +204,10 @@ export class Markers {
       const distance = this.camera.position.distanceTo(point.fromArray(dot.pos));
       sprite.scale.setScalar((dot.radius * shrink(distance) * (selected ? SELECTED_SCALE : 1)) / 500);
 
+      // The selected marker is the exception to being hidden by the level: picking one
+      // from the list and having nothing appear because a wall is in the way reads as the
+      // click not having worked.
+      sprite.material.depthTest = !selected;
       // Above the others, so the selection is never the one hidden underneath.
       sprite.renderOrder = selected ? 11 : 10;
       sprite.userData.marker = dot.marker;
@@ -219,7 +223,12 @@ export class Markers {
     const sprite = new THREE.Sprite(
       new THREE.SpriteMaterial({
         sizeAttenuation: false,
-        depthTest: false, // markers stay visible through the level
+        // Hidden by whatever is in front of it, so the map only shows the markers on the
+        // side you are looking at instead of all three floors at once.
+        depthTest: true,
+        // ...but not hiding each other: writing depth would make two markers at the same
+        // spot fight over which one is drawn, which flickers as the camera moves.
+        depthWrite: false,
         transparent: true,
       })
     );
@@ -298,10 +307,21 @@ export class Markers {
 
   // ────────────────────────────────────────────────────────────────── selection ──
 
-  /** The marker under the pointer, or null. Its path line counts as part of it. */
-  pick(raycaster) {
+  /**
+   * The marker under the pointer, or null. Its path line counts as part of it.
+   *
+   * `nearest` is how far away the level is at that pixel. A marker behind it is not drawn,
+   * so it must not be clickable either - otherwise clicking a wall selects whatever
+   * happens to be hidden on the other side of it.
+   */
+  pick(raycaster, nearest = Infinity) {
     const hit = raycaster.intersectObjects([...this.dots.children, ...this.paths.children], false)[0];
-    return hit ? hit.object.userData.marker : null;
+    if (!hit) return null;
+
+    // A marker sitting on a surface hits at almost exactly the same depth as the surface,
+    // so the comparison needs some slack or every marker resting on the floor is unclickable.
+    const selected = hit.object.userData.marker === this.selected;
+    return selected || hit.distance <= nearest + 0.5 ? hit.object.userData.marker : null;
   }
 
   select(marker, { fly = true } = {}) {

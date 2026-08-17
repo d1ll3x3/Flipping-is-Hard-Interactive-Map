@@ -179,15 +179,18 @@ renderer.domElement.addEventListener('pointerup', (event) => {
   );
   raycaster.setFromCamera(pointer, camera);
 
-  // A marker always wins over the geometry behind it.
-  const marker = markers.pick(raycaster);
+  // The level first, because how far away it is decides whether a marker at this pixel is
+  // one you can actually see - a marker hidden behind a wall is not drawn and must not be
+  // selectable through it either.
+  const ground = raycaster.intersectObject(level, true)[0];
+
+  const marker = markers.pick(raycaster, ground?.distance);
   if (marker) {
     markers.select(marker);
     location.hash = marker.id;
     return;
   }
 
-  const ground = raycaster.intersectObject(level, true)[0];
   if (editor?.handleClick(ground?.point)) return;
 });
 
