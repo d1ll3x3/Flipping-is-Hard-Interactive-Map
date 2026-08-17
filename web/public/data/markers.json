@@ -827,7 +827,11 @@
           266.06
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        -70.87,
+        40.8,
+        231.71
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -860,7 +864,11 @@
           330.62
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        -110.01,
+        -6.04,
+        383.96
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
