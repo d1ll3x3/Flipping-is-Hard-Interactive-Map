@@ -11,6 +11,10 @@ export class Ui {
     this.filters = document.getElementById('filters');
     this.count = document.getElementById('count');
 
+    // Which sections the visitor has opened or closed, so re-rendering the list does not
+    // undo it.
+    this.openSections = {};
+
     this.buildFilters();
 
     this.search.addEventListener('input', () => {
@@ -30,7 +34,8 @@ export class Ui {
 
       const input = document.createElement('input');
       input.type = 'checkbox';
-      input.checked = true;
+      // Read from the filter rather than assumed on: not every type starts visible.
+      input.checked = this.markers.filter.types.has(type);
       input.addEventListener('change', () => {
         const types = this.markers.filter.types;
         input.checked ? types.add(type) : types.delete(type);
@@ -61,34 +66,56 @@ export class Ui {
     // Most time saved first: on a speedrun map that is the useful order.
     visible.sort((a, b) => (b.timeSaved ?? -1) - (a.timeSaved ?? -1));
 
-    for (const marker of visible) {
-      const row = document.createElement('button');
-      row.className = 'row';
-      row.classList.toggle('active', this.markers.selected?.id === marker.id);
-      row.style.setProperty('--chip', TYPES[marker.type].color);
+    // One section per type. Forty-five rows in a single column is a scroll with no
+    // landmarks; grouped, the shape of the list is visible before reading any of it.
+    for (const [type, meta] of Object.entries(TYPES)) {
+      const ofType = visible.filter((marker) => marker.type === type);
+      if (ofType.length === 0) continue;
 
-      const name = document.createElement('span');
-      name.className = 'row-name';
-      name.textContent = marker.name;
+      const section = document.createElement('details');
+      section.className = 'section';
+      // Sections start open only while they are short enough to take in at a glance.
+      section.open = this.openSections[type] ?? ofType.length <= 12;
+      section.addEventListener('toggle', () => (this.openSections[type] = section.open));
 
-      const meta = document.createElement('span');
-      meta.className = 'row-meta';
-      meta.textContent = [
-        marker.timeSaved != null ? `-${marker.timeSaved}s` : null,
-        marker.difficulty != null ? '★'.repeat(marker.difficulty) : null,
-      ]
-        .filter(Boolean)
-        .join('  ');
+      const summary = document.createElement('summary');
+      summary.style.setProperty('--chip', meta.color);
+      summary.textContent = `${meta.label}s (${ofType.length})`;
+      section.append(summary);
 
-      row.append(name, meta);
-      row.addEventListener('click', () => {
-        this.markers.select(marker);
-        location.hash = marker.id;
-        this.renderList();
-      });
-
-      this.list.append(row);
+      for (const marker of ofType) section.append(this.row(marker));
+      this.list.append(section);
     }
+  }
+
+  /** One clickable entry in the list. */
+  row(marker) {
+    const row = document.createElement('button');
+    row.className = 'row';
+    row.classList.toggle('active', this.markers.selected?.id === marker.id);
+    row.style.setProperty('--chip', TYPES[marker.type].color);
+
+    const name = document.createElement('span');
+    name.className = 'row-name';
+    name.textContent = marker.name;
+
+    const meta = document.createElement('span');
+    meta.className = 'row-meta';
+    meta.textContent = [
+      marker.timeSaved != null ? `-${marker.timeSaved}s` : null,
+      marker.difficulty != null ? '★'.repeat(marker.difficulty) : null,
+    ]
+      .filter(Boolean)
+      .join('  ');
+
+    row.append(name, meta);
+    row.addEventListener('click', () => {
+      this.markers.select(marker);
+      location.hash = marker.id;
+      this.renderList();
+    });
+
+    return row;
   }
 
   renderDetail(marker) {

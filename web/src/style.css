@@ -159,6 +159,38 @@ textarea:focus {
   gap: 0.25rem;
 }
 
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.section summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.2rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+}
+
+.section summary::marker {
+  color: var(--chip);
+}
+
+.section summary:hover {
+  color: var(--text);
+}
+
+/* Breathing room between one section's last row and the next section's heading. */
+.section + .section summary {
+  margin-top: 0.35rem;
+}
+
 .row {
   display: flex;
   align-items: center;

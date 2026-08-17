@@ -964,7 +964,7 @@
     },
     {
       "id": "coin-l1-pipes",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L1 pipes",
       "pos": [
         -62.37,
@@ -981,7 +981,7 @@
     },
     {
       "id": "coin-l1-elephant",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L1 elephant",
       "pos": [
         -37.37,
@@ -998,7 +998,7 @@
     },
     {
       "id": "coin-l2-longjump",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L2 longjump",
       "pos": [
         53.04,
@@ -1015,7 +1015,7 @@
     },
     {
       "id": "coin-l2-military",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L2 military",
       "pos": [
         7.42,
@@ -1032,7 +1032,7 @@
     },
     {
       "id": "coin-l3-muddy",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L3 muddy",
       "pos": [
         -26.48,
@@ -1049,7 +1049,7 @@
     },
     {
       "id": "coin-l3-monkeybars",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L3 monkeybars",
       "pos": [
         15.54,
@@ -1066,7 +1066,7 @@
     },
     {
       "id": "coin-l3-plonk",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L3 plonk",
       "pos": [
         46.06,
@@ -1083,7 +1083,7 @@
     },
     {
       "id": "coin-l3-bucket",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L3 bucket",
       "pos": [
         -44.84,
@@ -1100,7 +1100,7 @@
     },
     {
       "id": "coin-l3-slideplank",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L3 slideplank",
       "pos": [
         101.81,
@@ -1117,7 +1117,7 @@
     },
     {
       "id": "coin-l3-slidetrap",
-      "type": "note",
+      "type": "coin",
       "name": "Coin — L3 slidetrap",
       "pos": [
         -87.69,

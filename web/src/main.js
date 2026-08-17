@@ -180,15 +180,19 @@ renderer.domElement.addEventListener('pointerup', (event) => {
   raycaster.setFromCamera(pointer, camera);
 
   // A marker always wins over the geometry behind it.
-  const marker = markers.pick(raycaster);
-  if (marker) {
-    markers.select(marker);
-    location.hash = marker.id;
+  const hit = markers.pick(raycaster);
+  if (hit?.cluster) {
+    markers.zoomToCluster(hit.cluster);
+    return;
+  }
+  if (hit?.marker) {
+    markers.select(hit.marker);
+    location.hash = hit.marker.id;
     return;
   }
 
-  const hit = raycaster.intersectObject(level, true)[0];
-  if (editor?.handleClick(hit?.point)) return;
+  const ground = raycaster.intersectObject(level, true)[0];
+  if (editor?.handleClick(ground?.point)) return;
 });
 
 addEventListener('hashchange', selectFromHash);
@@ -203,5 +207,8 @@ function selectFromHash() {
 
 renderer.setAnimationLoop(() => {
   controls.update();
+  // Which markers merge into a group, and how big each one is, both depend on where the
+  // camera ended up this frame.
+  markers.updateView();
   renderer.render(scene, camera);
 });

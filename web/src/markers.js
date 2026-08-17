@@ -8,16 +8,29 @@ export const TYPES = {
   skip: { label: 'Skip', color: '#ff6b4e' },
   route: { label: 'Route', color: '#4ea1ff' },
   checkpoint: { label: 'Checkpoint', color: '#48d597' },
-  note: { label: 'Note', color: '#f5c451' },
+  coin: { label: 'Coin', color: '#f5c451' },
+  note: { label: 'Note', color: '#b98cf5' },
 };
 
-const RADIUS = 22; // sprite size in pixels, constant regardless of distance
+const RADIUS = 22; // sprite size in pixels when the marker is close to the camera
 
 // The line drawn along a marker's path, and the dot closing it off at the far end.
 // Both in pixels, like the sprites: a route across the whole level has to stay readable
 // from the overview as well as from up close.
 const PATH_WIDTH = 7;
 const PATH_END_RADIUS = 14;
+
+// How markers shrink with distance. They are not perspective-scaled - at 45 markers across
+// a level 400 units tall, true perspective makes the far ones invisible and the near ones
+// enormous - so instead they fade from full size at FULL_SIZE_AT down to SMALLEST of their
+// size, which keeps a distant marker findable without letting it shout.
+const FULL_SIZE_AT = 70;
+const SMALLEST = 0.45;
+
+// Markers whose sprites land within this many pixels of each other are drawn as one
+// numbered circle. It is a screen-space distance on purpose: what makes the map unreadable
+// is sprites overlapping on screen, which has little to do with distance in the level.
+const CLUSTER_RADIUS = 24;
 
 /**
  * Owns the marker list, its sprites and the selection. The editor mutates the same list
@@ -31,7 +44,10 @@ export class Markers {
 
     this.items = [];
     this.selected = null;
-    this.filter = { types: new Set(Object.keys(TYPES)), text: '' };
+    // Checkpoints and coins to begin with: they are the level's own landmarks and read as
+    // a map. The skips and routes are the interesting part but there are dozens of them,
+    // and all of it at once was a wall of circles - the visitor switches them on.
+    this.filter = { types: new Set(['checkpoint', 'coin']), text: '' };
     this.onChange = () => {};
     this.onSelect = () => {};
 
@@ -39,6 +55,14 @@ export class Markers {
     this.group.name = 'markers';
     scene.add(this.group);
 
+    // Paths are drawn once per rebuild; the dots are pooled and repositioned every frame,
+    // because which of them are drawn at all depends on where the camera is.
+    this.paths = new THREE.Group();
+    this.dots = new THREE.Group();
+    this.group.add(this.paths, this.dots);
+
+    this.shown = [];
+    this.pool = [];
     this.textures = new Map();
 
     // Fat lines are drawn in a shader that needs the canvas size to work out how many
@@ -107,25 +131,113 @@ export class Markers {
 
   // ──────────────────────────────────────────────────────────────────── display ──
 
+  /**
+   * Works out what is on the map: the paths, drawn once, and the list of dots that
+   * updateView then groups and places every frame.
+   */
   rebuild() {
-    // Sprites and lines are cheap and the list is small; rebuilding wholesale keeps what
-    // is drawn and the data in step without diffing.
-    for (const object of [...this.group.children]) {
-      this.group.remove(object);
-      object.material.dispose();
-      object.geometry?.dispose();
+    // Lines are cheap and the list is small; rebuilding wholesale keeps what is drawn and
+    // the data in step without diffing.
+    for (const line of [...this.paths.children]) {
+      this.paths.remove(line);
+      line.material.dispose();
+      line.geometry.dispose();
     }
+
+    this.shown = [];
 
     for (const item of this.items) {
       if (!this.matches(item)) continue;
 
-      // The path first, so the marker's own dot ends up drawn over it.
       if (item.path.length) {
-        this.group.add(this.pathLine(item), this.dot(item, lastOf(item.path), PATH_END_RADIUS));
+        this.paths.add(this.pathLine(item));
+        // The far end of a path is a dot of its own, and clusters with everything else.
+        this.shown.push({ marker: item, pos: lastOf(item.path), radius: PATH_END_RADIUS });
       }
 
-      this.group.add(this.dot(item, item.pos, RADIUS));
+      this.shown.push({ marker: item, pos: item.pos, radius: RADIUS });
     }
+
+    this.updateView();
+  }
+
+  /**
+   * Places the dots for the current camera: near ones at full size, far ones smaller, and
+   * any that would overlap on screen merged into one numbered circle.
+   *
+   * Called every frame, so it reuses a pool of sprites instead of building them. Rebuilding
+   * 45 sprites and their materials sixty times a second is how a map like this starts
+   * dropping frames while apparently doing nothing.
+   */
+  updateView() {
+    const camera = this.camera;
+    camera.updateMatrixWorld();
+
+    const point = new THREE.Vector3();
+    const placed = [];
+
+    for (const dot of this.shown) {
+      point.fromArray(dot.pos);
+      const distance = camera.position.distanceTo(point);
+      point.project(camera);
+
+      // Behind the camera or outside the frustum: not drawn, and not clustered either.
+      if (point.z > 1) continue;
+
+      const screen = [point.x * this.resolution.x * 0.5, point.y * this.resolution.y * 0.5];
+      const group = placed.find((g) => Math.hypot(g.screen[0] - screen[0], g.screen[1] - screen[1]) < CLUSTER_RADIUS);
+
+      if (group) {
+        group.dots.push(dot);
+        group.distance = Math.min(group.distance, distance);
+        continue;
+      }
+
+      placed.push({ screen, dots: [dot], distance });
+    }
+
+    placed.forEach((group, i) => this.place(this.spriteAt(i), group));
+
+    // Hide whatever the pool still holds from a busier frame.
+    for (let i = placed.length; i < this.pool.length; i++) this.pool[i].visible = false;
+  }
+
+  /** Points one pooled sprite at one group of dots. */
+  place(sprite, group) {
+    const [first] = group.dots;
+    const single = group.dots.length === 1;
+
+    sprite.visible = true;
+    sprite.position.fromArray(first.pos);
+    sprite.material.map = single
+      ? this.textureFor(first.marker.type)
+      : this.clusterTexture(group.dots);
+    sprite.material.needsUpdate = true;
+
+    // A cluster is drawn at the size of a full marker whatever it stands on, so that a
+    // knot of far-away markers does not shrink into an unreadable speck.
+    const radius = single ? first.radius : RADIUS;
+    sprite.scale.setScalar((radius * shrink(group.distance)) / 500);
+
+    sprite.userData.marker = single ? first.marker : null;
+    sprite.userData.cluster = single ? null : group.dots.map((dot) => dot.marker);
+  }
+
+  spriteAt(index) {
+    if (this.pool[index]) return this.pool[index];
+
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({
+        sizeAttenuation: false,
+        depthTest: false, // markers stay visible through the level
+        transparent: true,
+      })
+    );
+    sprite.renderOrder = 10;
+
+    this.pool.push(sprite);
+    this.dots.add(sprite);
+    return sprite;
   }
 
   /**
@@ -154,25 +266,6 @@ export class Markers {
     line.userData.marker = item;
 
     return line;
-  }
-
-  /** One of a marker's round handles: its own position, or the far end of its path. */
-  dot(item, pos, radius) {
-    const sprite = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: this.textureFor(item.type),
-        sizeAttenuation: false,
-        depthTest: false, // markers stay visible through the level
-        transparent: true,
-      })
-    );
-
-    sprite.position.fromArray(pos);
-    sprite.scale.setScalar(radius / 500);
-    sprite.renderOrder = 10;
-    sprite.userData.marker = item;
-
-    return sprite;
   }
 
   matches(item) {
@@ -211,12 +304,84 @@ export class Markers {
     return texture;
   }
 
+  /**
+   * The circle standing for a group of markers, with how many it holds written in it.
+   *
+   * Coloured by the type most of them are, so a knot of coins still reads as coins. Cached
+   * by that colour and the count, which is what keeps this off the per-frame budget: the
+   * same handful of combinations comes back as the camera moves.
+   */
+  clusterTexture(dots) {
+    const tally = new Map();
+    for (const dot of dots) tally.set(dot.marker.type, (tally.get(dot.marker.type) ?? 0) + 1);
+    const [type] = [...tally].sort((a, b) => b[1] - a[1])[0];
+
+    const count = dots.length;
+    const key = `cluster:${type}:${count}`;
+    if (this.textures.has(key)) return this.textures.get(key);
+
+    const size = 96;
+    const canvas = Object.assign(document.createElement('canvas'), { width: size, height: size });
+    const ctx = canvas.getContext('2d');
+    const color = TYPES[type]?.color ?? '#ffffff';
+
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+    ctx.lineWidth = 7;
+    ctx.strokeStyle = 'rgba(10,12,16,0.85)';
+    ctx.stroke();
+
+    ctx.fillStyle = '#0e1116';
+    ctx.font = `bold ${count > 99 ? 34 : 44}px system-ui, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(count), size / 2, size / 2 + 2);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    this.textures.set(key, texture);
+    return texture;
+  }
+
   // ────────────────────────────────────────────────────────────────── selection ──
 
-  /** The marker under the pointer, or null. */
+  /**
+   * What is under the pointer: a single marker, a group of them, or nothing. A group is
+   * not a selection - there is no one thing to show - so the caller zooms into it instead.
+   */
   pick(raycaster) {
-    const hit = raycaster.intersectObjects(this.group.children, false)[0];
-    return hit ? hit.object.userData.marker : null;
+    const hit = raycaster.intersectObjects([...this.dots.children, ...this.paths.children], false)[0];
+    if (!hit) return null;
+
+    const { marker, cluster } = hit.object.userData;
+    return cluster ? { cluster } : { marker };
+  }
+
+  /** Moves the camera in on a group until its markers come apart. */
+  zoomToCluster(markers) {
+    const box = new THREE.Box3();
+    for (const marker of markers) box.expandByPoint(new THREE.Vector3().fromArray(marker.pos));
+
+    const target = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+    // Half the distance to the group, or enough to frame it if it is spread out - whichever
+    // is closer, so one click always makes visible progress.
+    const distance = Math.min(
+      this.camera.position.distanceTo(target) * 0.5,
+      Math.max(size.x, size.y, size.z) * 1.6 + 12
+    );
+
+    const from = target
+      .clone()
+      .add(this.camera.position.clone().sub(target).normalize().multiplyScalar(distance));
+
+    animate(this.camera.position.clone(), from, this.controls.target.clone(), target, (p, t) => {
+      this.camera.position.copy(p);
+      this.controls.target.copy(t);
+      this.controls.update();
+    });
   }
 
   select(marker, { fly = true } = {}) {
@@ -280,6 +445,12 @@ function normalize(marker) {
 }
 
 const lastOf = (list) => list[list.length - 1];
+
+/** How much of its full size a marker gets at a given distance from the camera. */
+function shrink(distance) {
+  const t = Math.min(FULL_SIZE_AT / Math.max(distance, 1), 1);
+  return SMALLEST + (1 - SMALLEST) * t;
+}
 
 function mintId(items, type) {
   const base = type ?? 'marker';

@@ -41,7 +41,7 @@ const SOURCES = [
   },
   {
     mesh: 'SM_Collectible_Coin_LOD0',
-    type: 'note',
+    type: 'coin',
     id: (name) => slug(name.replace(/^Interactable_Collectible_Coin_/, 'coin-')),
     label: (name) => `Coin — ${name.replace(/^Interactable_Collectible_Coin_/, '').replace('-', ' ')}`,
   },
@@ -65,10 +65,12 @@ async function main() {
       continue;
     }
 
-    // Only the position is ours to refresh; the rest is whatever an editor has written.
+    // Position and type are ours: they say what the object is and where the game puts it,
+    // and neither is a judgement call an editor should be making. Everything else - the
+    // name, the notes, the video, the saved camera - is left exactly as written.
     if (previous.pos.join() !== marker.pos.join()) moved++;
     previous.pos = marker.pos;
-    previous.type ??= marker.type;
+    previous.type = marker.type;
     previous.name ||= marker.name;
   }
 
