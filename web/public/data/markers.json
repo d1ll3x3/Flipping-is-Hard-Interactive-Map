@@ -455,7 +455,7 @@
     {
       "id": "skip-17",
       "type": "skip",
-      "name": "3rd pad hard skip",
+      "name": "3rd Pad to Platform (Slide Variation)",
       "pos": [
         -38.73,
         221.31,
@@ -487,7 +487,7 @@
     {
       "id": "skip-18",
       "type": "skip",
-      "name": "Phone break skip",
+      "name": "Phone Break Skip to 1st Platform",
       "pos": [
         -67.61,
         243.41,
@@ -505,9 +505,9 @@
           -137.11
         ],
         [
-          -8.84,
-          252.58,
-          -117.37
+          -9.2,
+          252.74,
+          -115.35
         ]
       ],
       "lookAt": [
@@ -1414,6 +1414,118 @@
           -39.97,
           183.35,
           -137.03
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-50",
+      "type": "skip",
+      "name": "Direct Ladder Skip",
+      "pos": [
+        -13.49,
+        154.54,
+        -113.9
+      ],
+      "path": [
+        [
+          -20.28,
+          179.34,
+          -137.53
+        ],
+        [
+          -19.95,
+          181.68,
+          -137.04
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-51",
+      "type": "skip",
+      "name": "2nd Pad Skip",
+      "pos": [
+        -64.29,
+        185.09,
+        -119.09
+      ],
+      "path": [
+        [
+          -43.19,
+          218.37,
+          -115.16
+        ],
+        [
+          -43.62,
+          220.01,
+          -114.54
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-52",
+      "type": "skip",
+      "name": "3rd Pad to Platform (Direct Variation)",
+      "pos": [
+        -38.69,
+        221.21,
+        -117.23
+      ],
+      "path": [
+        [
+          -64.97,
+          243.16,
+          -114.39
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-53",
+      "type": "skip",
+      "name": "Phone Break Skip to 2nd Platform",
+      "pos": [
+        -67.04,
+        243.41,
+        -113.68
+      ],
+      "path": [
+        [
+          -66.28,
+          243.47,
+          -120.02
+        ],
+        [
+          -62.11,
+          233.28,
+          -138.29
+        ],
+        [
+          -6.03,
+          258.33,
+          -122.33
         ]
       ],
       "lookAt": null,
