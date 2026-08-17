@@ -32,6 +32,12 @@ const SMALLEST = 0.45;
 // is sprites overlapping on screen, which has little to do with distance in the level.
 const CLUSTER_RADIUS = 24;
 
+// What the selection looks like: white, bigger, and a thicker line. White because it is the
+// one colour no marker type uses, so the selected one reads as different in kind rather
+// than as yet another category.
+const SELECTED_COLOR = '#ffffff';
+const SELECTED_SCALE = 1.35;
+
 /**
  * Owns the marker list, its sprites and the selection. The editor mutates the same list
  * through add/update/remove, so both modes always agree on what exists.
@@ -158,7 +164,25 @@ export class Markers {
       this.shown.push({ marker: item, pos: item.pos, radius: RADIUS });
     }
 
+    this.highlightPaths();
     this.updateView();
+  }
+
+  /**
+   * Repaints the paths so the selected one stands out from the rest.
+   *
+   * Separate from rebuild because selecting is not a change to what exists - rebuilding
+   * every line on each click would throw away and re-upload geometry for nothing.
+   */
+  highlightPaths() {
+    for (const line of this.paths.children) {
+      const selected = line.userData.marker === this.selected;
+      const color = TYPES[line.userData.marker.type]?.color ?? '#ffffff';
+
+      line.material.color.set(selected ? SELECTED_COLOR : color);
+      line.material.linewidth = selected ? PATH_WIDTH * 1.5 : PATH_WIDTH;
+      line.renderOrder = selected ? 9.5 : 9;
+    }
   }
 
   /**
@@ -206,18 +230,25 @@ export class Markers {
   place(sprite, group) {
     const [first] = group.dots;
     const single = group.dots.length === 1;
+    // A cluster holding the selected marker is highlighted too, so that selecting from the
+    // list still tells you where the thing is even when it has been merged into a group.
+    const holdsSelection = this.selected && group.dots.some((dot) => dot.marker === this.selected);
 
     sprite.visible = true;
     sprite.position.fromArray(first.pos);
     sprite.material.map = single
-      ? this.textureFor(first.marker.type)
-      : this.clusterTexture(group.dots);
+      ? this.textureFor(first.marker.type, holdsSelection)
+      : this.clusterTexture(group.dots, holdsSelection);
     sprite.material.needsUpdate = true;
 
     // A cluster is drawn at the size of a full marker whatever it stands on, so that a
     // knot of far-away markers does not shrink into an unreadable speck.
     const radius = single ? first.radius : RADIUS;
-    sprite.scale.setScalar((radius * shrink(group.distance)) / 500);
+    const emphasis = holdsSelection ? SELECTED_SCALE : 1;
+    sprite.scale.setScalar((radius * shrink(group.distance) * emphasis) / 500);
+
+    // Above the others, so the selection is never the one hidden underneath.
+    sprite.renderOrder = holdsSelection ? 11 : 10;
 
     sprite.userData.marker = single ? first.marker : null;
     sprite.userData.cluster = single ? null : group.dots.map((dot) => dot.marker);
@@ -282,25 +313,27 @@ export class Markers {
   }
 
   /** One canvas circle per type, cached - a texture per marker would be wasteful. */
-  textureFor(type) {
-    if (this.textures.has(type)) return this.textures.get(type);
+  textureFor(type, selected = false) {
+    const key = `${type}:${selected}`;
+    if (this.textures.has(key)) return this.textures.get(key);
 
     const size = 64;
     const canvas = Object.assign(document.createElement('canvas'), { width: size, height: size });
     const ctx = canvas.getContext('2d');
-    const color = TYPES[type]?.color ?? '#ffffff';
 
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, size / 2 - 6, 0, Math.PI * 2);
-    ctx.fillStyle = color;
+    ctx.fillStyle = selected ? SELECTED_COLOR : TYPES[type]?.color ?? '#ffffff';
     ctx.fill();
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = 'rgba(10,12,16,0.85)';
+    // The selected marker keeps its type's colour as the ring around the white, so that
+    // selecting one does not hide what kind of thing it is.
+    ctx.lineWidth = selected ? 8 : 5;
+    ctx.strokeStyle = selected ? TYPES[type]?.color ?? '#ffffff' : 'rgba(10,12,16,0.85)';
     ctx.stroke();
 
     const texture = new THREE.CanvasTexture(canvas);
     texture.colorSpace = THREE.SRGBColorSpace;
-    this.textures.set(type, texture);
+    this.textures.set(key, texture);
     return texture;
   }
 
@@ -311,13 +344,13 @@ export class Markers {
    * by that colour and the count, which is what keeps this off the per-frame budget: the
    * same handful of combinations comes back as the camera moves.
    */
-  clusterTexture(dots) {
+  clusterTexture(dots, selected = false) {
     const tally = new Map();
     for (const dot of dots) tally.set(dot.marker.type, (tally.get(dot.marker.type) ?? 0) + 1);
     const [type] = [...tally].sort((a, b) => b[1] - a[1])[0];
 
     const count = dots.length;
-    const key = `cluster:${type}:${count}`;
+    const key = `cluster:${type}:${count}:${selected}`;
     if (this.textures.has(key)) return this.textures.get(key);
 
     const size = 96;
@@ -327,10 +360,10 @@ export class Markers {
 
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
-    ctx.fillStyle = color;
+    ctx.fillStyle = selected ? SELECTED_COLOR : color;
     ctx.fill();
-    ctx.lineWidth = 7;
-    ctx.strokeStyle = 'rgba(10,12,16,0.85)';
+    ctx.lineWidth = selected ? 10 : 7;
+    ctx.strokeStyle = selected ? color : 'rgba(10,12,16,0.85)';
     ctx.stroke();
 
     ctx.fillStyle = '#0e1116';
@@ -386,6 +419,7 @@ export class Markers {
 
   select(marker, { fly = true } = {}) {
     this.selected = marker;
+    this.highlightPaths();
     if (marker && fly) this.flyTo(marker);
     this.onSelect(marker);
   }
