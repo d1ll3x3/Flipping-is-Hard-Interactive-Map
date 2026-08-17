@@ -825,6 +825,312 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "checkpoint-1",
+      "type": "checkpoint",
+      "name": "Checkpoint 1",
+      "pos": [
+        0.72,
+        144.37,
+        -120.76
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_1/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-2",
+      "type": "checkpoint",
+      "name": "Checkpoint 2",
+      "pos": [
+        75.19,
+        163.31,
+        -113.2
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_2/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-3",
+      "type": "checkpoint",
+      "name": "Checkpoint 3",
+      "pos": [
+        58.58,
+        183.28,
+        -114.02
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_3/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-4",
+      "type": "checkpoint",
+      "name": "Checkpoint 4",
+      "pos": [
+        -35.74,
+        185.05,
+        -96.67
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_4/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-5",
+      "type": "checkpoint",
+      "name": "Checkpoint 5",
+      "pos": [
+        14.74,
+        197.84,
+        -106.64
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_5/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-6",
+      "type": "checkpoint",
+      "name": "Checkpoint 6",
+      "pos": [
+        -41.24,
+        221.24,
+        -123.52
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_6/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-7",
+      "type": "checkpoint",
+      "name": "Checkpoint 7",
+      "pos": [
+        11.39,
+        240.98,
+        -109.95
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_7/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "checkpoint-8-final",
+      "type": "checkpoint",
+      "name": "Checkpoint 8 (final)",
+      "pos": [
+        -4.78,
+        295.21,
+        -116.93
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_8_Final/Container/SM_FloppyDisk"
+    },
+    {
+      "id": "coin-l1-pipes",
+      "type": "note",
+      "name": "Coin — L1 pipes",
+      "pos": [
+        -62.37,
+        -24.75,
+        346.86
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L1-pipes/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l1-elephant",
+      "type": "note",
+      "name": "Coin — L1 elephant",
+      "pos": [
+        -37.37,
+        6.7,
+        383.65
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L1-elephant/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l2-longjump",
+      "type": "note",
+      "name": "Coin — L2 longjump",
+      "pos": [
+        53.04,
+        13.9,
+        128.14
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L2-longjump/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l2-military",
+      "type": "note",
+      "name": "Coin — L2 military",
+      "pos": [
+        7.42,
+        40.22,
+        118.64
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L2-military/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l3-muddy",
+      "type": "note",
+      "name": "Coin — L3 muddy",
+      "pos": [
+        -26.48,
+        140.57,
+        -69.95
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-muddy/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l3-monkeybars",
+      "type": "note",
+      "name": "Coin — L3 monkeybars",
+      "pos": [
+        15.54,
+        145.26,
+        -137.29
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-monkeybars/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l3-plonk",
+      "type": "note",
+      "name": "Coin — L3 plonk",
+      "pos": [
+        46.06,
+        135.09,
+        -125.24
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-plonk/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l3-bucket",
+      "type": "note",
+      "name": "Coin — L3 bucket",
+      "pos": [
+        -44.84,
+        166.9,
+        -121.81
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-bucket/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l3-slideplank",
+      "type": "note",
+      "name": "Coin — L3 slideplank",
+      "pos": [
+        101.81,
+        210.83,
+        -108.25
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-slideplank/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "coin-l3-slidetrap",
+      "type": "note",
+      "name": "Coin — L3 slidetrap",
+      "pos": [
+        -87.69,
+        242.19,
+        -126.24
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-slidetrap/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     }
   ]
 }
