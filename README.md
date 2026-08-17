@@ -137,7 +137,11 @@ workflow passes the repository name as `BASE` so the paths resolve correctly.
 
 ## Licence and assets
 
-The code is our own. The game's assets belong to **Elegant Horse Studios**.
+The code is our own, under the **GNU AGPL-3.0** — see [LICENSE](LICENSE). It is a network
+licence on purpose: this is a site, and anyone who runs a modified copy of it for others has
+to publish their changes rather than only having to do so if they hand out the files.
+
+The game's assets belong to **Elegant Horse Studios**. The licence covers the code, not them.
 
 `raw/` is in `.gitignore` — hundreds of MB of raw meshes and textures, regenerated with
 `rip-assets.mjs`. But **`web/public/scene.glb` does have to be committed**: the Pages workflow
