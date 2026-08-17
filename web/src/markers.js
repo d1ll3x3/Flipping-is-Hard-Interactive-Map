@@ -27,11 +27,6 @@ const PATH_END_RADIUS = 14;
 const FULL_SIZE_AT = 70;
 const SMALLEST = 0.45;
 
-// Markers whose sprites land within this many pixels of each other are drawn as one
-// numbered circle. It is a screen-space distance on purpose: what makes the map unreadable
-// is sprites overlapping on screen, which has little to do with distance in the level.
-const CLUSTER_RADIUS = 24;
-
 // What the selection looks like: white, bigger, and a thicker line. White because it is the
 // one colour no marker type uses, so the selected one reads as different in kind rather
 // than as yet another category.
@@ -157,7 +152,7 @@ export class Markers {
 
       if (item.path.length) {
         this.paths.add(this.pathLine(item));
-        // The far end of a path is a dot of its own, and clusters with everything else.
+        // The far end of a path gets a dot of its own, sized and highlighted like any other.
         this.shown.push({ marker: item, pos: lastOf(item.path), radius: PATH_END_RADIUS });
       }
 
@@ -186,72 +181,36 @@ export class Markers {
   }
 
   /**
-   * Places the dots for the current camera: near ones at full size, far ones smaller, and
-   * any that would overlap on screen merged into one numbered circle.
+   * Sizes and places every dot for the current camera: near ones at full size, far ones
+   * smaller.
    *
    * Called every frame, so it reuses a pool of sprites instead of building them. Rebuilding
    * 45 sprites and their materials sixty times a second is how a map like this starts
    * dropping frames while apparently doing nothing.
    */
   updateView() {
-    const camera = this.camera;
-    camera.updateMatrixWorld();
-
+    this.camera.updateMatrixWorld();
     const point = new THREE.Vector3();
-    const placed = [];
 
-    for (const dot of this.shown) {
-      point.fromArray(dot.pos);
-      const distance = camera.position.distanceTo(point);
-      point.project(camera);
+    this.shown.forEach((dot, i) => {
+      const sprite = this.spriteAt(i);
+      const selected = dot.marker === this.selected;
 
-      // Behind the camera or outside the frustum: not drawn, and not clustered either.
-      if (point.z > 1) continue;
+      sprite.visible = true;
+      sprite.position.fromArray(dot.pos);
+      sprite.material.map = this.textureFor(dot.marker.type, selected);
+      sprite.material.needsUpdate = true;
 
-      const screen = [point.x * this.resolution.x * 0.5, point.y * this.resolution.y * 0.5];
-      const group = placed.find((g) => Math.hypot(g.screen[0] - screen[0], g.screen[1] - screen[1]) < CLUSTER_RADIUS);
+      const distance = this.camera.position.distanceTo(point.fromArray(dot.pos));
+      sprite.scale.setScalar((dot.radius * shrink(distance) * (selected ? SELECTED_SCALE : 1)) / 500);
 
-      if (group) {
-        group.dots.push(dot);
-        group.distance = Math.min(group.distance, distance);
-        continue;
-      }
-
-      placed.push({ screen, dots: [dot], distance });
-    }
-
-    placed.forEach((group, i) => this.place(this.spriteAt(i), group));
+      // Above the others, so the selection is never the one hidden underneath.
+      sprite.renderOrder = selected ? 11 : 10;
+      sprite.userData.marker = dot.marker;
+    });
 
     // Hide whatever the pool still holds from a busier frame.
-    for (let i = placed.length; i < this.pool.length; i++) this.pool[i].visible = false;
-  }
-
-  /** Points one pooled sprite at one group of dots. */
-  place(sprite, group) {
-    const [first] = group.dots;
-    const single = group.dots.length === 1;
-    // A cluster holding the selected marker is highlighted too, so that selecting from the
-    // list still tells you where the thing is even when it has been merged into a group.
-    const holdsSelection = this.selected && group.dots.some((dot) => dot.marker === this.selected);
-
-    sprite.visible = true;
-    sprite.position.fromArray(first.pos);
-    sprite.material.map = single
-      ? this.textureFor(first.marker.type, holdsSelection)
-      : this.clusterTexture(group.dots, holdsSelection);
-    sprite.material.needsUpdate = true;
-
-    // A cluster is drawn at the size of a full marker whatever it stands on, so that a
-    // knot of far-away markers does not shrink into an unreadable speck.
-    const radius = single ? first.radius : RADIUS;
-    const emphasis = holdsSelection ? SELECTED_SCALE : 1;
-    sprite.scale.setScalar((radius * shrink(group.distance) * emphasis) / 500);
-
-    // Above the others, so the selection is never the one hidden underneath.
-    sprite.renderOrder = holdsSelection ? 11 : 10;
-
-    sprite.userData.marker = single ? first.marker : null;
-    sprite.userData.cluster = single ? null : group.dots.map((dot) => dot.marker);
+    for (let i = this.shown.length; i < this.pool.length; i++) this.pool[i].visible = false;
   }
 
   spriteAt(index) {
@@ -337,84 +296,12 @@ export class Markers {
     return texture;
   }
 
-  /**
-   * The circle standing for a group of markers, with how many it holds written in it.
-   *
-   * Coloured by the type most of them are, so a knot of coins still reads as coins. Cached
-   * by that colour and the count, which is what keeps this off the per-frame budget: the
-   * same handful of combinations comes back as the camera moves.
-   */
-  clusterTexture(dots, selected = false) {
-    const tally = new Map();
-    for (const dot of dots) tally.set(dot.marker.type, (tally.get(dot.marker.type) ?? 0) + 1);
-    const [type] = [...tally].sort((a, b) => b[1] - a[1])[0];
-
-    const count = dots.length;
-    const key = `cluster:${type}:${count}:${selected}`;
-    if (this.textures.has(key)) return this.textures.get(key);
-
-    const size = 96;
-    const canvas = Object.assign(document.createElement('canvas'), { width: size, height: size });
-    const ctx = canvas.getContext('2d');
-    const color = TYPES[type]?.color ?? '#ffffff';
-
-    ctx.beginPath();
-    ctx.arc(size / 2, size / 2, size / 2 - 8, 0, Math.PI * 2);
-    ctx.fillStyle = selected ? SELECTED_COLOR : color;
-    ctx.fill();
-    ctx.lineWidth = selected ? 10 : 7;
-    ctx.strokeStyle = selected ? color : 'rgba(10,12,16,0.85)';
-    ctx.stroke();
-
-    ctx.fillStyle = '#0e1116';
-    ctx.font = `bold ${count > 99 ? 34 : 44}px system-ui, sans-serif`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(String(count), size / 2, size / 2 + 2);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    this.textures.set(key, texture);
-    return texture;
-  }
-
   // ────────────────────────────────────────────────────────────────── selection ──
 
-  /**
-   * What is under the pointer: a single marker, a group of them, or nothing. A group is
-   * not a selection - there is no one thing to show - so the caller zooms into it instead.
-   */
+  /** The marker under the pointer, or null. Its path line counts as part of it. */
   pick(raycaster) {
     const hit = raycaster.intersectObjects([...this.dots.children, ...this.paths.children], false)[0];
-    if (!hit) return null;
-
-    const { marker, cluster } = hit.object.userData;
-    return cluster ? { cluster } : { marker };
-  }
-
-  /** Moves the camera in on a group until its markers come apart. */
-  zoomToCluster(markers) {
-    const box = new THREE.Box3();
-    for (const marker of markers) box.expandByPoint(new THREE.Vector3().fromArray(marker.pos));
-
-    const target = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-    // Half the distance to the group, or enough to frame it if it is spread out - whichever
-    // is closer, so one click always makes visible progress.
-    const distance = Math.min(
-      this.camera.position.distanceTo(target) * 0.5,
-      Math.max(size.x, size.y, size.z) * 1.6 + 12
-    );
-
-    const from = target
-      .clone()
-      .add(this.camera.position.clone().sub(target).normalize().multiplyScalar(distance));
-
-    animate(this.camera.position.clone(), from, this.controls.target.clone(), target, (p, t) => {
-      this.camera.position.copy(p);
-      this.controls.target.copy(t);
-      this.controls.update();
-    });
+    return hit ? hit.object.userData.marker : null;
   }
 
   select(marker, { fly = true } = {}) {

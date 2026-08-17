@@ -180,14 +180,10 @@ renderer.domElement.addEventListener('pointerup', (event) => {
   raycaster.setFromCamera(pointer, camera);
 
   // A marker always wins over the geometry behind it.
-  const hit = markers.pick(raycaster);
-  if (hit?.cluster) {
-    markers.zoomToCluster(hit.cluster);
-    return;
-  }
-  if (hit?.marker) {
-    markers.select(hit.marker);
-    location.hash = hit.marker.id;
+  const marker = markers.pick(raycaster);
+  if (marker) {
+    markers.select(marker);
+    location.hash = marker.id;
     return;
   }
 
