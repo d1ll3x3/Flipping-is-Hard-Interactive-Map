@@ -1275,6 +1275,23 @@
       "video": null,
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-slidetrap/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
+    },
+    {
+      "id": "skip-46",
+      "type": "note",
+      "name": "Hall Of Fame",
+      "pos": [
+        9.72,
+        61.39,
+        -110.59
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
