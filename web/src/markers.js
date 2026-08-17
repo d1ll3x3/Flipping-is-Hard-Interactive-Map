@@ -176,6 +176,9 @@ export class Markers {
 
       line.material.color.set(selected ? SELECTED_COLOR : color);
       line.material.linewidth = selected ? PATH_WIDTH * 1.5 : PATH_WIDTH;
+      // The selected route stays visible through the level, same as its markers: a route
+      // you have just opened is the one thing you want to follow across the geometry.
+      line.material.depthTest = !selected;
       line.renderOrder = selected ? 9.5 : 9;
     }
   }
@@ -254,7 +257,10 @@ export class Markers {
         color: new THREE.Color(TYPES[item.type]?.color ?? '#ffffff'),
         linewidth: PATH_WIDTH,
         resolution: this.resolution,
-        depthTest: false,
+        // Occluded by the level, like the markers themselves. highlightPaths lifts this
+        // for the selected route.
+        depthTest: true,
+        depthWrite: false,
         transparent: true,
       })
     );
