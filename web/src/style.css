@@ -412,6 +412,30 @@ textarea:focus {
   }
 }
 
+/* ────────────────────────────────────────────────────────────────── controls ── */
+
+#controls {
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+/* A key and what it does belong together: breaking between them reads as a stray letter. */
+#controls .keys {
+  white-space: nowrap;
+}
+
+#controls kbd {
+  display: inline-block;
+  min-width: 1.1rem;
+  padding: 0 0.2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.2rem;
+  background: var(--panel-soft);
+  color: var(--text);
+  font: inherit;
+  text-align: center;
+}
+
 /* ──────────────────────────────────────────────────────────────────── layers ── */
 
 #layers-box {

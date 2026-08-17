@@ -33,6 +33,21 @@ const SMALLEST = 0.45;
 const SELECTED_COLOR = '#ffffff';
 const SELECTED_SCALE = 1.35;
 
+// How far in front of its real position a marker is drawn.
+//
+// Markers sit on the thing they mark - on a surface you clicked, or on the checkpoint's own
+// floppy disk - so half the circle ends up inside it and the depth test cuts that half away.
+// The fix is to draw them a little nearer the camera than they really are, in two parts:
+//
+//   NEAR is a fixed lift in level units, enough to clear the prop the marker is stuck to.
+//   FAR is a share of the distance, which keeps the same clearance from the overview, where
+//   a marker is small on screen but covers a lot of level.
+//
+// Both are small next to a level four hundred units tall, so the marker wins against what it
+// is touching and still loses to a wall that is genuinely in the way.
+const NUDGE_NEAR = 1.5;
+const NUDGE_FAR = 0.02;
+
 /**
  * Owns the marker list, its sprites and the selection. The editor mutates the same list
  * through add/update/remove, so both modes always agree on what exists.
@@ -193,7 +208,6 @@ export class Markers {
    */
   updateView() {
     this.camera.updateMatrixWorld();
-    const point = new THREE.Vector3();
 
     this.shown.forEach((dot, i) => {
       const sprite = this.spriteAt(i);
@@ -204,7 +218,8 @@ export class Markers {
       sprite.material.map = this.textureFor(dot.marker.type, selected);
       sprite.material.needsUpdate = true;
 
-      const distance = this.camera.position.distanceTo(point.fromArray(dot.pos));
+      const distance = nudge(sprite.position, this.camera.position);
+
       sprite.scale.setScalar((dot.radius * shrink(distance) * (selected ? SELECTED_SCALE : 1)) / 500);
 
       // The selected marker is the exception to being hidden by the level: picking one
@@ -218,6 +233,37 @@ export class Markers {
 
     // Hide whatever the pool still holds from a busier frame.
     for (let i = this.shown.length; i < this.pool.length; i++) this.pool[i].visible = false;
+
+    this.offsetPaths();
+  }
+
+  /**
+   * Lifts every route line off the surface it runs along, the same way its markers are
+   * lifted. A line drawn over a floor is exactly as buried in it as a marker is, and comes
+   * out looking dashed where the wood eats alternate stretches of it.
+   *
+   * Point by point, not line by line: moving the whole line by one offset makes its far end
+   * drift away from the dot that closes it off, because that dot is nudged along its own
+   * line to the camera and the two stop agreeing. Writing straight into the vertex buffer
+   * keeps it to a handful of numbers per route.
+   */
+  offsetPaths() {
+    const point = new THREE.Vector3();
+
+    for (const line of this.paths.children) {
+      const { points } = line.userData;
+      // Six floats per segment: the start point, then the end point.
+      const array = line.geometry.attributes.instanceStart.data.array;
+
+      for (let i = 0; i < points.length; i++) {
+        nudge(point.fromArray(points[i]), this.camera.position);
+        // Every point in the middle is the end of one segment and the start of the next.
+        if (i < points.length - 1) point.toArray(array, i * 6);
+        if (i > 0) point.toArray(array, (i - 1) * 6 + 3);
+      }
+
+      line.geometry.attributes.instanceStart.data.needsUpdate = true;
+    }
   }
 
   spriteAt(index) {
@@ -249,7 +295,8 @@ export class Markers {
    * cannot end up with its line starting somewhere its dot is not.
    */
   pathLine(item) {
-    const geometry = new LineGeometry().setPositions([item.pos, ...item.path].flat());
+    const points = [item.pos, ...item.path];
+    const geometry = new LineGeometry().setPositions(points.flat());
 
     const line = new Line2(
       geometry,
@@ -269,6 +316,9 @@ export class Markers {
     line.renderOrder = 9;
     // Clicking the line selects the skip it belongs to, same as clicking either end.
     line.userData.marker = item;
+    // The points as authored. What is in the buffer is these nudged towards the camera, so
+    // offsetPaths has to keep the originals to work from.
+    line.userData.points = points;
 
     return line;
   }
@@ -392,6 +442,21 @@ function normalize(marker) {
 }
 
 const lastOf = (list) => list[list.length - 1];
+
+const toCamera = new THREE.Vector3();
+
+/**
+ * Moves `point` towards the camera by NUDGE_NEAR + NUDGE_FAR of the distance, in place, and
+ * returns how far away it was. Everything drawn on the map goes through here, so a dot and
+ * the end of the line it closes off always land on the same spot.
+ */
+function nudge(point, cameraPosition) {
+  toCamera.copy(cameraPosition).sub(point);
+  const distance = toCamera.length();
+
+  point.addScaledVector(toCamera.normalize(), NUDGE_NEAR + NUDGE_FAR * distance);
+  return distance;
+}
 
 /** How much of its full size a marker gets at a given distance from the camera. */
 function shrink(distance) {

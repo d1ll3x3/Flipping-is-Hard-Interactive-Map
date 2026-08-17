@@ -6,6 +6,7 @@ import { Markers } from './markers.js';
 import { Ui } from './ui.js';
 import { Editor } from './editor.js';
 import { Layers } from './layers.js';
+import { KeyboardMove } from './keyboard.js';
 import { unlockEditor } from './access.js';
 
 const viewport = document.getElementById('viewport');
@@ -40,6 +41,7 @@ scene.add(sun);
 // ──────────────────────────────────────────────────────────────────────── level ──
 
 const markers = new Markers(scene, camera, controls);
+const keyboard = new KeyboardMove(camera, controls);
 let level = null;
 
 // After markers exists: resize also hands it the canvas size, which its path lines need.
@@ -204,7 +206,12 @@ function selectFromHash() {
   if (marker) markers.select(marker);
 }
 
+const clock = new THREE.Clock();
+
 renderer.setAnimationLoop(() => {
+  // Time-based, not per-frame: otherwise holding W crosses the level twice as fast on a
+  // 120 Hz screen as on a 60 Hz one.
+  keyboard.update(clock.getDelta());
   controls.update();
   // Which markers merge into a group, and how big each one is, both depend on where the
   // camera ended up this frame.
