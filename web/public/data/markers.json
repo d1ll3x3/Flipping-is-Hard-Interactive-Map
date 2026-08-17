@@ -4,7 +4,7 @@
     {
       "id": "skip-1",
       "type": "skip",
-      "name": "Alt Gap",
+      "name": "Alt Gap Jump",
       "pos": [
         -84.98,
         -13.79,
@@ -63,7 +63,7 @@
     {
       "id": "skip-3",
       "type": "skip",
-      "name": "Tower skip",
+      "name": "Tower Skip",
       "pos": [
         -4.94,
         58.68,
@@ -93,41 +93,9 @@
       "sourcePath": null
     },
     {
-      "id": "skip-4",
-      "type": "skip",
-      "name": "Wall skip",
-      "pos": [
-        11.84,
-        15.4,
-        136.82
-      ],
-      "path": [
-        [
-          10.98,
-          21.02,
-          135.06
-        ],
-        [
-          10.44,
-          14.65,
-          120.42
-        ]
-      ],
-      "lookAt": [
-        -2.19,
-        22.83,
-        150.08
-      ],
-      "difficulty": null,
-      "timeSaved": null,
-      "video": null,
-      "notes": "",
-      "sourcePath": null
-    },
-    {
       "id": "skip-5",
       "type": "skip",
-      "name": "Cube drop",
+      "name": "Cube Skip",
       "pos": [
         -4.89,
         59.61,
@@ -138,6 +106,21 @@
           8.95,
           15.4,
           139.81
+        ],
+        [
+          10.33,
+          15.4,
+          135.77
+        ],
+        [
+          10.26,
+          20.92,
+          134.96
+        ],
+        [
+          11.83,
+          14.65,
+          126.11
         ]
       ],
       "lookAt": [
@@ -186,7 +169,7 @@
     {
       "id": "skip-7",
       "type": "skip",
-      "name": "Nail skip",
+      "name": "Nail Skip",
       "pos": [
         -4.46,
         131,
@@ -213,7 +196,7 @@
     {
       "id": "skip-8",
       "type": "skip",
-      "name": "Triple jump",
+      "name": "Triple Jump",
       "pos": [
         -6.22,
         143.38,
@@ -309,7 +292,7 @@
     {
       "id": "skip-11",
       "type": "skip",
-      "name": "Wall jump ladder",
+      "name": "Ladder Wall Jump",
       "pos": [
         -20.66,
         175.05,
@@ -882,7 +865,7 @@
     {
       "id": "skip-27",
       "type": "skip",
-      "name": "Phone break skip",
+      "name": "Breaking Gap Jump",
       "pos": [
         -69.58,
         -13.79,
@@ -1355,6 +1338,82 @@
           -49.24,
           -10.87,
           346.17
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-48",
+      "type": "skip",
+      "name": "NSSS (Nail Skip Skip Skip)",
+      "pos": [
+        -8.49,
+        131.53,
+        -42.49
+      ],
+      "path": [
+        [
+          -13.27,
+          130.92,
+          -64.02
+        ],
+        [
+          -15.83,
+          130.92,
+          -83.14
+        ],
+        [
+          -16.41,
+          139.54,
+          -96.19
+        ],
+        [
+          -15.68,
+          152.47,
+          -96.19
+        ],
+        [
+          -14.7,
+          153.32,
+          -98.27
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-49",
+      "type": "skip",
+      "name": "Squat Skip",
+      "pos": [
+        -12.83,
+        156.25,
+        -111.81
+      ],
+      "path": [
+        [
+          -23.11,
+          175.34,
+          -120.31
+        ],
+        [
+          -38.37,
+          182.26,
+          -135.37
+        ],
+        [
+          -39.97,
+          183.35,
+          -137.03
         ]
       ],
       "lookAt": null,
