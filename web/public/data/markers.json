@@ -1325,6 +1325,44 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "route-48",
+      "type": "skip",
+      "name": "Gap Jump",
+      "pos": [
+        -79.94,
+        -13.78,
+        374.95
+      ],
+      "path": [
+        [
+          -71.41,
+          -13.79,
+          364.32
+        ],
+        [
+          -52.57,
+          -17.74,
+          347.6
+        ],
+        [
+          -49.92,
+          -11.8,
+          346.89
+        ],
+        [
+          -49.24,
+          -10.87,
+          346.17
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
