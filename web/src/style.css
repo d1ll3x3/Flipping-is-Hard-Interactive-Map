@@ -124,14 +124,13 @@ textarea:focus {
 #filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
+  gap: 0.3rem;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.2rem 0.5rem;
+  padding: 0.22rem 0.62rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--muted);
@@ -140,15 +139,63 @@ textarea:focus {
   user-select: none;
 }
 
+/* The pill is the switch. A tickbox next to the label said the same thing twice and cost
+   enough width to push five types onto two lines. */
 .chip:has(:checked) {
   border-color: var(--chip);
+  background: color-mix(in srgb, var(--chip) 18%, transparent);
   color: var(--text);
 }
 
-.chip input {
-  width: auto;
-  margin: 0;
-  accent-color: var(--chip);
+/* The real checkbox stays for the keyboard and for screen readers, just out of sight. */
+.chip input,
+.level input {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.chip:has(:focus-visible),
+#levels:has(:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ── difficulty ── */
+
+#levels {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+
+.level {
+  padding: 0.15rem 0.3rem;
+  color: var(--muted);
+  font-size: 1.15rem;
+  line-height: 1.4;
+  opacity: 0.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.level:has(:checked) {
+  color: var(--level);
+  opacity: 1;
+}
+
+/* A star is one glyph wide, which is a fine thing to click and a poor thing to hit with a
+   thumb. On a touchscreen each one grows to about the 44px square a fingertip needs, which
+   the panel has plenty of room for. */
+@media (pointer: coarse) {
+  .level {
+    padding: 0.4rem 0.85rem;
+    font-size: 1.5rem;
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────────── list ── */
@@ -225,10 +272,23 @@ textarea:focus {
 }
 
 .row-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
   flex: none;
   color: var(--muted);
   font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
+}
+
+/* Coloured by how hard it is, set per row from the difficulty. */
+.stars {
+  color: var(--level);
+  letter-spacing: 0.05em;
+}
+
+.difficulty {
+  color: var(--level);
 }
 
 .empty {

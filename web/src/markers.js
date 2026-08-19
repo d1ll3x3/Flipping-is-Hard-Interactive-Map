@@ -12,6 +12,15 @@ export const TYPES = {
   note: { label: 'Note', color: '#b98cf5' },
 };
 
+/**
+ * The difficulties a marker can carry. markers.json is hand-written and imported from files,
+ * so a 0, a 9 or a 2.5 still has to land on one of these rather than on nothing - both the
+ * stars in the panel and the difficulty filter go through difficultyLevel to decide where.
+ */
+export const LEVELS = [1, 2, 3, 4, 5];
+export const difficultyLevel = (difficulty) =>
+  Math.min(Math.max(Math.round(difficulty), 1), LEVELS.length);
+
 const RADIUS = 22; // sprite size in pixels when the marker is close to the camera
 
 // The line drawn along a marker's path, and the dot closing it off at the far end.
@@ -20,15 +29,33 @@ const RADIUS = 22; // sprite size in pixels when the marker is close to the came
 const PATH_WIDTH = 7;
 const PATH_END_RADIUS = 14;
 
-// Routes are drawn as arrows running along the line rather than a line between two dots: a
-// route is a way through the level, and a line on its own does not say which way round to
-// walk it. Skips keep the dots - a skip is one move, and where it starts and ends is the
+// A route is drawn as nothing but arrows running the whole way along it: a route is a way
+// through the level, and a line between two dots does not say which way round to walk it.
+// Skips keep the line and the dots - a skip is one move, and where it starts and ends is the
 // whole of it.
 //
-// The spacing is in pixels, like everything else here. An arrow every so many level units is
-// a solid wall of them seen from the overview and a single lonely arrow from up close.
+// Where the arrows go is fixed to the level: every ARROW_STEP units along the route, worked
+// out once. They are painted on the map, so they have to stay where they are put - spacing
+// them across the screen instead made them slide along the route as the camera moved.
+//
+// That leaves them piling up on each other from far away, so each frame only every nth one is
+// drawn, picked to come out around ARROW_SPACING pixels apart. n is a power of two, which is
+// what keeps this from being the sliding problem again in a different form: the arrows on
+// screen are always half or twice the ones before, so the survivors never budge.
 const ARROW_SIZE = 20;
+const ARROW_STEP = 1;
 const ARROW_SPACING = 46;
+
+// The dead zone around that decision. An arrow only changes its mind once what it wants is
+// two thirds past the step above or well under the one below, so the camera has to move a
+// long way - nearly three times the zoom - before any given arrow flips.
+const GROW_AT = 1.7;
+const SHRINK_AT = 0.6;
+
+// And it fades rather than switching, over this many seconds. Even with the dead zone an
+// arrow does change its mind now and then, and one appearing out of nothing is a blink -
+// a few blinks a second anywhere along a route is what reads as the whole thing flickering.
+const FADE_SECONDS = 0.18;
 
 // How markers shrink with distance. They are not perspective-scaled - at 45 markers across
 // a level 400 units tall, true perspective makes the far ones invisible and the near ones
@@ -73,7 +100,7 @@ export class Markers {
     // Checkpoints and coins to begin with: they are the level's own landmarks and read as
     // a map. The skips and routes are the interesting part but there are dozens of them,
     // and all of it at once was a wall of circles - the visitor switches them on.
-    this.filter = { types: new Set(['checkpoint', 'coin']), text: '' };
+    this.filter = { types: new Set(['checkpoint', 'coin']), levels: new Set(LEVELS), text: '' };
     this.onChange = () => {};
     this.onSelect = () => {};
 
@@ -181,19 +208,22 @@ export class Markers {
     for (const item of this.items) {
       if (!this.matches(item)) continue;
 
-      if (item.path.length) {
-        this.paths.add(this.pathLine(item));
-
-        if (item.type === 'route') {
-          // No dot at the far end: the last arrow already points at it, and a dot there
-          // would say something ends here without saying which end you are looking at.
-          this.routes.push(item);
-        } else {
-          // The far end of a skip gets a dot of its own, sized and highlighted like any other.
-          this.shown.push({ marker: item, pos: lastOf(item.path), radius: PATH_END_RADIUS });
-        }
+      // A route with somewhere to go is nothing but its arrows: no line under them and no
+      // dots at either end. The arrows already run the whole way and say which direction,
+      // and the line and dots only competed with them for the same pixels.
+      if (item.type === 'route' && item.path.length) {
+        this.routes.push(route(item));
+        continue;
       }
 
+      if (item.path.length) {
+        this.paths.add(this.pathLine(item));
+        // The far end of a skip gets a dot of its own, sized and highlighted like any other.
+        this.shown.push({ marker: item, pos: lastOf(item.path), radius: PATH_END_RADIUS });
+      }
+
+      // Everything else is a dot where it stands - including a route nobody has drawn a path
+      // for yet, which would otherwise have nothing on the map at all.
       this.shown.push({ marker: item, pos: item.pos, radius: RADIUS });
     }
 
@@ -229,7 +259,7 @@ export class Markers {
    * 45 sprites and their materials sixty times a second is how a map like this starts
    * dropping frames while apparently doing nothing.
    */
-  updateView() {
+  updateView(delta = 0) {
     this.camera.updateMatrixWorld();
 
     this.shown.forEach((dot, i) => {
@@ -257,7 +287,7 @@ export class Markers {
     // Hide whatever the pool still holds from a busier frame.
     for (let i = this.shown.length; i < this.pool.length; i++) this.pool[i].visible = false;
 
-    this.updateArrows();
+    this.updateArrows(delta);
     this.offsetPaths();
   }
 
@@ -300,76 +330,102 @@ export class Markers {
    * is then that same fraction along the segment, which puts it exactly on the line whatever
    * perspective does to the spacing.
    */
-  updateArrows() {
+  updateArrows(delta) {
     const { x: width, y: height } = this.resolution;
+    const rate = delta / FADE_SECONDS;
     let used = 0;
 
-    for (const item of this.routes) {
-      const points = [item.pos, ...item.path];
-      const world = points.map((point, i) => {
-        const vector = (scratch[i] ??= new THREE.Vector3()).fromArray(point);
-        nudge(vector, this.camera.position);
-        return vector;
-      });
+    for (const path of this.routes) {
+      const selected = path.marker === this.selected;
+      const texture = this.arrowTexture(path.marker.type, selected);
 
-      const screen = world.map((vector) => this.toScreen(vector, width, height));
-      const selected = item === this.selected;
-      const texture = this.arrowTexture(item.type, selected);
+      // The corners, projected once: every arrow on a segment faces the same way on screen,
+      // so there is no point working that out again for each of them.
+      const screen = path.points.map((point) => this.toScreen(point, width, height));
 
-      // Half a gap in, so a route does not open with an arrow sitting on its own marker.
-      let carry = ARROW_SPACING / 2;
+      // Each anchor decides for itself whether it is one of the survivors, from how far away
+      // it is. One decision for the whole route packed the far half solid while the near half
+      // ran almost empty - a route can easily be nearer at one end than the other.
+      //
+      // And it fades in or out rather than switching, because an arrow appearing from nothing
+      // is a blink, and a handful of blinks a second anywhere on a route is what reads as the
+      // whole thing flickering.
+      const tip = path.anchors.length - 1;
 
-      for (let i = 0; i < screen.length - 1; i++) {
-        const from = screen[i];
-        const to = screen[i + 1];
+      for (let i = 0; i < path.anchors.length; i++) {
+        const anchor = path.anchors[i];
+        // The far end always shows, whatever the thinning left out. Without it a route stops
+        // a whole gap short of where it really ends.
+        const wanted = i === tip || i % this.arrowStep(anchor, height) === 0 ? 1 : 0;
 
-        // A segment with an end behind the camera projects to nonsense. Skip it, and start
-        // the spacing over on the far side rather than carrying a bogus leftover across.
-        if (from.behind || to.behind) {
-          carry = ARROW_SPACING / 2;
-          continue;
-        }
-
-        const dx = to.x - from.x;
-        const dy = to.y - from.y;
-        const length = Math.hypot(dx, dy);
-        if (length < 1) continue;
-
-        // Screen y grows downwards and sprite rotation is measured the other way round.
-        const angle = Math.atan2(-dy, dx);
-
-        let along = carry;
-        while (along < length) {
-          this.placeArrow(used++, item, world[i], world[i + 1], along / length, angle, texture, selected);
-          along += ARROW_SPACING;
-        }
-        carry = along - length;
-
-        // The tip. Without it a route can stop a whole gap short of where it really ends.
-        if (i === screen.length - 2) {
-          this.placeArrow(used++, item, world[i], world[i + 1], 1, angle, texture, selected);
-        }
+        anchor.fade = approach(anchor.fade, wanted, rate);
+        if (anchor.fade > 0.01) used = this.placeArrow(used, path, i, screen, texture, selected);
       }
     }
 
     for (let i = used; i < this.arrowPool.length; i++) this.arrowPool[i].visible = false;
   }
 
-  /** One arrow, a fraction t of the way from one point to the next, turned to face along it. */
-  placeArrow(index, item, from, to, t, angle, texture, selected) {
-    const sprite = this.arrowAt(index);
+  /**
+   * How many anchors to skip around this one for the arrows to come out around
+   * ARROW_SPACING pixels apart. Always a power of two, so the set on screen is only ever
+   * half or twice what it was and the arrows that survive stay exactly where they were.
+   */
+  arrowStep(anchor, height) {
+    toCamera.copy(this.camera.position).sub(anchor.pos);
+    const distance = Math.max(toCamera.length(), 1);
+    const pixelsPerUnit = height / (2 * Math.tan((this.camera.fov * Math.PI) / 360) * distance);
 
+    // A stretch of route running away from the camera is squashed into far fewer pixels than
+    // its length in the level, and without this it comes out as a solid column of arrows.
+    // sin of the angle between the route and the line of sight, floored so that a stretch
+    // pointing straight at you asks for a step rather than an infinite one.
+    const facing = toCamera.divideScalar(distance).dot(anchor.dir);
+    const spread = Math.max(Math.sqrt(Math.max(1 - facing * facing, 0)), 0.15);
+
+    const wanted = ARROW_SPACING / (pixelsPerUnit * spread * ARROW_STEP);
+
+    // Each anchor keeps the step it settled on and only doubles or halves it once the camera
+    // has moved well past the point where it would flip. Picking the nearest power of two
+    // afresh every frame left every arrow sitting near a boundary blinking on and off as the
+    // camera drifted, which is far more distracting than a slightly uneven spacing.
+    while (wanted > anchor.step * GROW_AT) anchor.step *= 2;
+    while (anchor.step > 1 && wanted < anchor.step * SHRINK_AT) anchor.step /= 2;
+
+    return anchor.step;
+  }
+
+  /** Draws one anchor of a route, unless the camera cannot see the segment it sits on. */
+  placeArrow(used, path, index, screen, texture, selected) {
+    const anchor = path.anchors[index];
+    const from = screen[anchor.segment];
+    const to = screen[anchor.segment + 1];
+
+    // A segment with an end behind the camera projects to nonsense, and there is no sensible
+    // direction to turn its arrows to.
+    if (from.behind || to.behind) return used;
+
+    const dx = to.x - from.x;
+    const dy = to.y - from.y;
+    if (Math.hypot(dx, dy) < 1) return used;
+
+    const sprite = this.arrowAt(used);
     sprite.visible = true;
-    sprite.position.lerpVectors(from, to, t);
+    sprite.position.copy(anchor.pos);
+    nudge(sprite.position, this.camera.position);
     sprite.material.map = texture;
-    sprite.material.rotation = angle;
+    // Screen y grows downwards and sprite rotation is measured the other way round.
+    sprite.material.rotation = Math.atan2(-dy, dx);
+    sprite.material.opacity = anchor.fade;
     sprite.material.needsUpdate = true;
-    // Constant size, because the line it rides on is a constant number of pixels wide too.
+    // Constant size: an arrow is a label on the map, not a thing standing in the level.
     sprite.scale.setScalar(ARROW_SIZE / 500);
     sprite.material.depthTest = !selected;
     sprite.renderOrder = selected ? 10.5 : 9.5;
-    // Tapping an arrow opens its route, same as tapping the line or the marker it starts at.
-    sprite.userData.marker = item;
+    // Tapping an arrow opens its route, same as tapping its name in the list.
+    sprite.userData.marker = path.marker;
+
+    return used + 1;
   }
 
   /** Where a world point lands on the canvas, in pixels, and whether it is behind us. */
@@ -451,6 +507,13 @@ export class Markers {
 
   matches(item) {
     if (!this.filter.types.has(item.type)) return false;
+
+    // Difficulty only narrows what has one. A coin is not an easy skip - it is not a skip at
+    // all, and dropping it off the map because it has no stars would make no sense.
+    if (item.difficulty != null && !this.filter.levels.has(difficultyLevel(item.difficulty))) {
+      return false;
+    }
+
     if (!this.filter.text) return true;
 
     const haystack = `${item.name} ${item.notes ?? ''}`.toLowerCase();
@@ -602,11 +665,55 @@ function normalize(marker) {
 
 const lastOf = (list) => list[list.length - 1];
 
+/** Moves `value` towards `target` by at most `rate`. */
+const approach = (value, target, rate) => value + Math.min(Math.abs(target - value), rate) * Math.sign(target - value);
+
 const toCamera = new THREE.Vector3();
 const project = new THREE.Vector3();
 const view = new THREE.Vector3();
-// The nudged points of whichever route updateArrows is walking, reused across frames.
-const scratch = [];
+
+/**
+ * A route worked out for drawing: its corners, the spot every ARROW_STEP units along it where
+ * an arrow may go, and its middle.
+ *
+ * Done once when the list changes rather than every frame, because these positions are the
+ * whole point - an arrow belongs to a place on the route, and stays there.
+ */
+function route(marker) {
+  const points = [marker.pos, ...marker.path].map((point) => new THREE.Vector3().fromArray(point));
+  const anchors = [];
+  let carry = 0;
+
+  for (let segment = 0; segment < points.length - 1; segment++) {
+    const from = points[segment];
+    const to = points[segment + 1];
+    const length = from.distanceTo(to);
+    // Shared by every anchor on this segment: which way the route runs here, which is what
+    // says how much the camera is looking down the length of it.
+    const dir = to.clone().sub(from).divideScalar(length || 1);
+
+    // carry, not zero: the spacing runs along the whole route rather than restarting at
+    // every corner, which would bunch the arrows up wherever the route turns.
+    let along = carry;
+    while (along < length) {
+      anchors.push({ pos: from.clone().lerp(to, along / length), segment, dir, step: 1, fade: 0 });
+      along += ARROW_STEP;
+    }
+    carry = along - length;
+  }
+
+  // The end itself, so the last anchor is always where the route actually stops.
+  const last = points.length - 2;
+  anchors.push({
+    pos: lastOf(points).clone(),
+    segment: last,
+    dir: lastOf(points).clone().sub(points[last]).normalize(),
+    step: 1,
+    fade: 0,
+  });
+
+  return { marker, points, anchors };
+}
 
 /**
  * Moves `point` towards the camera by NUDGE_NEAR + NUDGE_FAR of the distance, in place, and

@@ -226,10 +226,11 @@ const clock = new THREE.Clock();
 renderer.setAnimationLoop(() => {
   // Time-based, not per-frame: otherwise holding W crosses the level twice as fast on a
   // 120 Hz screen as on a 60 Hz one.
-  keyboard.update(clock.getDelta());
+  const delta = clock.getDelta();
+  keyboard.update(delta);
   controls.update();
   // Which markers merge into a group, and how big each one is, both depend on where the
   // camera ended up this frame.
-  markers.updateView();
+  markers.updateView(delta);
   renderer.render(scene, camera);
 });

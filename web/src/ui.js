@@ -1,4 +1,4 @@
-import { TYPES } from './markers.js';
+import { TYPES, LEVELS, difficultyLevel } from './markers.js';
 
 /** The visitor-facing side panel: filterable list plus the detail card of what is selected. */
 export class Ui {
@@ -9,6 +9,7 @@ export class Ui {
     this.detail = document.getElementById('detail');
     this.search = document.getElementById('search');
     this.filters = document.getElementById('filters');
+    this.levels = document.getElementById('levels');
     this.count = document.getElementById('count');
 
     // Which sections the visitor has opened or closed, so re-rendering the list does not
@@ -16,6 +17,7 @@ export class Ui {
     this.openSections = {};
 
     this.buildFilters();
+    this.buildLevels();
 
     // On a phone the panel is a sheet that starts closed - see the media query in style.css.
     // Its header is the handle: tapping it slides the list up over the map. On a desktop the
@@ -52,6 +54,35 @@ export class Ui {
 
       label.append(input, meta.label);
       this.filters.append(label);
+    }
+  }
+
+  /**
+   * The difficulty filter: one strip of five stars, each its own switch.
+   *
+   * Five chips reading ★ to ★★★★★ said the same thing and took four lines of the panel
+   * between them and the types. Lit up, the strip doubles as the legend for the stars in
+   * the list, which is why the colours match those and not the chips.
+   */
+  buildLevels() {
+    for (const value of LEVELS) {
+      const star = document.createElement('label');
+      star.className = 'level';
+      star.style.setProperty('--level', DIFFICULTY[value - 1]);
+      star.title = `Difficulty ${value} of 5`;
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = this.markers.filter.levels.has(value);
+      input.addEventListener('change', () => {
+        const levels = this.markers.filter.levels;
+        input.checked ? levels.add(value) : levels.delete(value);
+        this.markers.setFilter({ levels });
+        this.renderList();
+      });
+
+      star.append(input, '★');
+      this.levels.append(star);
     }
   }
 
@@ -108,12 +139,14 @@ export class Ui {
 
     const meta = document.createElement('span');
     meta.className = 'row-meta';
-    meta.textContent = [
-      marker.timeSaved != null ? `-${marker.timeSaved}s` : null,
-      marker.difficulty != null ? '★'.repeat(marker.difficulty) : null,
-    ]
-      .filter(Boolean)
-      .join('  ');
+
+    if (marker.timeSaved != null) {
+      const time = document.createElement('span');
+      time.textContent = `-${marker.timeSaved}s`;
+      meta.append(time);
+    }
+
+    if (marker.difficulty != null) meta.append(stars(marker.difficulty));
 
     row.append(name, meta);
     row.addEventListener('click', () => {
@@ -135,15 +168,20 @@ export class Ui {
     const title = document.createElement('h2');
     title.textContent = marker.name;
 
+    // Built up node by node rather than as one string, because the difficulty carries its
+    // own colour and the rest of the line does not.
     const tags = document.createElement('p');
     tags.className = 'tags';
-    tags.textContent = [
-      TYPES[marker.type].label,
-      marker.timeSaved != null ? `saves ${marker.timeSaved}s` : null,
-      marker.difficulty != null ? `difficulty ${marker.difficulty}/5` : null,
-    ]
-      .filter(Boolean)
-      .join(' · ');
+    tags.append(TYPES[marker.type].label);
+    if (marker.timeSaved != null) tags.append(` · saves ${marker.timeSaved}s`);
+
+    if (marker.difficulty != null) {
+      const level = document.createElement('span');
+      level.className = 'difficulty';
+      level.style.setProperty('--level', difficultyColor(marker.difficulty));
+      level.textContent = `difficulty ${marker.difficulty}/5`;
+      tags.append(' · ', level);
+    }
 
     this.detail.append(title, tags);
 
@@ -183,6 +221,26 @@ export class Ui {
     });
     this.detail.append(close);
   }
+}
+
+/**
+ * Difficulty 1 to 5, green through to red. Anchored on colours the map already uses - the
+ * checkpoint green at one end, the coin yellow in the middle and the skip red at the other -
+ * so the panel does not turn into a second palette of its own.
+ */
+const DIFFICULTY = ['#48d597', '#a5d65c', '#f5c451', '#ff9a4e', '#ff6b4e'];
+
+const difficultyColor = (difficulty) => DIFFICULTY[difficultyLevel(difficulty) - 1];
+
+/** The difficulty as stars, coloured by how hard it is. */
+function stars(difficulty) {
+  const span = document.createElement('span');
+  span.className = 'stars';
+  span.style.setProperty('--level', difficultyColor(difficulty));
+  span.textContent = '★'.repeat(difficultyLevel(difficulty));
+  span.title = `Difficulty ${difficulty}/5`;
+
+  return span;
 }
 
 /**
