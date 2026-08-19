@@ -82,51 +82,105 @@ async function start() {
   // scene-meta.json hands back the previous build's timestamp, the .glb URL comes out
   // identical, and F5 shows the old map. It only means "revalidate", so an unchanged file
   // costs a 304 and no download.
-  const version = await fetch(asset('scene-meta.json'), { cache: 'no-cache' })
+  const meta = await fetch(asset('scene-meta.json'), { cache: 'no-cache' })
     .then((r) => r.json())
-    .then((meta) => meta.builtAt)
-    .catch(() => Date.now());
-
-  loadLevel(version);
-}
-
-function loadLevel(version) {
-  loader.load(
-    `${asset('scene.glb')}?v=${encodeURIComponent(version)}`,
-  async (gltf) => {
-    level = gltf.scene;
-    scene.add(level);
-
-    // Layers first: the trash mountains start hidden, and framing the camera around them
-    // would leave the playable level a speck in the middle of the screen.
-    new Layers(level, document.getElementById('layers'));
-
-    frameCamera(level);
-    loading.classList.add('done');
-
-    const sceneName = await markers.load(asset('data/markers.json')).catch((error) => {
-      console.warn(error);
-      return null;
+    .catch((error) => {
+      loading.innerHTML = `<p>Could not load the map: ${error.message ?? error}</p>`;
+      throw error;
     });
 
-    const ui = new Ui(markers);
-    ui.renderList();
+  loadLevel(meta);
+}
 
-    if (new URLSearchParams(location.search).get('edit') === '1' && (await unlockEditor())) {
-      editor = new Editor(markers, camera, controls, sceneName ?? 'Scene_Game_NW-DemoLive');
-      editor.attachUi(ui);
-    }
+/**
+ * Brings the level in piece by piece.
+ *
+ * The camera is framed from the metadata rather than from the geometry, so it is pointing
+ * at the right place before any of it has arrived and does not jump as each piece lands.
+ * The panel opens as soon as the first piece is on screen; the rest fill in behind it.
+ */
+async function loadLevel(meta) {
+  level = new THREE.Group();
+  level.name = 'level';
+  scene.add(level);
 
-    selectFromHash();
-  },
-  (event) => {
-    if (event.lengthComputable) progress.value = (event.loaded / event.total) * 100;
-  },
-    (error) => {
-      loading.innerHTML = `<p>Could not load the map: ${error.message ?? error}</p>`;
-      console.error(error);
-    }
+  const version = meta.builtAt;
+  const eager = meta.chunks.filter((chunk) => chunk.eager);
+  frameCamera(union(eager.map((chunk) => chunk.bounds)));
+
+  const layers = new Layers(level, document.getElementById('layers'), (name) => fetchChunk(name));
+  const loaded = new Set();
+  const loading_ = new Map();
+
+  // Shared by the eager pass and by a layer switched on later, so asking for the same piece
+  // twice waits on the first fetch instead of downloading it again.
+  function fetchChunk(name) {
+    if (loaded.has(name)) return Promise.resolve();
+    if (loading_.has(name)) return loading_.get(name);
+
+    const url = `${asset(`scene/${name}.glb`)}?v=${encodeURIComponent(version)}`;
+    const job = new Promise((resolve, reject) => {
+      loader.load(url, resolve, undefined, reject);
+    })
+      .then((gltf) => {
+        level.add(gltf.scene);
+        loaded.add(name);
+        layers.apply();
+      })
+      .finally(() => loading_.delete(name));
+
+    loading_.set(name, job);
+    return job;
+  }
+
+  // All at once rather than one after another: they are independent files and the browser
+  // pipelines them, so the last one lands far sooner than it would in a queue.
+  let arrived = 0;
+  const all = eager.map((chunk) =>
+    fetchChunk(chunk.file).then(() => {
+      arrived++;
+      progress.value = (arrived / eager.length) * 100;
+      // The first piece on screen is the end of the loading screen. Waiting for all of them
+      // is what the single-file version did, and it is most of the wait.
+      loading.classList.add('done');
+    })
   );
+
+  const sceneName = await markers.load(asset('data/markers.json')).catch((error) => {
+    console.warn(error);
+    return null;
+  });
+
+  const ui = new Ui(markers);
+  ui.renderList();
+
+  if (new URLSearchParams(location.search).get('edit') === '1' && (await unlockEditor())) {
+    editor = new Editor(markers, camera, controls, sceneName ?? 'Scene_Game_NW-DemoLive');
+    editor.attachUi(ui);
+  }
+
+  const results = await Promise.allSettled(all);
+  const failed = results.filter((r) => r.status === 'rejected');
+  if (failed.length === eager.length) {
+    loading.classList.remove('done');
+    loading.innerHTML = `<p>Could not load the map: ${failed[0].reason?.message ?? failed[0].reason}</p>`;
+    return;
+  }
+  // Some of it arrived and some did not: the map is usable, but saying nothing would leave
+  // a hole in the level looking like the level.
+  for (const { reason } of failed) console.error('A piece of the level failed to load:', reason);
+
+  selectFromHash();
+}
+
+/** One box around several. */
+function union(boxes) {
+  const box = new THREE.Box3();
+  for (const { min, max } of boxes) {
+    box.expandByPoint(new THREE.Vector3().fromArray(min));
+    box.expandByPoint(new THREE.Vector3().fromArray(max));
+  }
+  return box;
 }
 
 let editor = null;
@@ -135,9 +189,8 @@ let editor = null;
 // big the level turns out to be.
 const CORNER = new THREE.Vector3(1, 0.6, 1);
 
-/** Puts the visible level in frame, looking slightly down at it. */
-function frameCamera(root) {
-  const box = visibleBounds(root);
+/** Puts the level in frame, looking slightly down at it. */
+function frameCamera(box) {
   const size = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
   // How far back the camera has to sit for the level to fit, worked out for each direction
@@ -154,20 +207,6 @@ function frameCamera(root) {
 
   controls.target.copy(center);
   controls.update();
-}
-
-/**
- * Bounds of what is actually on screen. Box3.setFromObject walks hidden children too, so
- * with the trash mountains switched off it would still frame the camera around them.
- */
-function visibleBounds(root) {
-  const box = new THREE.Box3();
-
-  root.traverseVisible((object) => {
-    if (object.isMesh) box.expandByObject(object);
-  });
-
-  return box.isEmpty() ? new THREE.Box3().setFromObject(root) : box;
 }
 
 // ──────────────────────────────────────────────────────────────────── selection ──

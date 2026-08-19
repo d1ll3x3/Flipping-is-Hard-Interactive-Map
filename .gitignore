@@ -17,7 +17,7 @@ web/dist/
 mod/bin/
 mod/obj/
 
-# Worker
-worker/.wrangler/
-# Local secrets for `wrangler dev` - the deployed Worker uses `wrangler secret put`.
-worker/.dev.vars
+# Workers. .wrangler holds a cache of the Cloudflare account it deploys to, and .dev.vars
+# the local secrets for `wrangler dev` - the deployed Workers use `wrangler secret put`.
+.wrangler/
+.dev.vars

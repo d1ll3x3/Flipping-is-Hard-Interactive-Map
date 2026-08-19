@@ -13,7 +13,7 @@ import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Document, NodeIO, TextureInfo } from '@gltf-transform/core';
-import { dedup, prune, quantize, textureCompress } from '@gltf-transform/functions';
+import { cloneDocument, dedup, prune, quantize, textureCompress } from '@gltf-transform/functions';
 import { EXTMeshoptCompression, EXTTextureWebP } from '@gltf-transform/extensions';
 import { MeshoptEncoder } from 'meshoptimizer';
 import sharp from 'sharp';
@@ -24,6 +24,24 @@ const OUT = fileURLToPath(new URL('../web/public/', import.meta.url));
 
 // Most of the level's textures are 2048², which is far more than a map view ever shows.
 const MAX_TEXTURE = Number(process.env.MAX_TEXTURE ?? 1024);
+
+// The level goes out as several files rather than one, so the map can be on screen while the
+// rest of it is still arriving. One 9 MB download shows nothing at all until the last byte;
+// split, the first area draws in a quarter of the time and the others fill in behind it.
+//
+// Areas listed here get their own file. Everything else - cannons, coins, checkpoints,
+// beacons, the Hall of Champions - is a few props each and rides along in one shared file,
+// because ten requests to save a hundred kilobytes is a bad trade.
+//
+// `eager` is what the app fetches up front. The trash ring is off in the panel by default,
+// so it is never downloaded unless somebody asks for it.
+const CHUNKS = [
+  { file: 'l1-tutorial', area: 'NW_L1_Tutorial_Area_v6_Combined', eager: true },
+  { file: 'l2-military', area: 'NW_L2_Military_Area_v2_Combined', eager: true },
+  { file: 'l3-playground', area: 'NW_L3_Playground_Area_Demo_v5_Combined', eager: true },
+  { file: 'trash-mountains', area: 'NW_LowestGround_Area_v2_Combined', eager: false },
+  { file: 'props', area: null, eager: true }, // null: whatever the others did not claim
+];
 
 // The player and its attachments are not level geometry.
 const SKIP_PATHS_ALWAYS = [/^NetworkPlayer/];
@@ -93,23 +111,93 @@ async function main() {
   const pointSampled = enforcePointSampling(document, palettesIn(dump));
   console.log(`palettes  ${pointSampled} materials point-sampled`);
 
-  await mkdir(OUT, { recursive: true });
+  await mkdir(join(OUT, 'scene'), { recursive: true });
   // Both extensions must be registered for writing: the textures are WebP and the
   // geometry is meshopt-compressed, and an unregistered extension is silently dropped
   // from extensionsUsed, leaving a file viewers refuse to load.
   const io = new NodeIO()
     .registerExtensions([EXTMeshoptCompression, EXTTextureWebP])
     .registerDependencies({ 'meshopt.encoder': MeshoptEncoder });
-  const glb = await io.writeBinary(document);
-  await writeFile(join(OUT, 'scene.glb'), glb);
 
-  await writeMeta(dump, placed, glb.length, streamed);
+  const chunks = await writeChunks(document, io);
+  await writeMeta(dump, placed, chunks, streamed);
 
-  console.log(`\nscene.glb  ${(glb.length / 1048576).toFixed(1)} MB`);
+  const bytes = chunks.reduce((sum, c) => sum + c.bytes, 0);
+  console.log(`\nscene     ${(bytes / 1048576).toFixed(1)} MB in ${chunks.length} files`);
+  for (const chunk of chunks) {
+    console.log(
+      `  ${chunk.file.padEnd(16)} ${(chunk.bytes / 1048576).toFixed(2).padStart(5)} MB  ` +
+        `${chunk.eager ? 'up front' : 'on demand'}`
+    );
+  }
   console.log(`  nodes    ${placed.count} placed, ${placed.skipped} skipped`);
   console.log(`  meshes   ${document.getRoot().listMeshes().length}`);
   console.log(`  textures ${document.getRoot().listTextures().length}`);
   console.log(`  vertices ${placed.vertices.toLocaleString()}`);
+}
+
+/**
+ * Writes one file per chunk, each holding only its own areas.
+ *
+ * Every chunk is the whole document with the other areas taken out and prune() run over
+ * what is left, so each file carries exactly the meshes, materials and textures its areas
+ * reach and nothing else. Textures used by more than one area are written into each of
+ * them - a couple of megabytes across the whole level - which is the price of the map
+ * appearing before all of it has arrived.
+ */
+async function writeChunks(document, io) {
+  const scene = document.getRoot().listScenes()[0];
+  const named = new Set(CHUNKS.map((c) => c.area).filter(Boolean));
+  const written = [];
+
+  for (const chunk of CHUNKS) {
+    const copy = cloneDocument(document);
+    const copyScene = copy.getRoot().listScenes()[0];
+
+    // The catch-all chunk keeps whatever no other chunk named; the rest keep just their own.
+    const mine = (node) => (chunk.area ? node.getName() === chunk.area : !named.has(node.getName()));
+
+    const areas = copyScene.listChildren().filter(mine);
+    if (areas.length === 0) continue;
+
+    for (const node of copyScene.listChildren()) {
+      if (!mine(node)) node.dispose();
+    }
+
+    await copy.transform(prune());
+
+    const glb = await io.writeBinary(copy);
+    await writeFile(join(OUT, 'scene', `${chunk.file}.glb`), glb);
+
+    written.push({
+      file: chunk.file,
+      eager: chunk.eager,
+      areas: areas.map((a) => a.getName()),
+      bytes: glb.length,
+      bounds: boundsOf(areas),
+    });
+  }
+
+  return written;
+}
+
+/** The box a set of area nodes covers, which is what the app frames the camera around. */
+function boundsOf(areas) {
+  const min = [Infinity, Infinity, Infinity];
+  const max = [-Infinity, -Infinity, -Infinity];
+
+  for (const area of areas) {
+    area.traverse((node) => {
+      if (!node.getMesh()) return;
+      const [x, y, z] = node.getWorldTranslation();
+      for (const [i, v] of [x, y, z].entries()) {
+        min[i] = Math.min(min[i], v);
+        max[i] = Math.max(max[i], v);
+      }
+    });
+  }
+
+  return { min, max };
 }
 
 // ─────────────────────────────────────────────────────────────────────── textures ──
@@ -625,8 +713,8 @@ async function optimize(document, paletteNames) {
 
 // ─────────────────────────────────────────────────────────────────────────── meta ──
 
-/** Companion file for the web app: bounds to frame the camera, and provenance. */
-async function writeMeta(dump, placed, bytes, streamed) {
+/** Companion file for the web app: the chunk list, bounds to frame the camera, provenance. */
+async function writeMeta(dump, placed, chunks, streamed) {
   const bounds = dump.Nodes.filter((n) => keep(n, dump.Materials, streamed, levelCentre(dump.Nodes))).reduce(
     (box, node) => {
       const [x, y, z] = toGltfPosition(placementOf(node));
@@ -644,9 +732,12 @@ async function writeMeta(dump, placed, bytes, streamed) {
     lodLevel: dump.LodLevel,
     nodes: placed.count,
     vertices: placed.vertices,
-    bytes,
+    bytes: chunks.reduce((sum, c) => sum + c.bytes, 0),
     bounds,
     areas: placed.areas,
+    // What to fetch, in what order, and where each piece sits. The app frames its camera
+    // from the bounds of the eager ones without waiting for any of them to arrive.
+    chunks,
   };
 
   await writeFile(join(OUT, 'scene-meta.json'), JSON.stringify(meta, null, 2));

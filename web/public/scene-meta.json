@@ -1,11 +1,11 @@
 {
   "scene": "Scene_Game_NW-DemoLive",
   "exportedAt": "2026-08-16 16:32:23",
-  "builtAt": "2026-08-16T15:25:40.342Z",
+  "builtAt": "2026-08-19T20:06:43.077Z",
   "lodLevel": 0,
   "nodes": 4084,
   "vertices": 3455167,
-  "bytes": 9803432,
+  "bytes": 11720916,
   "bounds": {
     "min": [
       -661,
@@ -29,5 +29,112 @@
     "NW_RespawnPipeZones_Area",
     "SpawnableArea_HallOfChampions_Combined",
     "NetworkedInteractable_Cannon"
+  ],
+  "chunks": [
+    {
+      "file": "l1-tutorial",
+      "eager": true,
+      "areas": [
+        "NW_L1_Tutorial_Area_v6_Combined"
+      ],
+      "bytes": 3063532,
+      "bounds": {
+        "min": [
+          -144.69745100451152,
+          -84.57116112323168,
+          250.2600098562712
+        ],
+        "max": [
+          -5.1876507,
+          7.238190335031702,
+          447.4149003529921
+        ]
+      }
+    },
+    {
+      "file": "l2-military",
+      "eager": true,
+      "areas": [
+        "NW_L2_Military_Area_v2_Combined"
+      ],
+      "bytes": 2854816,
+      "bounds": {
+        "min": [
+          -27.52599114322664,
+          -45.154533538776306,
+          77.61896
+        ],
+        "max": [
+          82.93416051540953,
+          63.714996,
+          184.2098031764049
+        ]
+      }
+    },
+    {
+      "file": "l3-playground",
+      "eager": true,
+      "areas": [
+        "NW_L3_Playground_Area_Demo_v5_Combined"
+      ],
+      "bytes": 3802668,
+      "bounds": {
+        "min": [
+          -92.81000244448606,
+          92.20420263265014,
+          -192.10000190734863
+        ],
+        "max": [
+          105.66,
+          442.424,
+          134.12783996750076
+        ]
+      }
+    },
+    {
+      "file": "trash-mountains",
+      "eager": false,
+      "areas": [
+        "NW_LowestGround_Area_v2_Combined"
+      ],
+      "bytes": 341876,
+      "bounds": {
+        "min": [
+          -662.0720440117796,
+          -63,
+          -696
+        ],
+        "max": [
+          639.1016513489707,
+          282.04,
+          634.0695516640646
+        ]
+      }
+    },
+    {
+      "file": "props",
+      "eager": true,
+      "areas": [
+        "SpawnableArea_Beacons_NW-demo",
+        "SpawnableArea_Checkpoints_NW-demo",
+        "SpawnableArea_Collectible_Coins_NW-demo",
+        "NW_RespawnPipeZones_Area",
+        "SpawnableArea_HallOfChampions_Combined",
+        "NetworkedInteractable_Cannon"
+      ],
+      "bytes": 1658024,
+      "bounds": {
+        "min": [
+          -107.85960016600286,
+          -26.744460774509594,
+          -155.13728190725416
+        ],
+        "max": [
+          101.80857410781755,
+          305.3846396157876,
+          383.6509257562394
+        ]
+      }
+    }
   ]
 }

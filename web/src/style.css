@@ -327,7 +327,8 @@ textarea:focus {
   font-size: 0.8rem;
 }
 
-#detail iframe {
+#detail iframe,
+#detail video {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;

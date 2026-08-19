@@ -185,7 +185,18 @@ export class Ui {
 
     this.detail.append(title, tags);
 
-    if (marker.video) {
+    if (marker.video && isVideoFile(marker.video)) {
+      // A clip we host ourselves, played in the page. Muted and looping because these are a
+      // few seconds of a trick seen over and over, not something you sit and watch once.
+      const video = document.createElement('video');
+      video.src = marker.video;
+      video.controls = true;
+      video.loop = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      this.detail.append(video);
+    } else if (marker.video) {
       const embed = toEmbedUrl(marker.video);
       if (embed) {
         const frame = document.createElement('iframe');
@@ -242,6 +253,12 @@ function stars(difficulty) {
 
   return span;
 }
+
+/**
+ * Whether the video is a file to play rather than a page to embed. Judged by the extension,
+ * because that is all a bare URL to a bucket gives you to go on.
+ */
+const isVideoFile = (url) => /\.(mp4|webm|mov)(\?|#|$)/i.test(url);
 
 /**
  * YouTube watch/share links to their embed form, keeping the start time. Anything else is

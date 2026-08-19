@@ -1,5 +1,6 @@
 import { TYPES } from './markers.js';
 import { loadBaseSha, saveMarkers, savingConfigured } from './save.js';
+import { canCompress, compress, upload } from './video.js';
 
 /**
  * Marker authoring, enabled with ?edit=1. Clicking the level places a marker where the
@@ -40,6 +41,15 @@ export class Editor {
         <label>Seconds saved <input name="timeSaved" type="number" step="0.1" min="0"></label>
         <label>Difficulty <input name="difficulty" type="number" min="1" max="5"></label>
         <label>Video <input name="video" type="url" placeholder="https://youtu.be/...?t=42"></label>
+        <fieldset>
+          <legend>Upload a clip</legend>
+          <p class="hint">Pick a recording and it is shrunk in your browser and put on the
+            map's own storage, no YouTube. It plays at normal speed while it re-encodes, so
+            a ten second clip takes ten seconds.</p>
+          <button type="button" id="pickClip">Choose a video…</button>
+          <input type="file" id="clipFile" accept="video/*" hidden>
+          <p class="hint" id="clipHint"></p>
+        </fieldset>
         <label>Notes <textarea name="notes" rows="3"></textarea></label>
         <fieldset>
           <legend>Path <span id="pathCount"></span></legend>
@@ -77,6 +87,11 @@ export class Editor {
     this.panel.querySelector('#undoPoint').addEventListener('click', () => this.undoPoint());
     this.panel.querySelector('#clearPath').addEventListener('click', () => this.clearPath());
     this.panel.querySelector('#export').addEventListener('click', () => this.export());
+    this.clipFile = this.panel.querySelector('#clipFile');
+    this.clipHint = this.panel.querySelector('#clipHint');
+    this.pickClip = this.panel.querySelector('#pickClip');
+    this.pickClip.addEventListener('click', () => this.clipFile.click());
+    this.clipFile.addEventListener('change', () => this.addClip(this.clipFile.files[0]));
     this.fileHint = this.panel.querySelector('#fileHint');
     this.importFile = this.panel.querySelector('#importFile');
     this.panel.querySelector('#import').addEventListener('click', () => this.importFile.click());
@@ -157,6 +172,61 @@ export class Editor {
     this.showPath(marker);
   }
 
+  /**
+   * Shrinks a recording and puts it on the marker.
+   *
+   * The marker is read once at the start and used throughout: re-encoding runs in real time,
+   * and selecting a different marker halfway through must not land the clip on that one.
+   */
+  async addClip(file) {
+    // Cleared so that picking the same file twice in a row still fires a change event.
+    this.clipFile.value = '';
+    if (!file) return;
+
+    const marker = this.markers.selected;
+    if (!marker) {
+      this.clipHint.textContent = 'Select a marker first.';
+      return;
+    }
+
+    this.pickClip.disabled = true;
+
+    try {
+      const was = file.size;
+      let clip = file;
+
+      if (canCompress()) {
+        this.clipHint.textContent = `Re-encoding "${file.name}" (${mb(was)} MB)… 0%`;
+        clip = await compress(file, (done) => {
+          this.clipHint.textContent = `Re-encoding "${file.name}" (${mb(was)} MB)… ${Math.round(done * 100)}%`;
+        });
+      } else {
+        // Worth saying rather than quietly uploading 15 MB: the map is slower for everyone
+        // who opens that marker, and the person here is the only one who can fix it.
+        this.clipHint.textContent = `This browser cannot re-encode, uploading as is (${mb(was)} MB)…`;
+      }
+
+      this.clipHint.textContent = `Uploading ${mb(clip.size)} MB…`;
+      const url = await upload(clip, marker.name || marker.id);
+
+      this.markers.update(marker.id, { video: url });
+      // The form is only refreshed when this marker is still the one on screen, or the
+      // fields of whatever got selected meanwhile would be overwritten with this one's.
+      if (this.markers.selected?.id === marker.id) {
+        this.showForm(marker);
+        this.ui?.renderDetail(marker);
+      }
+
+      this.clipHint.textContent =
+        `Added to "${marker.name}": ${mb(was)} -> ${mb(clip.size)} MB. ` +
+        'Press Save to keep it.';
+    } catch (error) {
+      this.clipHint.textContent = `Not added: ${error.message}`;
+    } finally {
+      this.pickClip.disabled = false;
+    }
+  }
+
   showForm(marker) {
     this.form.hidden = !marker;
     if (!marker) return;
@@ -168,6 +238,7 @@ export class Editor {
     elements.difficulty.value = marker.difficulty ?? '';
     elements.video.value = marker.video ?? '';
     elements.notes.value = marker.notes ?? '';
+    this.clipHint.textContent = '';
     this.showPath(marker);
   }
 
@@ -248,8 +319,19 @@ export class Editor {
 
     try {
       const result = await saveMarkers(this.sceneName, this.markers.items);
+
+      // Somebody else had saved in the meantime and the Worker merged the two. It sends
+      // back the result, and the map has to take it: this editor's list is missing whatever
+      // the other person added, and saving again from it would read those as deletions.
+      if (result.list) {
+        this.markers.replaceAll({ scene: this.sceneName, markers: result.list });
+        this.showForm(null);
+        this.ui?.renderDetail(null);
+      }
+
       this.saveHint.innerHTML =
         `Saved ${result.markers} marker${result.markers === 1 ? '' : 's'}. ` +
+        (result.merged ? `${describe(result.merged)} ` : '') +
         `<a href="${result.commit}" target="_blank" rel="noopener">See the commit</a>. ` +
         'The site republishes in about a minute.';
     } catch (error) {
@@ -309,6 +391,26 @@ const HINTS = {
   marker: 'Click the map to place it.',
   path: 'Click the map to add points. Press Add point again when you are done.',
 };
+
+/**
+ * What the Worker did when somebody else had saved first. Worth saying out loud: a save
+ * that quietly merged with another person's work reads as a save that lost it.
+ */
+function describe({ added, edited, deleted, untouched }) {
+  const mine = [
+    added ? `${added} added` : null,
+    edited ? `${edited} changed` : null,
+    deleted ? `${deleted} deleted` : null,
+  ].filter(Boolean);
+
+  return (
+    `Someone else had saved first, so your changes were merged in` +
+    `${mine.length ? ` (${mine.join(', ')})` : ''}, keeping their ${untouched}. ` +
+    `The map now shows the merged list.`
+  );
+}
+
+const mb = (bytes) => (bytes / 1048576).toFixed(1);
 
 const numberOrNull = (value) => (value === '' ? null : Number(value));
 const round = (n) => Math.round(n * 100) / 100;

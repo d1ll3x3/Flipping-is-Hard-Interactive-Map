@@ -9,6 +9,8 @@
  * Everything it needs is configured in wrangler.toml and, for the two secrets, with
  * `wrangler secret put` - see worker/README.md.
  */
+import { passphraseMatches } from '../../shared/passphrase.js';
+
 export default {
   async fetch(request, env) {
     const sent = request.headers.get('Origin');
@@ -57,48 +59,41 @@ export default {
   },
 };
 
-// ─────────────────────────────────────────────────────────────────────────── auth ──
-
-/**
- * Compares SHA-256 digests rather than the passphrase itself, so the Worker never has to
- * hold it in plain text - not in its configuration and not in memory.
- *
- * The comparison takes the same time whichever byte differs. That matters little against a
- * 96-bit random passphrase, but timing-safe comparison is free and the alternative is a
- * habit worth not having.
- */
-async function passphraseMatches(passphrase, expected) {
-  if (typeof passphrase !== 'string' || !expected) return false;
-
-  const digest = await sha256(passphrase);
-  if (digest.length !== expected.length) return false;
-
-  let difference = 0;
-  for (let i = 0; i < digest.length; i++) difference |= digest.charCodeAt(i) ^ expected.charCodeAt(i);
-
-  return difference === 0;
-}
-
-async function sha256(text) {
-  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-
 // ───────────────────────────────────────────────────────────────────────── github ──
 
+/**
+ * Commits an editor's markers, merging rather than replacing.
+ *
+ * Two people editing at once used to mean the second one was turned away with "reload and
+ * redo your changes" - fine when that is a typo, an afternoon of work when it is not. So
+ * what the editor sends is not treated as the new file; it is treated as a set of changes
+ * against the revision it started from, and only those changes are applied to whatever is
+ * in the repository now.
+ *
+ * The revision it started from is fetched from git rather than sent by the browser: the
+ * editor already reports that sha, and reading the file at that sha is what makes this a
+ * real three-way merge instead of a guess.
+ */
 async function save({ markers, scene, baseSha }, env) {
-  const content = `${JSON.stringify({ scene, markers }, null, 2)}\n`;
+  const current = await github(env, `contents/${env.FILE_PATH}?ref=${env.BRANCH}`);
 
-  // baseSha is the revision the editor started from. Passing it makes GitHub refuse the
-  // write if anyone committed in between, which is the difference between two editors
-  // merging their work and one of them silently losing an afternoon.
+  // Nobody committed in between, so there is nothing to merge and what arrived is the file.
+  const merged =
+    !baseSha || baseSha === current.sha
+      ? { markers, scene, changed: null }
+      : await merge(markers, scene, baseSha, current, env);
+
+  const content = `${JSON.stringify({ scene: merged.scene, markers: merged.markers }, null, 2)}\n`;
+
   const result = await github(env, `contents/${env.FILE_PATH}`, {
     method: 'PUT',
     body: {
       message: 'Update markers from the web editor',
       content: base64(content),
-      sha: baseSha ?? (await currentSha(env)),
+      // The revision just read, not the one the editor started from: the merge is already
+      // on top of it, and passing the older one would have GitHub reject a write that is
+      // no longer in conflict with anything.
+      sha: current.sha,
       branch: env.BRANCH,
       // Otherwise GitHub attributes the commit to whoever owns the token, personal email
       // and all, in a public repository. These commits are made by the editor, not by a
@@ -108,7 +103,79 @@ async function save({ markers, scene, baseSha }, env) {
     },
   });
 
-  return { sha: result.content.sha, commit: result.commit.html_url, markers: markers.length };
+  return {
+    sha: result.content.sha,
+    commit: result.commit.html_url,
+    markers: merged.markers.length,
+    merged: merged.changed,
+    // Only when a merge happened, and then it matters: the editor's own list is missing
+    // whatever the other person added, and saving again from that list would read those as
+    // deletions and take them straight back out. The editor adopts this instead.
+    list: merged.changed ? merged.markers : undefined,
+  };
+}
+
+/**
+ * Applies one editor's changes on top of someone else's.
+ *
+ * Everything is decided per marker, by id. What this editor added, edited or deleted is
+ * worked out by comparing what it sent against the revision it loaded, and only that is
+ * applied - so a marker it never touched keeps whatever the other editor did to it, even
+ * if this editor's copy of it is stale.
+ *
+ * Where both edited the same marker, the one saving now wins. There is no sensible way to
+ * merge two versions of a name or a path, and the alternative - refusing the save - is the
+ * behaviour this replaced.
+ */
+async function merge(markers, scene, baseSha, current, env) {
+  const base = parse(await github(env, `git/blobs/${baseSha}`), 'the revision you started from');
+  const theirs = parse(current, 'the current file');
+
+  const was = new Map(base.markers.map((m) => [m.id, m]));
+  const mine = new Map(markers.map((m) => [m.id, m]));
+  const result = new Map(theirs.markers.map((m) => [m.id, m]));
+
+  let added = 0;
+  let edited = 0;
+  let deleted = 0;
+
+  for (const [id, marker] of mine) {
+    if (!was.has(id)) {
+      result.set(id, marker);
+      added++;
+    } else if (JSON.stringify(was.get(id)) !== JSON.stringify(marker)) {
+      result.set(id, marker);
+      edited++;
+    }
+  }
+
+  for (const id of was.keys()) {
+    if (!mine.has(id) && result.delete(id)) deleted++;
+  }
+
+  const untouched = result.size - added - edited;
+
+  return {
+    markers: [...result.values()],
+    // The scene name belongs to the level, not to an editor, so the file keeps its own.
+    scene: theirs.scene ?? scene,
+    changed: { added, edited, deleted, untouched: Math.max(untouched, 0) },
+  };
+}
+
+/** The markers inside a base64 blob from the contents or blobs API. */
+function parse(payload, what) {
+  try {
+    const text = new TextDecoder().decode(
+      Uint8Array.from(atob(payload.content.replace(/\n/g, '')), (c) => c.charCodeAt(0))
+    );
+    const data = JSON.parse(text);
+    if (!Array.isArray(data.markers)) throw new Error('no markers array');
+
+    return data;
+  } catch (error) {
+    throw new Error(`Could not read ${what}: ${error.message}`);
+  }
 }
 
 async function currentSha(env) {
@@ -137,7 +204,9 @@ async function github(env, path, { method = 'GET', body } = {}) {
   if (!response.ok) {
     const detail = payload.message ?? response.statusText;
     if (response.status === 409) {
-      throw new Error('Someone else saved since you loaded the page. Reload and redo your changes.');
+      // Reached only when someone commits between this Worker reading the file and writing
+      // it back - a second or two. Saving again merges against the newer revision.
+      throw new Error('Someone saved at the same moment. Press Save again.');
     }
     throw new Error(`GitHub ${response.status}: ${detail}`);
   }

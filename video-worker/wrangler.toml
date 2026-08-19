@@ -1,0 +1,14 @@
+name = "fih-map-videos"
+main = "src/index.js"
+compatibility_date = "2026-08-16"
+
+# The bucket the clips live in. Nothing here is secret: this Worker only reads, and what it
+# reads is meant to be public.
+[[r2_buckets]]
+binding = "VIDEOS"
+bucket_name = "fih-map-videos"
+
+# Uploads are only accepted from the sites the editor runs on. Reads stay open to everyone.
+# EDITOR_HASH, the digest of the editor passphrase, is set with `wrangler secret put`.
+[vars]
+ALLOWED_ORIGINS = "https://d1ll3x3.github.io,http://localhost:5173"
