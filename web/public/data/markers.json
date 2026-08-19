@@ -1610,6 +1610,34 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-56",
+      "type": "skip",
+      "name": "Easy Route Pad Skip",
+      "pos": [
+        92.69,
+        183.15,
+        -116.37
+      ],
+      "path": [
+        [
+          90.46,
+          200.12,
+          -115.28
+        ],
+        [
+          90.66,
+          200.36,
+          -114.03
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
