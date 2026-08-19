@@ -1648,6 +1648,34 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-57",
+      "type": "skip",
+      "name": "Easy Route Tunnel Skip",
+      "pos": [
+        56.05,
+        162.77,
+        -113.04
+      ],
+      "path": [
+        [
+          56.05,
+          162.77,
+          -106.48
+        ],
+        [
+          52.36,
+          165.99,
+          -104.58
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
