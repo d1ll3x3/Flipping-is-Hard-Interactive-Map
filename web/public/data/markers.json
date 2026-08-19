@@ -23,11 +23,11 @@
         ]
       ],
       "lookAt": [
-        -111.48,
-        -8.71,
-        383.6
+        -106.89,
+        5.09,
+        366.18
       ],
-      "difficulty": null,
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -54,7 +54,7 @@
         -19.47,
         394.33
       ],
-      "difficulty": null,
+      "difficulty": 1,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -86,7 +86,7 @@
         79.39,
         168.39
       ],
-      "difficulty": null,
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -128,7 +128,7 @@
         77.2,
         170.21
       ],
-      "difficulty": null,
+      "difficulty": 1,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -160,7 +160,7 @@
         29.66,
         115.17
       ],
-      "difficulty": null,
+      "difficulty": 1,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -187,7 +187,7 @@
         140.33,
         -71.49
       ],
-      "difficulty": null,
+      "difficulty": 1,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -224,7 +224,7 @@
         146.07,
         -126.15
       ],
-      "difficulty": null,
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -256,7 +256,7 @@
         157.94,
         -152.78
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -283,7 +283,7 @@
         184.95,
         -118.51
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -315,7 +315,7 @@
         181.38,
         -123.39
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -342,7 +342,7 @@
         156.64,
         -86.28
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -369,7 +369,7 @@
         185.62,
         -98.09
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -396,7 +396,7 @@
         212.22,
         -142.88
       ],
-      "difficulty": null,
+      "difficulty": 1,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -423,7 +423,7 @@
         206.85,
         -157.27
       ],
-      "difficulty": null,
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -446,7 +446,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -478,7 +478,7 @@
         221.75,
         -108.79
       ],
-      "difficulty": null,
+      "difficulty": 3.5,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -511,11 +511,11 @@
         ]
       ],
       "lookAt": [
-        -82.11,
-        249.62,
-        -158.31
+        -94.08,
+        253.53,
+        -138.77
       ],
-      "difficulty": null,
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -542,7 +542,7 @@
         253.71,
         -88.04
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -574,7 +574,7 @@
         259.64,
         -88.72
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -606,7 +606,7 @@
         261.85,
         -106
       ],
-      "difficulty": null,
+      "difficulty": 2.5,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -638,7 +638,7 @@
         266.93,
         -97.13
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -670,7 +670,7 @@
         279.11,
         -97.57
       ],
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -697,7 +697,7 @@
         299.56,
         -141.31
       ],
-      "difficulty": null,
+      "difficulty": 1.5,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -903,7 +903,7 @@
         4.33,
         376.6
       ],
-      "difficulty": null,
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1340,8 +1340,12 @@
           346.17
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        -103.49,
+        2.98,
+        386.07
+      ],
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1383,8 +1387,12 @@
           -98.27
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        -4.76,
+        137.46,
+        -13.73
+      ],
+      "difficulty": 5,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1417,7 +1425,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1445,7 +1453,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1472,8 +1480,12 @@
           -114.54
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        -87.83,
+        200.02,
+        -149.89
+      ],
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1496,7 +1508,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "notes": "",
@@ -1528,8 +1540,12 @@
           -122.33
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        -88.1,
+        256.08,
+        -131.9
+      ],
+      "difficulty": 4.5,
       "timeSaved": null,
       "video": null,
       "notes": "",
