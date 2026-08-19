@@ -647,7 +647,7 @@
     {
       "id": "skip-23",
       "type": "skip",
-      "name": "After pyramid wall jump",
+      "name": "Sanic Skip",
       "pos": [
         4.77,
         276.38,
@@ -1546,6 +1546,66 @@
         -131.9
       ],
       "difficulty": 4.5,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "checkpoint-54",
+      "type": "checkpoint",
+      "name": "New marker",
+      "pos": [
+        63.59,
+        184.45,
+        -111.76
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "checkpoint-55",
+      "type": "skip",
+      "name": "Easy Route Slide Skip",
+      "pos": [
+        63.71,
+        184.45,
+        -113.41
+      ],
+      "path": [
+        [
+          57.51,
+          182.65,
+          -110.87
+        ],
+        [
+          53.53,
+          184.39,
+          -109.49
+        ],
+        [
+          48.78,
+          184.39,
+          -109.62
+        ],
+        [
+          47.27,
+          186.02,
+          -109.71
+        ],
+        [
+          45.72,
+          184.67,
+          -104.06
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
       "timeSaved": null,
       "video": null,
       "notes": "",
