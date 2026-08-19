@@ -17,6 +17,13 @@ export class Ui {
 
     this.buildFilters();
 
+    // On a phone the panel is a sheet that starts closed - see the media query in style.css.
+    // Its header is the handle: tapping it slides the list up over the map. On a desktop the
+    // class does nothing, because there the panel is always open.
+    document
+      .querySelector('#panel header')
+      .addEventListener('click', () => document.body.classList.toggle('panel-open'));
+
     this.search.addEventListener('input', () => {
       this.markers.setFilter({ text: this.search.value.trim() });
       this.renderList();
@@ -113,6 +120,8 @@ export class Ui {
       this.markers.select(marker);
       location.hash = marker.id;
       this.renderList();
+      // The sheet gets out of the way: you picked a marker in order to look at where it is.
+      document.body.classList.remove('panel-open');
     });
 
     return row;

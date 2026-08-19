@@ -20,6 +20,16 @@ const RADIUS = 22; // sprite size in pixels when the marker is close to the came
 const PATH_WIDTH = 7;
 const PATH_END_RADIUS = 14;
 
+// Routes are drawn as arrows running along the line rather than a line between two dots: a
+// route is a way through the level, and a line on its own does not say which way round to
+// walk it. Skips keep the dots - a skip is one move, and where it starts and ends is the
+// whole of it.
+//
+// The spacing is in pixels, like everything else here. An arrow every so many level units is
+// a solid wall of them seen from the overview and a single lonely arrow from up close.
+const ARROW_SIZE = 20;
+const ARROW_SPACING = 46;
+
 // How markers shrink with distance. They are not perspective-scaled - at 45 markers across
 // a level 400 units tall, true perspective makes the far ones invisible and the near ones
 // enormous - so instead they fade from full size at FULL_SIZE_AT down to SMALLEST of their
@@ -75,10 +85,15 @@ export class Markers {
     // because which of them are drawn at all depends on where the camera is.
     this.paths = new THREE.Group();
     this.dots = new THREE.Group();
-    this.group.add(this.paths, this.dots);
+    this.arrows = new THREE.Group();
+    this.group.add(this.paths, this.dots, this.arrows);
 
     this.shown = [];
     this.pool = [];
+    // The routes needing arrows, and the sprites drawing them. How many arrows a route takes
+    // depends on how long it looks on screen, so the pool grows and shrinks as you move.
+    this.routes = [];
+    this.arrowPool = [];
     this.textures = new Map();
 
     // Fat lines are drawn in a shader that needs the canvas size to work out how many
@@ -161,14 +176,22 @@ export class Markers {
     }
 
     this.shown = [];
+    this.routes = [];
 
     for (const item of this.items) {
       if (!this.matches(item)) continue;
 
       if (item.path.length) {
         this.paths.add(this.pathLine(item));
-        // The far end of a path gets a dot of its own, sized and highlighted like any other.
-        this.shown.push({ marker: item, pos: lastOf(item.path), radius: PATH_END_RADIUS });
+
+        if (item.type === 'route') {
+          // No dot at the far end: the last arrow already points at it, and a dot there
+          // would say something ends here without saying which end you are looking at.
+          this.routes.push(item);
+        } else {
+          // The far end of a skip gets a dot of its own, sized and highlighted like any other.
+          this.shown.push({ marker: item, pos: lastOf(item.path), radius: PATH_END_RADIUS });
+        }
       }
 
       this.shown.push({ marker: item, pos: item.pos, radius: RADIUS });
@@ -234,6 +257,7 @@ export class Markers {
     // Hide whatever the pool still holds from a busier frame.
     for (let i = this.shown.length; i < this.pool.length; i++) this.pool[i].visible = false;
 
+    this.updateArrows();
     this.offsetPaths();
   }
 
@@ -264,6 +288,108 @@ export class Markers {
 
       line.geometry.attributes.instanceStart.data.needsUpdate = true;
     }
+  }
+
+  /**
+   * Lays arrows along every route, evenly spaced across the screen and pointing the way the
+   * route runs.
+   *
+   * The walk is done in pixels: each pair of points is projected, and arrows are dropped
+   * every ARROW_SPACING pixels along the line they make, carrying the leftover into the next
+   * pair so the spacing does not restart at every corner. Where an arrow ends up in the world
+   * is then that same fraction along the segment, which puts it exactly on the line whatever
+   * perspective does to the spacing.
+   */
+  updateArrows() {
+    const { x: width, y: height } = this.resolution;
+    let used = 0;
+
+    for (const item of this.routes) {
+      const points = [item.pos, ...item.path];
+      const world = points.map((point, i) => {
+        const vector = (scratch[i] ??= new THREE.Vector3()).fromArray(point);
+        nudge(vector, this.camera.position);
+        return vector;
+      });
+
+      const screen = world.map((vector) => this.toScreen(vector, width, height));
+      const selected = item === this.selected;
+      const texture = this.arrowTexture(item.type, selected);
+
+      // Half a gap in, so a route does not open with an arrow sitting on its own marker.
+      let carry = ARROW_SPACING / 2;
+
+      for (let i = 0; i < screen.length - 1; i++) {
+        const from = screen[i];
+        const to = screen[i + 1];
+
+        // A segment with an end behind the camera projects to nonsense. Skip it, and start
+        // the spacing over on the far side rather than carrying a bogus leftover across.
+        if (from.behind || to.behind) {
+          carry = ARROW_SPACING / 2;
+          continue;
+        }
+
+        const dx = to.x - from.x;
+        const dy = to.y - from.y;
+        const length = Math.hypot(dx, dy);
+        if (length < 1) continue;
+
+        // Screen y grows downwards and sprite rotation is measured the other way round.
+        const angle = Math.atan2(-dy, dx);
+
+        let along = carry;
+        while (along < length) {
+          this.placeArrow(used++, item, world[i], world[i + 1], along / length, angle, texture, selected);
+          along += ARROW_SPACING;
+        }
+        carry = along - length;
+
+        // The tip. Without it a route can stop a whole gap short of where it really ends.
+        if (i === screen.length - 2) {
+          this.placeArrow(used++, item, world[i], world[i + 1], 1, angle, texture, selected);
+        }
+      }
+    }
+
+    for (let i = used; i < this.arrowPool.length; i++) this.arrowPool[i].visible = false;
+  }
+
+  /** One arrow, a fraction t of the way from one point to the next, turned to face along it. */
+  placeArrow(index, item, from, to, t, angle, texture, selected) {
+    const sprite = this.arrowAt(index);
+
+    sprite.visible = true;
+    sprite.position.lerpVectors(from, to, t);
+    sprite.material.map = texture;
+    sprite.material.rotation = angle;
+    sprite.material.needsUpdate = true;
+    // Constant size, because the line it rides on is a constant number of pixels wide too.
+    sprite.scale.setScalar(ARROW_SIZE / 500);
+    sprite.material.depthTest = !selected;
+    sprite.renderOrder = selected ? 10.5 : 9.5;
+    // Tapping an arrow opens its route, same as tapping the line or the marker it starts at.
+    sprite.userData.marker = item;
+  }
+
+  /** Where a world point lands on the canvas, in pixels, and whether it is behind us. */
+  toScreen(vector, width, height) {
+    const ndc = project.copy(vector).project(this.camera);
+    const behind = view.copy(vector).applyMatrix4(this.camera.matrixWorldInverse).z > -this.camera.near;
+
+    return { x: (ndc.x * 0.5 + 0.5) * width, y: (1 - (ndc.y * 0.5 + 0.5)) * height, behind };
+  }
+
+  arrowAt(index) {
+    if (this.arrowPool[index]) return this.arrowPool[index];
+
+    const sprite = new THREE.Sprite(
+      new THREE.SpriteMaterial({ sizeAttenuation: false, depthTest: true, depthWrite: false, transparent: true })
+    );
+
+    this.arrowPool.push(sprite);
+    this.arrows.add(sprite);
+    return sprite;
   }
 
   spriteAt(index) {
@@ -361,6 +487,38 @@ export class Markers {
     return texture;
   }
 
+  /** A triangle pointing right, which placeArrow then turns to face along the route. */
+  arrowTexture(type, selected = false) {
+    const key = `arrow:${type}:${selected}`;
+    if (this.textures.has(key)) return this.textures.get(key);
+
+    const size = 64;
+    const canvas = Object.assign(document.createElement('canvas'), { width: size, height: size });
+    const ctx = canvas.getContext('2d');
+
+    // A chevron rather than a plain triangle: the notch at the back keeps it from reading as
+    // a blob once it is twenty pixels wide and sitting on a line of its own colour.
+    ctx.beginPath();
+    ctx.moveTo(size - 8, size / 2);
+    ctx.lineTo(12, size - 12);
+    ctx.lineTo(24, size / 2);
+    ctx.lineTo(12, 12);
+    ctx.closePath();
+
+    ctx.fillStyle = selected ? SELECTED_COLOR : TYPES[type]?.color ?? '#ffffff';
+    ctx.fill();
+    // The same dark rim the dots have, so an arrow stays legible on top of its own line.
+    ctx.lineWidth = 5;
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = 'rgba(10,12,16,0.85)';
+    ctx.stroke();
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    this.textures.set(key, texture);
+    return texture;
+  }
+
   // ────────────────────────────────────────────────────────────────── selection ──
 
   /**
@@ -371,7 +529,8 @@ export class Markers {
    * happens to be hidden on the other side of it.
    */
   pick(raycaster, nearest = Infinity) {
-    const hit = raycaster.intersectObjects([...this.dots.children, ...this.paths.children], false)[0];
+    const targets = [...this.dots.children, ...this.paths.children, ...this.arrows.children];
+    const hit = raycaster.intersectObjects(targets, false)[0];
     if (!hit) return null;
 
     // A marker sitting on a surface hits at almost exactly the same depth as the surface,
@@ -444,6 +603,10 @@ function normalize(marker) {
 const lastOf = (list) => list[list.length - 1];
 
 const toCamera = new THREE.Vector3();
+const project = new THREE.Vector3();
+const view = new THREE.Vector3();
+// The nudged points of whichever route updateArrows is walking, reused across frames.
+const scratch = [];
 
 /**
  * Moves `point` towards the camera by NUDGE_NEAR + NUDGE_FAR of the distance, in place, and

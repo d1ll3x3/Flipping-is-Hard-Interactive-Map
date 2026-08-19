@@ -50,7 +50,10 @@ addEventListener('resize', resize);
 
 function resize() {
   const { clientWidth: w, clientHeight: h } = viewport;
-  renderer.setSize(w, h, false);
+  // No third argument: three then sets the canvas CSS size as well as its buffer. Skipping it
+  // leaves the element laid out at buffer size, so on a phone at devicePixelRatio 2 the canvas
+  // is twice the screen and you are looking at the top-left quarter of the map.
+  renderer.setSize(w, h);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
   // The path lines are drawn a fixed number of pixels wide, which their shader can only
@@ -128,14 +131,24 @@ function loadLevel(version) {
 
 let editor = null;
 
+// Which way the camera looks in from: one corner, a little above. The length is set from how
+// big the level turns out to be.
+const CORNER = new THREE.Vector3(1, 0.6, 1);
+
 /** Puts the visible level in frame, looking slightly down at it. */
 function frameCamera(root) {
   const box = visibleBounds(root);
   const size = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
-  const distance = Math.max(size.x, size.y, size.z) * 0.9;
+  // How far back the camera has to sit for the level to fit, worked out for each direction
+  // and then whichever needs more room. The field of view is measured vertically, so the
+  // sideways one is divided by the aspect - which is why a phone held upright needs so much
+  // more distance than a laptop, and why it used to lose half the level off the edges.
+  const half = Math.tan((camera.fov * Math.PI) / 360);
+  const across = Math.hypot(size.x, size.z); // the camera comes in from a corner, diagonally
+  const distance = 1.25 * Math.max(size.y / (2 * half), across / (2 * half * camera.aspect));
 
-  camera.position.set(center.x + distance, center.y + distance * 0.6, center.z + distance);
+  camera.position.copy(center).add(CORNER.clone().setLength(distance));
   camera.far = distance * 12;
   camera.updateProjectionMatrix();
 
@@ -172,7 +185,9 @@ renderer.domElement.addEventListener('pointerup', (event) => {
   if (!pressedAt) return;
   const moved = Math.hypot(event.clientX - pressedAt.x, event.clientY - pressedAt.y);
   pressedAt = null;
-  if (moved > 4 || !level) return;
+  // A finger never lands as still as a mouse, so a tap gets more slack than a click before
+  // it counts as a drag.
+  if (moved > (event.pointerType === 'mouse' ? 4 : 12) || !level) return;
 
   const rect = renderer.domElement.getBoundingClientRect();
   pointer.set(

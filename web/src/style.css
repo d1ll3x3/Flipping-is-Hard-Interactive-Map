@@ -397,18 +397,67 @@ textarea:focus {
 }
 
 @media (max-width: 640px) {
+  /* The panel turns into a sheet at the bottom of the screen, closed down to a bar you tap
+     to open. A phone is small enough that a list permanently holding half of it leaves no
+     map to look at, which is the thing people came for. */
   #panel {
     width: 100vw;
-    max-height: 45vh;
+    max-height: 80vh;
     top: auto;
     bottom: 0;
+    padding-bottom: max(0.9rem, env(safe-area-inset-bottom));
     border-right: 0;
     border-top: 1px solid var(--border);
+    border-radius: 0.9rem 0.9rem 0 0;
+    transform: translateY(calc(100% - 3.4rem));
+    transition: transform 0.25s ease;
+  }
+
+  body.panel-open #panel {
+    transform: none;
+  }
+
+  /* The handle: the whole header is the tap target, and the bar above it says so. */
+  #panel header {
+    position: relative;
+    padding: 0.55rem 0 0.5rem;
+    cursor: pointer;
+  }
+
+  #panel header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2.4rem;
+    height: 0.25rem;
+    margin-left: -1.2rem;
+    border-radius: 999px;
+    background: var(--border);
   }
 
   #detail {
-    bottom: auto;
     top: 0.9rem;
+    bottom: auto;
+    left: 0.9rem;
+    right: 0.9rem;
+    width: auto;
+    max-height: 62vh;
+    overflow-y: auto;
+  }
+
+  /* Fingertips, not cursors. */
+  .row {
+    padding: 0.6rem;
+  }
+
+  .chip {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.82rem;
+  }
+
+  .layer {
+    padding: 0.35rem 0.1rem;
   }
 }
 
@@ -422,6 +471,21 @@ textarea:focus {
 /* A key and what it does belong together: breaking between them reads as a stray letter. */
 #controls .keys {
   white-space: nowrap;
+}
+
+/* Two sets of instructions, because none of the mouse ones are true on a touchscreen. */
+#controls .touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  #controls .mouse {
+    display: none;
+  }
+
+  #controls .touch {
+    display: inline;
+  }
 }
 
 #controls kbd {
