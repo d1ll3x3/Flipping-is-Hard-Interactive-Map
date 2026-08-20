@@ -25,27 +25,48 @@ const round = (n) => Math.round(n * 100) / 100;
 const slug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
 
 /**
- * What to pick out of the dump. `mesh` is what identifies the real object: a checkpoint is
- * its floppy disk and a coin its coin mesh, and matching on those skips the containers,
- * triggers and outline shells that share the same subtree.
+ * What to pick out of the dump.
+ *
+ * `mesh` identifies the real object: a checkpoint is its floppy disk, a coin its coin mesh
+ * and a skin changer its cube, and matching on those skips the containers, triggers, outline
+ * shells and preview props that share the same subtree.
+ *
+ * `prefix` is how the object itself is found in the path. Not by depth: checkpoints sit
+ * directly under their area, but the skin changers hang below a folder whose name is
+ * different in every area - SkinChangers, Skins, A3_NonLOD, A8_Demo - so counting slashes
+ * finds the folder and files fifteen cubes as four.
  */
 const SOURCES = [
   {
     mesh: 'SM_FloppyDisk',
+    prefix: 'Interactable_Checkpoint_',
     type: 'checkpoint',
-    id: (name) => slug(name.replace(/^Interactable_Checkpoint_/, 'checkpoint-')),
-    label: (name) => {
-      const [number, suffix] = name.replace(/^Interactable_Checkpoint_/, '').split('_');
+    id: (rest) => slug(`checkpoint-${rest}`),
+    label: (rest) => {
+      const [number, suffix] = rest.split('_');
       return suffix ? `Checkpoint ${number} (${suffix.toLowerCase()})` : `Checkpoint ${number}`;
     },
   },
   {
     mesh: 'SM_Collectible_Coin_LOD0',
+    prefix: 'Interactable_Collectible_Coin_',
     type: 'coin',
-    id: (name) => slug(name.replace(/^Interactable_Collectible_Coin_/, 'coin-')),
-    label: (name) => `Coin — ${name.replace(/^Interactable_Collectible_Coin_/, '').replace('-', ' ')}`,
+    id: (rest) => slug(`coin-${rest}`),
+    label: (rest) => `Coin — ${rest.replace('-', ' ')}`,
+  },
+  {
+    // The cube you walk into to change the phone's skin. The phone floating above it is a
+    // preview of that skin and several meshes of its own, which is why the cube is the match.
+    mesh: 'SM_SkinChange_v1_LOD0',
+    prefix: 'Interactable_SkinChanger_',
+    type: 'skin',
+    id: (rest) => slug(`skin-${rest}`),
+    label: (rest) => `Skin — ${spaced(rest)}`,
   },
 ];
+
+/** 'MissElephant' -> 'Miss Elephant'. The skins are named in CamelCase in the game. */
+const spaced = (name) => name.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
 
 async function main() {
   const dump = JSON.parse(await readFile(SCENE, 'utf8'));
@@ -86,7 +107,7 @@ async function main() {
  * One marker per object, deduplicated by name. Each coin appears twice in the dump - the
  * uncollected one and the collected one, a tenth of a unit apart - and they are one coin.
  */
-function collect(dump, { mesh, type, id, label }) {
+function collect(dump, { mesh, prefix, type, id, label }) {
   const seen = new Map();
 
   for (const node of dump.Nodes) {
@@ -94,13 +115,15 @@ function collect(dump, { mesh, type, id, label }) {
 
     // The object's own name, not the mesh's: 'Interactable_Checkpoint_3' rather than the
     // floppy disk that every checkpoint shares.
-    const name = node.Path.split('/')[1];
-    if (seen.has(name)) continue;
+    const name = node.Path.split('/').find((part) => part.startsWith(prefix));
+    if (!name || seen.has(name)) continue;
+
+    const rest = name.slice(prefix.length);
 
     seen.set(name, {
-      id: id(name),
+      id: id(rest),
       type,
-      name: label(name),
+      name: label(rest),
       pos: toGltfPosition(node.Pos),
       path: [],
       lookAt: null,

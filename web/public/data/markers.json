@@ -1552,23 +1552,6 @@
       "sourcePath": null
     },
     {
-      "id": "checkpoint-54",
-      "type": "checkpoint",
-      "name": "New marker",
-      "pos": [
-        63.59,
-        184.45,
-        -111.76
-      ],
-      "path": [],
-      "lookAt": null,
-      "difficulty": null,
-      "timeSaved": null,
-      "video": null,
-      "notes": "",
-      "sourcePath": null
-    },
-    {
       "id": "checkpoint-55",
       "type": "skip",
       "name": "Easy Route Slide Skip",
@@ -1709,6 +1692,261 @@
       "video": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skin-default",
+      "type": "skin",
+      "name": "Skin — Default",
+      "pos": [
+        -99.77,
+        -20.73,
+        399.42
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_Default/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-red",
+      "type": "skin",
+      "name": "Skin — Red",
+      "pos": [
+        -72.46,
+        -28.35,
+        284.37
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_Red/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-pizza",
+      "type": "skin",
+      "name": "Skin — Pizza",
+      "pos": [
+        -74.86,
+        -8.66,
+        342.96
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_Pizza/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-misselephant",
+      "type": "skin",
+      "name": "Skin — Miss Elephant",
+      "pos": [
+        -41.63,
+        5.11,
+        382.11
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_MissElephant/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-black",
+      "type": "skin",
+      "name": "Skin — Black",
+      "pos": [
+        -30.17,
+        -7.57,
+        272.04
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/A3_NonLOD/SkinChanger/Interactable_SkinChanger_Black/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-military",
+      "type": "skin",
+      "name": "Skin — Military",
+      "pos": [
+        3.63,
+        34.6,
+        117.62
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/Skins/Interactable_SkinChanger_Military/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-white",
+      "type": "skin",
+      "name": "Skin — White",
+      "pos": [
+        59.19,
+        12.53,
+        139.73
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/Skins/Interactable_SkinChanger_White/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-crashdummy",
+      "type": "skin",
+      "name": "Skin — Crash Dummy",
+      "pos": [
+        -19.46,
+        12.1,
+        134.64
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/Skins/Interactable_SkinChanger_CrashDummy/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-muddy",
+      "type": "skin",
+      "name": "Skin — Muddy",
+      "pos": [
+        -24.93,
+        139.78,
+        -68.27
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Muddy/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-plonk",
+      "type": "skin",
+      "name": "Skin — Plonk",
+      "pos": [
+        48.86,
+        133.55,
+        -127.78
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Plonk/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-tiger",
+      "type": "skin",
+      "name": "Skin — Tiger",
+      "pos": [
+        33.52,
+        151.12,
+        -131.34
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Tiger/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-king",
+      "type": "skin",
+      "name": "Skin — King",
+      "pos": [
+        65.54,
+        196.68,
+        -122.41
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_King/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-blacksuit",
+      "type": "skin",
+      "name": "Skin — Black Suit",
+      "pos": [
+        22.3,
+        242.81,
+        -103.79
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_BlackSuit/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-brick",
+      "type": "skin",
+      "name": "Skin — Brick",
+      "pos": [
+        15.84,
+        196.93,
+        -111.6
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Brick/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "skin-galactic",
+      "type": "skin",
+      "name": "Skin — Galactic",
+      "pos": [
+        -33.61,
+        334.2,
+        74.88
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/Interactable_SkinChanger_Galactic/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     }
   ]
 }
