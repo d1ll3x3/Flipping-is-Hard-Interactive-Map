@@ -30,6 +30,7 @@
       "difficulty": 3,
       "timeSaved": null,
       "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/alt-gap.mp4",
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -57,6 +58,7 @@
       "difficulty": 1,
       "timeSaved": null,
       "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/hi-jump.mp4",
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -89,6 +91,7 @@
       "difficulty": 4,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -131,6 +134,7 @@
       "difficulty": 1,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -163,6 +167,7 @@
       "difficulty": 1,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -190,6 +195,7 @@
       "difficulty": 1,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -227,6 +233,7 @@
       "difficulty": 3,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -259,6 +266,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -286,6 +294,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -318,6 +327,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -345,6 +355,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -372,6 +383,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -399,6 +411,7 @@
       "difficulty": 1,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -426,6 +439,7 @@
       "difficulty": 3,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -449,6 +463,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -481,6 +496,7 @@
       "difficulty": 3.5,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -518,6 +534,7 @@
       "difficulty": 4,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -545,6 +562,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -577,6 +595,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -609,6 +628,7 @@
       "difficulty": 2.5,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -641,6 +661,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -673,6 +694,7 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -700,6 +722,7 @@
       "difficulty": 1.5,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -822,6 +845,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -859,6 +883,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -906,6 +931,7 @@
       "difficulty": 3,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -927,6 +953,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-1-shpt1.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_1/Container/SM_FloppyDisk"
     },
@@ -948,6 +975,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-2-nwv6n.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_2/Container/SM_FloppyDisk"
     },
@@ -969,6 +997,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-3-fwz5n.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_3/Container/SM_FloppyDisk"
     },
@@ -990,6 +1019,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-4-6jyid.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_4/Container/SM_FloppyDisk"
     },
@@ -1007,6 +1037,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-5-vqexp.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_5/Container/SM_FloppyDisk"
     },
@@ -1024,6 +1055,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-6-2uvfg.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_6/Container/SM_FloppyDisk"
     },
@@ -1041,6 +1073,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-7-fhkb6.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_7/Container/SM_FloppyDisk"
     },
@@ -1062,6 +1095,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/checkpoint-8-final-ai177.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Checkpoints_NW-demo(Clone)/Interactable_Checkpoint_8_Final/Container/SM_FloppyDisk"
     },
@@ -1083,6 +1117,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l1-pipes-eydwj.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L1-pipes/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1104,6 +1139,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l1-elephant-cjyvy.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L1-elephant/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1125,6 +1161,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l2-longjump-ttin9.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L2-longjump/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1146,6 +1183,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l2-military-wsahz.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L2-military/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1163,6 +1201,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l3-muddy-ezcsg.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-muddy/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1184,6 +1223,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l3-monkeybars-nngf0.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-monkeybars/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1205,6 +1245,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l3-plonk-jobr3.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-plonk/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1226,6 +1267,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l3-bucket-sdqmc.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-bucket/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1247,6 +1289,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l3-slideplank-t0u6r.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-slideplank/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1268,6 +1311,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/coin-l3-slidetrap-g8mqz.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Collectible_Coins_NW-demo(Clone)/Interactable_Collectible_Coin_L3-slidetrap/Visuals/Collectible_Coin_Visual/SM_Collectible_Coin/SM_Collectible_Coin_LOD0"
     },
@@ -1285,6 +1329,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/hall-of-fame-994q3.webp",
       "notes": "",
       "sourcePath": null
     },
@@ -1306,6 +1351,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/creepy-cave-mik3r.webp",
       "notes": "",
       "sourcePath": null
     },
@@ -1348,6 +1394,7 @@
       "difficulty": 3,
       "timeSaved": null,
       "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/gap-jump.mp4",
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1395,6 +1442,7 @@
       "difficulty": 5,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1428,6 +1476,7 @@
       "difficulty": 4,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1456,6 +1505,7 @@
       "difficulty": 4,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1488,6 +1538,7 @@
       "difficulty": 4,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1511,6 +1562,7 @@
       "difficulty": 4,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1548,6 +1600,7 @@
       "difficulty": 4.5,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1591,6 +1644,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1629,6 +1683,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1657,6 +1712,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1690,6 +1746,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": null,
       "notes": "",
       "sourcePath": null
     },
@@ -1711,6 +1768,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-default-cotz6.webp",
       "notes": "",
       "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_Default/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1732,6 +1790,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-red-ny2z5.webp",
       "notes": "",
       "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_Red/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1753,6 +1812,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-pizza-mul6v.webp",
       "notes": "",
       "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_Pizza/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1774,6 +1834,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-miss-elephant-opze2.webp",
       "notes": "",
       "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/SkinChangers/Interactable_SkinChanger_MissElephant/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1791,6 +1852,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-black-4iwp4.webp",
       "notes": "",
       "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/A3_NonLOD/SkinChanger/Interactable_SkinChanger_Black/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1812,6 +1874,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-military-umyna.webp",
       "notes": "",
       "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/Skins/Interactable_SkinChanger_Military/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1833,6 +1896,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-white-rgk4m.webp",
       "notes": "",
       "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/Skins/Interactable_SkinChanger_White/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1854,6 +1918,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-crash-dummy-7r36e.webp",
       "notes": "",
       "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/Skins/Interactable_SkinChanger_CrashDummy/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1871,6 +1936,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-muddy-jcrbd.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Muddy/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1892,6 +1958,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-plonk-iqoly.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Plonk/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1913,6 +1980,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-tiger-ocetj.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Tiger/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1934,6 +2002,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-king-4uprs.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_King/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1951,6 +2020,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-black-suit-vhs5v.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_BlackSuit/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1968,6 +2038,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-brick-1trsk.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/Skins/Interactable_SkinChanger_Brick/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -1989,6 +2060,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/skin-galactic-nqeel.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/Interactable_SkinChanger_Galactic/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
     },
@@ -2010,6 +2082,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-beamer-o7sox.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone"
     },
@@ -2031,6 +2104,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-microwaver-8hefl.webp",
       "notes": "",
       "sourcePath": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver"
     },
@@ -2052,6 +2126,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-miss-elephant-kpj15.webp",
       "notes": "",
       "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant"
     },
@@ -2073,6 +2148,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-toy-soldier-8cfyz.webp",
       "notes": "",
       "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier"
     },
@@ -2094,6 +2170,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-muddy-22ii6.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy"
     },
@@ -2115,6 +2192,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-plonk-j5h3a.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Plonk"
     },
@@ -2136,6 +2214,7 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/npc-game-dude-iv0oy.webp",
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude"
     },
@@ -2157,6 +2236,25 @@
       "difficulty": null,
       "timeSaved": null,
       "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/cake-mkx4v.webp",
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "note-81",
+      "type": "note",
+      "name": "Ghost <3",
+      "pos": [
+        11.34,
+        128.29,
+        -51.91
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/ghost-3-4705f.webp",
       "notes": "",
       "sourcePath": null
     }
