@@ -635,7 +635,7 @@
     {
       "id": "skip-22",
       "type": "skip",
-      "name": "Second to Third floor Skip",
+      "name": "Second to Third Floor Skip",
       "pos": [
         -5.99,
         259.44,
@@ -660,7 +660,7 @@
       ],
       "difficulty": 2,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/dd5KjwkGP5I",
       "image": null,
       "notes": "",
       "sourcePath": null
@@ -2525,6 +2525,30 @@
       "difficulty": 1,
       "timeSaved": null,
       "video": "https://youtu.be/w_tihJDddRA",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-91",
+      "type": "skip",
+      "name": "Top of Pyramid Jump",
+      "pos": [
+        -0.01,
+        269.19,
+        -109.16
+      ],
+      "path": [
+        [
+          4.27,
+          271.65,
+          -109.64
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 2,
+      "timeSaved": null,
+      "video": "https://youtu.be/tSD_us0_S64",
       "image": null,
       "notes": "",
       "sourcePath": null
