@@ -1991,6 +1991,125 @@
       "video": null,
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/Interactable_SkinChanger_Galactic/Interactable_SkinChangeV2_Visual/SM_Interactable_SkinChange/SM_SkinChange_v1_LOD0"
+    },
+    {
+      "id": "npc-beamer",
+      "type": "npc",
+      "name": "NPC — Beamer",
+      "pos": [
+        -5.11,
+        139.95,
+        -100.82
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone"
+    },
+    {
+      "id": "npc-microwaver",
+      "type": "npc",
+      "name": "NPC — Microwaver",
+      "pos": [
+        10.68,
+        241.72,
+        -119.16
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver"
+    },
+    {
+      "id": "npc-misselephant",
+      "type": "npc",
+      "name": "NPC — Miss Elephant",
+      "pos": [
+        -46.13,
+        -5.56,
+        382.85
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant"
+    },
+    {
+      "id": "npc-toysoldier",
+      "type": "npc",
+      "name": "NPC — Toy Soldier",
+      "pos": [
+        2.18,
+        15.88,
+        112.74
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier"
+    },
+    {
+      "id": "npc-muddy",
+      "type": "npc",
+      "name": "NPC — Muddy",
+      "pos": [
+        -24.44,
+        132.23,
+        -76.91
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy"
+    },
+    {
+      "id": "npc-plonk",
+      "type": "npc",
+      "name": "NPC — Plonk",
+      "pos": [
+        46.8,
+        131.75,
+        -101.18
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Plonk"
+    },
+    {
+      "id": "npc-gamedude",
+      "type": "npc",
+      "name": "NPC — Game Dude",
+      "pos": [
+        -15.47,
+        305.18,
+        90.86
+      ],
+      "path": [],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude"
     }
   ]
 }

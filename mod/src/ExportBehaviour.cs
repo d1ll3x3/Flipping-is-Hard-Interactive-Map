@@ -21,6 +21,13 @@ namespace FIHMapExport
             {
                 RunInLevel(SceneDumper.Run);
             }
+
+            // gameObject.scene is the DontDestroyOnLoad scene - this behaviour lives on the
+            // plugin's host - and it is the only handle on it there is.
+            if (InputReader.WasPressedThisFrame(ExportPlugin.NpcKey.Value))
+            {
+                RunInLevel(_ => NpcRecorder.Run(gameObject.scene));
+            }
         }
 
         // Every export path needs the same guard: the level scene has to be the active one,

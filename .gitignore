@@ -4,6 +4,9 @@ node_modules/
 # game with tools/rip-assets.mjs. Only raw/scene.json is worth keeping (see below).
 raw/*
 !raw/scene.json
+# Collected by hand in a live game - not something a rebuild recovers.
+!raw/npcs.json
+!raw/npc-scene.json
 
 # AssetRipper is downloaded, not authored.
 tools/AssetRipper/

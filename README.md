@@ -32,6 +32,27 @@ Builds the plugin and deploys it to the Demo. Inside a level:
 
 - `F10` — scene diagnostic report (`Export/probe.txt`)
 - `F11` — dumps `Export/scene.json`: the position of every object
+- `F9` — records the NPCs loaded right now into `Export/npcs.json`, adding to what is
+  already there
+
+The NPCs need their own key because they are not in any one dump: the game spawns them as
+you come near, so `scene.json` only ever holds the two or three that happened to be loaded.
+Walk up to each NPC, press `F9`, and the list fills in across the session. Copy `npcs.json`
+into `raw/` next to `scene.json`; `build-markers.mjs` reads it if it is there. `F9` also
+writes `npc-scene.json` with the NPCs' own geometry, which the full-scene dump loses;
+`node tools/merge-dumps.mjs` folds it into `raw/scene.json` before the rip.
+
+### Removing objects
+
+The demo still ships props from older versions of itself. On a local dev server - and only
+there - the editor grows a **Remove objects** section: click the button, then click a prop,
+and **Export list** writes `hidden.json` over `web/public/data/hidden.json`. Rebuild with
+`build-glb.mjs` and those objects are out of the map's geometry, so nobody downloads them.
+
+The tool is not part of the published site. `web/src/prune.js` is imported behind
+`import.meta.env.DEV`, which the build folds to false, so none of it is in the bundle - the
+site has no way to remove anything, passphrase or not. `hidden.json` is committed as the
+record of what was taken out: without it the next rebuild puts every one of them back.
 
 Both keys and the output folder are configured in `FIHMapExport.cfg`, next to the DLL.
 

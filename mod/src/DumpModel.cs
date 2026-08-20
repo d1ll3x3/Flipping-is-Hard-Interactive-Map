@@ -98,6 +98,29 @@ namespace FIHMapExport
         public string LayerName { get; set; }
     }
 
+    /// <summary>
+    /// Where NPCs have been seen, accumulated over a playthrough. Separate from the scene
+    /// dump because it is not a snapshot: NPCs spawn as the player comes near, so this is
+    /// built up press by press instead of all at once (see NpcRecorder).
+    /// </summary>
+    public class NpcFile
+    {
+        public string RecordedAt { get; set; }
+        public List<NpcSighting> Sightings { get; set; } = new List<NpcSighting>();
+    }
+
+    public class NpcSighting
+    {
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public string Scene { get; set; }
+
+        /// <summary>The middle of everything the NPC draws, in world space.</summary>
+        public float[] Pos { get; set; }
+        public bool Active { get; set; }
+        public string RecordedAt { get; set; }
+    }
+
     public class DumpStats
     {
         public int Renderers { get; set; }

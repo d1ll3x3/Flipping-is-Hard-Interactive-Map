@@ -14,6 +14,9 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
 const SCENE = fileURLToPath(new URL('../raw/scene.json', import.meta.url));
+// Optional: written by the mod's NPC key, one press per NPC. Absent until somebody walks
+// the level with it.
+const NPCS = fileURLToPath(new URL('../raw/npcs.json', import.meta.url));
 const MARKERS = fileURLToPath(new URL('../web/public/data/markers.json', import.meta.url));
 
 // The same mirroring build-glb.mjs applies to the geometry. Without it every generated
@@ -63,7 +66,27 @@ const SOURCES = [
     id: (rest) => slug(`skin-${rest}`),
     label: (rest) => `Skin — ${spaced(rest)}`,
   },
+  {
+    // An NPC is a phone like you, so it is the phone body that locates it. The figure inside
+    // it is an outline shell the map drops, and the same phone mesh is used by the beacons'
+    // teleport previews - the prefix is what keeps those out.
+    mesh: 'SM_Phone_v4_Full_LOD0',
+    prefix: 'InteractableNPC_',
+    type: 'npc',
+    id: (rest) => slug(`npc-${character(rest)}`),
+    label: (rest) => `NPC — ${spaced(character(rest))}`,
+  },
 ];
+
+/**
+ * The name the character goes by, for the objects whose own name is not it. The help beam
+ * NPC is InteractableNPC_Phone in the hierarchy but everyone calls it Beamer - it stands
+ * three units from the beam, permanently mid-cast.
+ *
+ * Anything not listed keeps its object name, so a new NPC still gets a marker.
+ */
+const CHARACTERS = { Phone: 'Beamer', MsElephant: 'MissElephant' };
+const character = (name) => CHARACTERS[name] ?? name;
 
 /** 'MissElephant' -> 'Miss Elephant'. The skins are named in CamelCase in the game. */
 const spaced = (name) => name.replace(/([a-z0-9])([A-Z])/g, '$1 $2');
@@ -72,7 +95,10 @@ async function main() {
   const dump = JSON.parse(await readFile(SCENE, 'utf8'));
   const existing = JSON.parse(await readFile(MARKERS, 'utf8'));
 
-  const generated = SOURCES.flatMap((source) => collect(dump, source));
+  // Sightings last, so an NPC recorded in the level wins over the same NPC frozen into
+  // whatever the scene dump happened to catch.
+  const all = [...SOURCES.flatMap((source) => collect(dump, source)), ...(await collectNpcs())];
+  const generated = [...new Map(all.map((marker) => [marker.id, marker])).values()];
   const byId = new Map(existing.markers.map((marker) => [marker.id, marker]));
 
   let added = 0;
@@ -120,22 +146,66 @@ function collect(dump, { mesh, prefix, type, id, label }) {
 
     const rest = name.slice(prefix.length);
 
-    seen.set(name, {
-      id: id(rest),
-      type,
-      name: label(rest),
-      pos: toGltfPosition(node.Pos),
-      path: [],
-      lookAt: null,
-      difficulty: null,
-      timeSaved: null,
-      video: null,
-      notes: '',
-      sourcePath: node.Path,
-    });
+    seen.set(name, marker({ id: id(rest), type, name: label(rest), pos: node.Pos, sourcePath: node.Path }));
   }
 
   return [...seen.values()];
 }
+
+/**
+ * The NPCs written down in-game, which is the only place they exist: the game spawns them
+ * as the player comes near, so most of them are in no scene dump at all.
+ *
+ * The file is a wide net - anything with 'npc' in its name - and the same prefix that picks
+ * NPCs out of the dump picks them out of here, so the beacons' empty TeleportTargetNPC slots
+ * and the help beam prop stay out of the map.
+ */
+async function collectNpcs() {
+  const source = SOURCES.find((entry) => entry.type === 'npc');
+  let sightings;
+
+  try {
+    ({ Sightings: sightings } = JSON.parse(await readFile(NPCS, 'utf8')));
+  } catch (error) {
+    if (error.code === 'ENOENT') return [];
+    throw error;
+  }
+
+  const seen = new Map();
+
+  for (const sighting of sightings ?? []) {
+    const name = (sighting.Path ?? '').split('/').find((part) => part.startsWith(source.prefix));
+    if (!name || seen.has(name)) continue;
+
+    const rest = name.slice(source.prefix.length);
+    seen.set(
+      name,
+      marker({
+        id: source.id(rest),
+        type: source.type,
+        name: source.label(rest),
+        pos: sighting.Pos,
+        sourcePath: sighting.Path,
+      })
+    );
+  }
+
+  return [...seen.values()];
+}
+
+/** A generated marker, blank in everything the editor is there to fill in. */
+const marker = ({ id, type, name, pos, sourcePath }) => ({
+  id,
+  type,
+  name,
+  pos: toGltfPosition(pos),
+  path: [],
+  lookAt: null,
+  difficulty: null,
+  timeSaved: null,
+  video: null,
+  notes: '',
+  sourcePath,
+});
 
 await main();

@@ -24,6 +24,7 @@ namespace FIHMapExport
 
         internal static ConfigEntry<Key> ProbeKey { get; private set; }
         internal static ConfigEntry<Key> DumpKey { get; private set; }
+        internal static ConfigEntry<Key> NpcKey { get; private set; }
         internal static ConfigEntry<string> OutputDir { get; private set; }
         internal static ConfigEntry<int> LodLevel { get; private set; }
 
@@ -40,6 +41,10 @@ namespace FIHMapExport
                 "Writes a report on what the level's geometry looks like from inside the game.");
             DumpKey = config.Bind("Keys", "Dump", Key.F11,
                 "Writes scene.json: where every object of the level sits, for the web map.");
+            NpcKey = config.Bind("Keys", "Npc", Key.F9,
+                "Records the NPCs loaded right now into npcs.json, adding to what is already "
+                + "there. Press it next to each NPC: they spawn as you approach, so no single "
+                + "dump holds them all.");
             OutputDir = config.Bind("Output", "Directory", Path.Combine(folder, "Export"),
                 "Where dumps are written. Point this at the web project to skip copying by hand.");
             LodLevel = config.Bind("Output", "LodLevel", 0,
@@ -53,8 +58,8 @@ namespace FIHMapExport
             host.hideFlags = HideFlags.HideAndDontSave;
             host.AddComponent<ExportBehaviour>();
 
-            Logger.LogInfo($"Loaded. {ProbeKey.Value} probes the level, {DumpKey.Value} dumps it. "
-                + $"Output: {OutputDir.Value}");
+            Logger.LogInfo($"Loaded. {ProbeKey.Value} probes the level, {DumpKey.Value} dumps it, "
+                + $"{NpcKey.Value} records nearby NPCs. Output: {OutputDir.Value}");
         }
     }
 }

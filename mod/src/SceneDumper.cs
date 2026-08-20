@@ -25,6 +25,7 @@ namespace FIHMapExport
 
             string file = Path.Combine(ExportPlugin.OutputDir.Value, "scene.json");
             Directory.CreateDirectory(ExportPlugin.OutputDir.Value);
+            Archive(file);
             File.WriteAllText(file, JsonSerializer.Serialize(dump, Options));
 
             var stats = dump.Stats;
@@ -32,6 +33,29 @@ namespace FIHMapExport
                 $"Dumped {stats.Nodes} nodes, {dump.Meshes.Count} meshes, {dump.Materials.Count} materials " +
                 $"({stats.StreamedOut} streamed out, {stats.RendererOff} renderer-off; "
                 + $"skipped {stats.SkippedLod} LOD, {stats.SkippedNoMesh} mesh-less) -> {file}");
+        }
+
+        /// <summary>
+        /// Moves the previous dump aside instead of losing it.
+        ///
+        /// A dump is a snapshot of what was loaded, and the NPCs load as the player comes
+        /// near, so no single one holds them all - you take one per corner of the level and
+        /// merge them offline (tools/merge-dumps.mjs). Overwriting would mean the last press
+        /// silently threw away the four before it.
+        /// </summary>
+        private static void Archive(string file)
+        {
+            if (!File.Exists(file)) return;
+
+            string folder = Path.Combine(Path.GetDirectoryName(file), "dumps");
+            Directory.CreateDirectory(folder);
+
+            string stamp = File.GetLastWriteTime(file).ToString("yyyyMMdd-HHmmss");
+            string previous = Path.Combine(folder, $"scene-{stamp}.json");
+            if (File.Exists(previous)) File.Delete(previous);
+
+            File.Move(file, previous);
+            ExportPlugin.Logger.LogInfo($"Previous dump kept as {previous}");
         }
 
         private static SceneDump Collect(Scene scene)
@@ -52,42 +76,7 @@ namespace FIHMapExport
             foreach (var root in scene.GetRootGameObjects())
             {
                 if (root == null) continue;
-
-                foreach (var renderer in root.GetComponentsInChildren<Renderer>(true))
-                {
-                    if (renderer == null) continue;
-                    dump.Stats.Renderers++;
-
-                    if (demoted.Contains(renderer.GetInstanceID())) continue;
-
-                    var mesh = MeshOf(renderer, out bool skinned);
-                    if (mesh == null)
-                    {
-                        // Particles, trails and lines have no shareable mesh. They are
-                        // effects, not level geometry, so the web map does without them.
-                        dump.Stats.SkippedNoMesh++;
-                        continue;
-                    }
-
-                    var transform = renderer.transform;
-                    dump.Nodes.Add(new NodeDump
-                    {
-                        Path = HierarchyPath.Of(transform),
-                        Name = transform.name,
-                        Mesh = MeshIndex(mesh, dump, meshIds),
-                        Materials = MaterialIndices(renderer, dump, materialIds),
-                        Pos = Vec(transform.position),
-                        Rot = Quat(transform.rotation),
-                        Scale = Vec(transform.lossyScale),
-                        ObjectActive = renderer.gameObject.activeInHierarchy,
-                        RendererEnabled = renderer.enabled,
-                        WorldBoundsCenter = Vec(renderer.bounds.center),
-                        WorldBoundsSize = Vec(renderer.bounds.size),
-                        Skinned = skinned,
-                        Layer = renderer.gameObject.layer,
-                        LayerName = LayerMask.LayerToName(renderer.gameObject.layer)
-                    });
-                }
+                AddRenderers(dump, root, demoted, meshIds, materialIds);
             }
 
             dump.Stats.Nodes = dump.Nodes.Count;
@@ -98,6 +87,84 @@ namespace FIHMapExport
             }
 
             return dump;
+        }
+
+        /// <summary>
+        /// A dump of nothing but the given objects and what they draw.
+        ///
+        /// Same node shape as a full dump, so tools/merge-dumps.mjs folds one into the other
+        /// without knowing where it came from. Nothing is demoted for LOD here: the point of
+        /// this file is to find out what an NPC actually draws, and filtering on the way out
+        /// is how five of them came to be missing from the level dump in the first place.
+        /// The offline merge picks the LOD, where the choice can be changed without another
+        /// trip through the game.
+        /// </summary>
+        public static SceneDump Subtrees(string scene, List<GameObject> roots)
+        {
+            var dump = new SceneDump
+            {
+                Scene = scene,
+                ExportedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                LodLevel = ExportPlugin.LodLevel.Value
+            };
+
+            var meshIds = new Dictionary<int, int>();
+            var materialIds = new Dictionary<int, int>();
+            var nothingDemoted = new HashSet<int>();
+
+            foreach (var root in roots)
+            {
+                if (root == null) continue;
+                AddRenderers(dump, root, nothingDemoted, meshIds, materialIds);
+            }
+
+            dump.Stats.Nodes = dump.Nodes.Count;
+            return dump;
+        }
+
+        /// <summary>Every renderer under one object, as nodes on the dump.</summary>
+        private static void AddRenderers(
+            SceneDump dump,
+            GameObject root,
+            HashSet<int> demoted,
+            Dictionary<int, int> meshIds,
+            Dictionary<int, int> materialIds)
+        {
+            foreach (var renderer in root.GetComponentsInChildren<Renderer>(true))
+            {
+                if (renderer == null) continue;
+                dump.Stats.Renderers++;
+
+                if (demoted.Contains(renderer.GetInstanceID())) continue;
+
+                var mesh = MeshOf(renderer, out bool skinned);
+                if (mesh == null)
+                {
+                    // Particles, trails and lines have no shareable mesh. They are
+                    // effects, not level geometry, so the web map does without them.
+                    dump.Stats.SkippedNoMesh++;
+                    continue;
+                }
+
+                var transform = renderer.transform;
+                dump.Nodes.Add(new NodeDump
+                {
+                    Path = HierarchyPath.Of(transform),
+                    Name = transform.name,
+                    Mesh = MeshIndex(mesh, dump, meshIds),
+                    Materials = MaterialIndices(renderer, dump, materialIds),
+                    Pos = Vec(transform.position),
+                    Rot = Quat(transform.rotation),
+                    Scale = Vec(transform.lossyScale),
+                    ObjectActive = renderer.gameObject.activeInHierarchy,
+                    RendererEnabled = renderer.enabled,
+                    WorldBoundsCenter = Vec(renderer.bounds.center),
+                    WorldBoundsSize = Vec(renderer.bounds.size),
+                    Skinned = skinned,
+                    Layer = renderer.gameObject.layer,
+                    LayerName = LayerMask.LayerToName(renderer.gameObject.layer)
+                });
+            }
         }
 
         /// <summary>

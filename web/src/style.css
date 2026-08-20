@@ -172,6 +172,13 @@ textarea:focus {
   gap: 0.3rem;
 }
 
+/* A chip left over on its own last row takes the whole width instead of sitting there as a
+   third of one. Written against the count rather than against seven chips, so adding a type
+   keeps the row ends tidy on its own. */
+.chip:last-child:nth-child(3n + 1) {
+  grid-column: 1 / -1;
+}
+
 .chip {
   display: flex;
   align-items: center;

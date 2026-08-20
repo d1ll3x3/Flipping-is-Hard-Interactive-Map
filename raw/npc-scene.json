@@ -1,0 +1,1973 @@
+{
+  "FormatVersion": 1,
+  "Scene": "Scene_Game_NW-DemoLive",
+  "ExportedAt": "2026-08-20 03:08:30",
+  "LodLevel": 0,
+  "Meshes": [
+    {
+      "Id": 0,
+      "Name": "SM_MsElephant_Base",
+      "SubMeshCount": 1,
+      "VertexCount": 850,
+      "BoundsCenter": [
+        0,
+        1.315508,
+        0.27195072
+      ],
+      "BoundsSize": [
+        3.2128534,
+        2.6274817,
+        1.9077897
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 1,
+      "Name": "SM_MsElephant_Fixed",
+      "SubMeshCount": 1,
+      "VertexCount": 944,
+      "BoundsCenter": [
+        0,
+        1.315508,
+        0.27195072
+      ],
+      "BoundsSize": [
+        3.2128534,
+        2.6274817,
+        1.9077897
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 2,
+      "Name": "SM_MsElephant_Ripped",
+      "SubMeshCount": 1,
+      "VertexCount": 887,
+      "BoundsCenter": [
+        0.31624734,
+        1.315508,
+        0.27195072
+      ],
+      "BoundsSize": [
+        2.5803587,
+        2.6274817,
+        1.9077897
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 3,
+      "Name": "SM_ToySoldier",
+      "SubMeshCount": 1,
+      "VertexCount": 1031,
+      "BoundsCenter": [
+        0,
+        1.2165625,
+        0.016535938
+      ],
+      "BoundsSize": [
+        1.6249053,
+        2.4305706,
+        0.6133401
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 4,
+      "Name": "SM_ToySoldier_Outline",
+      "SubMeshCount": 1,
+      "VertexCount": 971,
+      "BoundsCenter": [
+        0,
+        1.2165296,
+        0.015762463
+      ],
+      "BoundsSize": [
+        1.6623554,
+        2.4705052,
+        0.6505674
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 5,
+      "Name": "SM_Muddy",
+      "SubMeshCount": 2,
+      "VertexCount": 2087,
+      "BoundsCenter": [
+        0.017828658,
+        0.6768007,
+        0.014778778
+      ],
+      "BoundsSize": [
+        0.50142443,
+        1.3540428,
+        0.890877
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 6,
+      "Name": "SM_Muddy_Outline",
+      "SubMeshCount": 1,
+      "VertexCount": 802,
+      "BoundsCenter": [
+        0.000863865,
+        0.6768007,
+        0
+      ],
+      "BoundsSize": [
+        0.507488,
+        1.3940427,
+        0.9012659
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 7,
+      "Name": "SM_Plank_v2",
+      "SubMeshCount": 3,
+      "VertexCount": 332,
+      "BoundsCenter": [
+        0,
+        0.30003056,
+        0
+      ],
+      "BoundsSize": [
+        0.055815108,
+        0.60854644,
+        0.1884853
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 8,
+      "Name": "SM_Player_v5_Inside",
+      "SubMeshCount": 1,
+      "VertexCount": 48,
+      "BoundsCenter": [
+        7.9363585E-05,
+        0.027507335,
+        0
+      ],
+      "BoundsSize": [
+        0.26189938,
+        1.9960866,
+        0.8154027
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 9,
+      "Name": "SM_Phone_v4_Full_LOD0",
+      "SubMeshCount": 2,
+      "VertexCount": 4434,
+      "BoundsCenter": [
+        0.011428826,
+        0.027502716,
+        0
+      ],
+      "BoundsSize": [
+        0.3574561,
+        2.0495863,
+        0.8723323
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 10,
+      "Name": "SM_Phone_v4_Full_LOD1",
+      "SubMeshCount": 2,
+      "VertexCount": 2766,
+      "BoundsCenter": [
+        0.005657457,
+        0.027502716,
+        0
+      ],
+      "BoundsSize": [
+        0.34591335,
+        2.0495863,
+        0.8723323
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 11,
+      "Name": "SM_Phone_v4_Full_LOD2",
+      "SubMeshCount": 2,
+      "VertexCount": 686,
+      "BoundsCenter": [
+        0.0041750297,
+        0.027502716,
+        0
+      ],
+      "BoundsSize": [
+        0.34291524,
+        2.0495863,
+        0.8723323
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 12,
+      "Name": "SM_Phone_v4_Full_LOD3",
+      "SubMeshCount": 2,
+      "VertexCount": 61,
+      "BoundsCenter": [
+        0.006623745,
+        0.02800855,
+        -0.005147293
+      ],
+      "BoundsSize": [
+        0.32769698,
+        2.0508592,
+        0.8620515
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 13,
+      "Name": "SM_Phone_v4_Full_Outline_LOD0",
+      "SubMeshCount": 1,
+      "VertexCount": 344,
+      "BoundsCenter": [
+        -3.696978E-05,
+        0.02718401,
+        0
+      ],
+      "BoundsSize": [
+        0.36874065,
+        2.0887651,
+        0.91077656
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 14,
+      "Name": "SM_Phone_v4_Full_Outline_LOD1",
+      "SubMeshCount": 1,
+      "VertexCount": 84,
+      "BoundsCenter": [
+        -0.00013376772,
+        0.027530491,
+        -0.00021140277
+      ],
+      "BoundsSize": [
+        0.35881698,
+        2.07577,
+        0.8989743
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 15,
+      "Name": "SM_GameDude",
+      "SubMeshCount": 2,
+      "VertexCount": 4226,
+      "BoundsCenter": [
+        0.008843303,
+        1.1382653,
+        -0.00060459226
+      ],
+      "BoundsSize": [
+        1.6723306,
+        2.2850573,
+        0.4413756
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 16,
+      "Name": "SM_GameDude_Outline",
+      "SubMeshCount": 1,
+      "VertexCount": 3025,
+      "BoundsCenter": [
+        0,
+        1.1382589,
+        -0.03138709
+      ],
+      "BoundsSize": [
+        1.6883682,
+        2.3250446,
+        0.41981056
+      ],
+      "Readable": false
+    },
+    {
+      "Id": 17,
+      "Name": "SM_Tar_LOD0",
+      "SubMeshCount": 1,
+      "VertexCount": 145,
+      "BoundsCenter": [
+        -0.04758525,
+        0.13434345,
+        0.029248804
+      ],
+      "BoundsSize": [
+        1.5480416,
+        0.26888967,
+        1.6989539
+      ],
+      "Readable": false
+    }
+  ],
+  "Materials": [
+    {
+      "Id": 0,
+      "Name": "M_MsElephant",
+      "Shader": "Elegant Horse Studios/SG_Player_MSAO",
+      "Textures": {
+        "_MainTex": "T_MsElephant_A",
+        "_NormalTex": "T_MsElephant_N",
+        "_MSAOTex": "T_MsElephant_MSAO",
+        "_EmissiveTex": "T_MsElephant_E"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          2048,
+          2048
+        ],
+        "_NormalTex": [
+          2048,
+          2048
+        ],
+        "_MSAOTex": [
+          2048,
+          2048
+        ],
+        "_EmissiveTex": [
+          2048,
+          2048
+        ]
+      },
+      "Colors": {
+        "_Tint": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_LineColor": [
+          0,
+          0.4576774,
+          1,
+          0
+        ],
+        "_EmissionColor": [
+          6.964404,
+          0.3613606,
+          0.3613606,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 1,
+      "Name": "M_ToySoldier",
+      "Shader": "Elegant Horse Studios/SG_Player_MSAO",
+      "Textures": {
+        "_MainTex": "T_ToySoldier_A",
+        "_NormalTex": "T_ToySoldier_N",
+        "_MSAOTex": "T_ToySoldier_MSAO"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          1024,
+          1024
+        ],
+        "_NormalTex": [
+          1024,
+          1024
+        ],
+        "_MSAOTex": [
+          1024,
+          1024
+        ]
+      },
+      "Colors": {
+        "_Tint": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_LineColor": [
+          0,
+          0.4576774,
+          1,
+          0
+        ],
+        "_EmissionColor": [
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 2,
+      "Name": "M_Global_Outline_NPC",
+      "Shader": "Elegant Horse Studios/SG_Outline",
+      "Textures": {},
+      "TextureSizes": {},
+      "Colors": {
+        "_OutlineColor": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "Id": 3,
+      "Name": "M_Muddy_Base",
+      "Shader": "Elegant Horse Studios/SG_Player_MSAO",
+      "Textures": {
+        "_MainTex": "T_Muddy_Base_A",
+        "_NormalTex": "T_Muddy_Base_N",
+        "_MSAOTex": "T_Muddy_Base_MSAO"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          1024,
+          1024
+        ],
+        "_NormalTex": [
+          512,
+          512
+        ],
+        "_MSAOTex": [
+          512,
+          512
+        ]
+      },
+      "Colors": {
+        "_Tint": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_LineColor": [
+          0,
+          0.4576774,
+          1,
+          0
+        ],
+        "_EmissionColor": [
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 4,
+      "Name": "M_Muddy_Screen",
+      "Shader": "Elegant Horse Studios/SG_PlayerNPCScreen",
+      "Textures": {
+        "_FaceTexture": "T_Muddy_Face_A",
+        "_BaseTexture": "T_Muddy_Screen_A",
+        "_EmissiveTexture": "T_Muddy_Screen_E",
+        "_MSAOTexture": "T_Muddy_Screen_MSAO",
+        "_NormalTexture": "T_Muddy_Screen_N"
+      },
+      "TextureSizes": {
+        "_FaceTexture": [
+          256,
+          256
+        ],
+        "_BaseTexture": [
+          32,
+          32
+        ],
+        "_EmissiveTexture": [
+          512,
+          512
+        ],
+        "_MSAOTexture": [
+          512,
+          512
+        ],
+        "_NormalTexture": [
+          512,
+          512
+        ]
+      },
+      "Colors": {
+        "_EmissiveColor": [
+          1,
+          1,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "Id": 5,
+      "Name": "M_Plank_Base",
+      "Shader": "Universal Render Pipeline/Lit",
+      "Textures": {
+        "_BaseMap": "T_Plank_Base_B",
+        "_MetallicGlossMap": "T_Plank_Base_MS",
+        "_BumpMap": "T_Plank_Base_N",
+        "_EmissionMap": "T_Plank_Base_B",
+        "_MainTex": "T_Plank_Base_B"
+      },
+      "TextureSizes": {
+        "_BaseMap": [
+          512,
+          512
+        ],
+        "_MetallicGlossMap": [
+          512,
+          512
+        ],
+        "_BumpMap": [
+          512,
+          512
+        ],
+        "_EmissionMap": [
+          512,
+          512
+        ],
+        "_MainTex": [
+          512,
+          512
+        ]
+      },
+      "Colors": {
+        "_BaseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_SpecColor": [
+          0.19999993,
+          0.19999993,
+          0.19999993,
+          1
+        ],
+        "_EmissionColor": [
+          0.4245283,
+          0.4245283,
+          0.4245283,
+          1
+        ],
+        "_Color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 6,
+      "Name": "M_Plank_Face",
+      "Shader": "Universal Render Pipeline/Unlit",
+      "Textures": {
+        "_BaseMap": "T_Plank_Faces",
+        "_MainTex": "T_Plank_Faces"
+      },
+      "TextureSizes": {
+        "_BaseMap": [
+          1024,
+          1024
+        ],
+        "_MainTex": [
+          1024,
+          1024
+        ]
+      },
+      "Colors": {
+        "_BaseColor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_Color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 7,
+      "Name": "M_Global_Outline_Player",
+      "Shader": "Elegant Horse Studios/SG_Outline",
+      "Textures": {},
+      "TextureSizes": {},
+      "Colors": {
+        "_OutlineColor": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "Id": 8,
+      "Name": "M_Phone_Base_Demo",
+      "Shader": "Elegant Horse Studios/SG_Player_MSAO",
+      "Textures": {
+        "_MainTex": "T_Phone_Demo_A",
+        "_NormalTex": "T_Phone_Demo_N",
+        "_MSAOTex": "T_Phone_Demo_MSAO",
+        "_EmissiveTex": "T_Phone_Demo_E"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          2048,
+          2048
+        ],
+        "_NormalTex": [
+          2048,
+          2048
+        ],
+        "_MSAOTex": [
+          2048,
+          2048
+        ],
+        "_EmissiveTex": [
+          2048,
+          2048
+        ]
+      },
+      "Colors": {
+        "_Tint": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_LineColor": [
+          0,
+          0.4576774,
+          1,
+          0
+        ],
+        "_EmissionColor": [
+          11.984314,
+          11.984314,
+          11.984314,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 9,
+      "Name": "M_Phone_Screen_v2",
+      "Shader": "Elegant Horse Studios/SG_PlayerNPCScreen",
+      "Textures": {
+        "_FaceTexture": "T_Phone_Screens_v2_B",
+        "_BaseTexture": "T_Phone_Screen_E",
+        "_EmissiveTexture": "T_Phone_Screen_E",
+        "_MSAOTexture": "T_Phone_Screen_MSAO"
+      },
+      "TextureSizes": {
+        "_FaceTexture": [
+          4096,
+          4096
+        ],
+        "_BaseTexture": [
+          2048,
+          2048
+        ],
+        "_EmissiveTexture": [
+          2048,
+          2048
+        ],
+        "_MSAOTexture": [
+          2048,
+          2048
+        ]
+      },
+      "Colors": {
+        "_EmissiveColor": [
+          1,
+          1,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "Id": 10,
+      "Name": "M_GameDude_Base",
+      "Shader": "Elegant Horse Studios/SG_Player_MSAO",
+      "Textures": {
+        "_MainTex": "T_GameDude_Base_A",
+        "_NormalTex": "T_GameDude_Base_N",
+        "_MSAOTex": "T_GameDude_Base_MSAO",
+        "_EmissiveTex": "T_GameDude_Base_A"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          2048,
+          2048
+        ],
+        "_NormalTex": [
+          2048,
+          2048
+        ],
+        "_MSAOTex": [
+          2048,
+          2048
+        ],
+        "_EmissiveTex": [
+          2048,
+          2048
+        ]
+      },
+      "Colors": {
+        "_Tint": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_LineColor": [
+          0,
+          0.4576774,
+          1,
+          0
+        ],
+        "_EmissionColor": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "Id": 11,
+      "Name": "M_GameDude_Screen",
+      "Shader": "Elegant Horse Studios/SG_PlayerNPCScreen",
+      "Textures": {
+        "_BaseTexture": "T_GameDude_Screen_A",
+        "_EmissiveTexture": "T_GameDude_Screen_E",
+        "_MSAOTexture": "T_GameDude_Screen_MSAO",
+        "_NormalTexture": "T_GameDude_Screen_N"
+      },
+      "TextureSizes": {
+        "_BaseTexture": [
+          512,
+          512
+        ],
+        "_EmissiveTexture": [
+          512,
+          512
+        ],
+        "_MSAOTexture": [
+          512,
+          512
+        ],
+        "_NormalTexture": [
+          512,
+          512
+        ]
+      },
+      "Colors": {
+        "_EmissiveColor": [
+          1,
+          1,
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "Id": 12,
+      "Name": "M_Global_Atlas_Plastic",
+      "Shader": "Elegant Horse Studios/SG_Standard_MSAO",
+      "Textures": {
+        "_MainTex": "T_Global_Plastic_A",
+        "_NormalTex": "T_Global_Plastic_N",
+        "_MSAOTex": "T_Global_Plastic_MSAO",
+        "_UV1ColorMapTexture": "T_Global_Atlas"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          2048,
+          2048
+        ],
+        "_NormalTex": [
+          1024,
+          1024
+        ],
+        "_MSAOTex": [
+          2048,
+          2048
+        ],
+        "_UV1ColorMapTexture": [
+          1024,
+          1024
+        ]
+      },
+      "Colors": {
+        "_Tint": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_EmissionColor": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "_GradientColor": [
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "Id": 13,
+      "Name": "M_Phone_Microwave",
+      "Shader": "Elegant Horse Studios/SG_Player_Galactic",
+      "Textures": {
+        "_MainTex": "T_Phone_Microwaved_A",
+        "_NormalTex": "T_Phone_Microwaved_N",
+        "_MSAOTex": "T_Phone_Microwaved_MSAO",
+        "_EmissiveTex": "T_Phone_Microwaved_E",
+        "_OverlayTexture": "T_Electricity_Overlay",
+        "_MaskTexture": "T_Phone_Microwaved_Mask"
+      },
+      "TextureSizes": {
+        "_MainTex": [
+          2048,
+          2048
+        ],
+        "_NormalTex": [
+          2048,
+          2048
+        ],
+        "_MSAOTex": [
+          2048,
+          2048
+        ],
+        "_EmissiveTex": [
+          2048,
+          2048
+        ],
+        "_OverlayTexture": [
+          512,
+          512
+        ],
+        "_MaskTexture": [
+          2048,
+          2048
+        ]
+      },
+      "Colors": {
+        "_LineColor": [
+          0,
+          0.4576774,
+          1,
+          0
+        ],
+        "_EmissionColor": [
+          0,
+          0.72158396,
+          1.0592738,
+          1
+        ],
+        "_OverlayEmissionStrength": [
+          0.8952729,
+          11.052639,
+          12.6531925,
+          1
+        ]
+      }
+    }
+  ],
+  "Nodes": [
+    {
+      "Path": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant/Visual/NPC_MissElephant/SKM_MsElephant/SM_MsElephant_Base",
+      "Name": "SM_MsElephant_Base",
+      "Mesh": 0,
+      "Materials": [
+        0
+      ],
+      "Pos": [
+        46.097187,
+        -6.930999,
+        382.8595
+      ],
+      "Rot": [
+        0.060636934,
+        -0.824248,
+        -0.08993339,
+        -0.55574316
+      ],
+      "Scale": [
+        1.0000001,
+        1,
+        1.0000001
+      ],
+      "ObjectActive": false,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        46.126312,
+        -5.5646286,
+        382.84772
+      ],
+      "WorldBoundsSize": [
+        3.5704994,
+        3.0567973,
+        3.9463186
+      ],
+      "Skinned": true,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant/Visual/NPC_MissElephant/SKM_MsElephant/SM_MsElephant_Fixed",
+      "Name": "SM_MsElephant_Fixed",
+      "Mesh": 1,
+      "Materials": [
+        0
+      ],
+      "Pos": [
+        46.097187,
+        -6.930999,
+        382.8595
+      ],
+      "Rot": [
+        0.060636934,
+        -0.824248,
+        -0.08993339,
+        -0.55574316
+      ],
+      "Scale": [
+        1.0000001,
+        1,
+        1.0000001
+      ],
+      "ObjectActive": false,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        46.126312,
+        -5.5646286,
+        382.84772
+      ],
+      "WorldBoundsSize": [
+        3.5704994,
+        3.0567973,
+        3.9463186
+      ],
+      "Skinned": true,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant/Visual/NPC_MissElephant/SKM_MsElephant/SM_MsElephant_Ripped",
+      "Name": "SM_MsElephant_Ripped",
+      "Mesh": 2,
+      "Materials": [
+        0
+      ],
+      "Pos": [
+        46.097187,
+        -6.930999,
+        382.8595
+      ],
+      "Rot": [
+        0.060636934,
+        -0.824248,
+        -0.08993339,
+        -0.55574316
+      ],
+      "Scale": [
+        1.0000001,
+        1,
+        1.0000001
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        46.08216,
+        -5.5646286,
+        382.73856
+      ],
+      "WorldBoundsSize": [
+        3.4821944,
+        3.0567973,
+        3.7279868
+      ],
+      "Skinned": true,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier/Visual/NPC_ToySoldier/SM_ToySoldier/SM_ToySoldier",
+      "Name": "SM_ToySoldier",
+      "Mesh": 3,
+      "Materials": [
+        1
+      ],
+      "Pos": [
+        -2.1799994,
+        14.64999,
+        112.76001
+      ],
+      "Rot": [
+        -0,
+        -0.9913085,
+        -0,
+        0.1315578
+      ],
+      "Scale": [
+        0.99999994,
+        1,
+        0.99999994
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -2.1843123,
+        15.882683,
+        112.74405
+      ],
+      "WorldBoundsSize": [
+        1.837479,
+        2.4628308,
+        1.0453385
+      ],
+      "Skinned": true,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier/Visual/NPC_ToySoldier/SM_ToySoldier/SM_ToySoldier_Outline",
+      "Name": "SM_ToySoldier_Outline",
+      "Mesh": 4,
+      "Materials": [
+        2
+      ],
+      "Pos": [
+        -2.1799994,
+        14.64999,
+        112.76001
+      ],
+      "Rot": [
+        -0,
+        -0.9913085,
+        -0,
+        0.1315578
+      ],
+      "Scale": [
+        0.99999994,
+        1,
+        0.99999994
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -2.1841106,
+        15.883851,
+        112.74479
+      ],
+      "WorldBoundsSize": [
+        1.9026501,
+        2.5051672,
+        1.0962617
+      ],
+      "Skinned": true,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy/Visual/NPC_Muddy/SM_Muddy/SM_Muddy",
+      "Name": "SM_Muddy",
+      "Mesh": 5,
+      "Materials": [
+        3,
+        4
+      ],
+      "Pos": [
+        24.446,
+        131.49,
+        -76.915
+      ],
+      "Rot": [
+        -0,
+        -0.9704323,
+        -0,
+        0.24137354
+      ],
+      "Scale": [
+        1.1,
+        1.1,
+        1.1
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        24.421057,
+        132.23448,
+        -76.92017
+      ],
+      "WorldBoundsSize": [
+        0.9463843,
+        1.4894471,
+        1.1241713
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy/Visual/NPC_Muddy/SM_Muddy/SM_Muddy_Outline",
+      "Name": "SM_Muddy_Outline",
+      "Mesh": 6,
+      "Materials": [
+        2
+      ],
+      "Pos": [
+        24.446,
+        131.49,
+        -76.915
+      ],
+      "Rot": [
+        -0,
+        -0.9704323,
+        -0,
+        0.24137354
+      ],
+      "Scale": [
+        1.1,
+        1.1,
+        1.1
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        24.44516,
+        132.23448,
+        -76.91456
+      ],
+      "WorldBoundsSize": [
+        0.95763075,
+        1.533447,
+        1.1373923
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Plonk/Visual/NPC_Plank/SM_Plank_v2",
+      "Name": "SM_Plank_v2",
+      "Mesh": 7,
+      "Materials": [
+        5,
+        6,
+        2
+      ],
+      "Pos": [
+        -46.8,
+        130.72,
+        -101.18
+      ],
+      "Rot": [
+        -0,
+        -0.8108011,
+        -0,
+        0.58532196
+      ],
+      "Scale": [
+        3.4300013,
+        3.43,
+        3.4300013
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -46.8,
+        131.7491,
+        -101.18
+      ],
+      "WorldBoundsSize": [
+        0.6739023,
+        2.0873144,
+        0.3852301
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/Player_Inside_Dark",
+      "Name": "Player_Inside_Dark",
+      "Mesh": 8,
+      "Materials": [
+        7
+      ],
+      "Pos": [
+        5.375763,
+        139.93701,
+        -101.91866
+      ],
+      "Rot": [
+        -0.052881468,
+        0.82685626,
+        0.039503418,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000004,
+        1.0000001,
+        1.0000004
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.3745418,
+        139.96426,
+        -101.91517
+      ],
+      "WorldBoundsSize": [
+        0.9400588,
+        2.0182543,
+        0.7932425
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD0",
+      "Name": "SM_Phone_LOD0",
+      "Mesh": 9,
+      "Materials": [
+        8,
+        9
+      ],
+      "Pos": [
+        5.375763,
+        139.93701,
+        -101.91866
+      ],
+      "Rot": [
+        -0.0528818,
+        0.82685626,
+        0.03950357,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.370337,
+        139.96277,
+        -101.90473
+      ],
+      "WorldBoundsSize": [
+        1.0306019,
+        2.0842168,
+        0.9089934
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD1",
+      "Name": "SM_Phone_LOD1",
+      "Mesh": 10,
+      "Materials": [
+        8,
+        9
+      ],
+      "Pos": [
+        5.375763,
+        139.93701,
+        -101.91866
+      ],
+      "Rot": [
+        -0.0528818,
+        0.82685626,
+        0.03950357,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.372475,
+        139.96353,
+        -101.91004
+      ],
+      "WorldBoundsSize": [
+        1.0263252,
+        2.082698,
+        0.89838034
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD2",
+      "Name": "SM_Phone_LOD2",
+      "Mesh": 11,
+      "Materials": [
+        8,
+        9
+      ],
+      "Pos": [
+        5.375763,
+        139.93701,
+        -101.91866
+      ],
+      "Rot": [
+        -0.0528818,
+        0.82685626,
+        0.03950357,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.3730245,
+        139.96373,
+        -101.9114
+      ],
+      "WorldBoundsSize": [
+        1.0252144,
+        2.0823038,
+        0.8956236
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD3",
+      "Name": "SM_Phone_LOD3",
+      "Mesh": 12,
+      "Materials": [
+        9,
+        8
+      ],
+      "Pos": [
+        5.3778725,
+        139.93776,
+        -101.9239
+      ],
+      "Rot": [
+        -0.0528818,
+        0.82685626,
+        0.03950357,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.3789806,
+        139.96461,
+        -101.9124
+      ],
+      "WorldBoundsSize": [
+        1.0100924,
+        2.0814989,
+        0.87795484
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_v4_Full_Outline_LOD0",
+      "Name": "SM_Phone_v4_Full_Outline_LOD0",
+      "Mesh": 13,
+      "Materials": [
+        7
+      ],
+      "Pos": [
+        5.375763,
+        139.93701,
+        -101.91866
+      ],
+      "Rot": [
+        -0.0528818,
+        0.82685626,
+        0.03950357,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.374599,
+        139.96396,
+        -101.91531
+      ],
+      "WorldBoundsSize": [
+        1.0721495,
+        2.1247795,
+        0.9385818
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_v4_Full_Outline_LOD1",
+      "Name": "SM_Phone_v4_Full_Outline_LOD1",
+      "Mesh": 14,
+      "Materials": [
+        7
+      ],
+      "Pos": [
+        5.375763,
+        139.93701,
+        -101.91866
+      ],
+      "Rot": [
+        -0.0528818,
+        0.82685626,
+        0.03950357,
+        -0.5585265
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        5.374816,
+        139.96432,
+        -101.91528
+      ],
+      "WorldBoundsSize": [
+        1.0569595,
+        2.110518,
+        0.9234387
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude/Visual/NPC_GameDude/SM_GameDude/SM_GameDude",
+      "Name": "SM_GameDude",
+      "Mesh": 15,
+      "Materials": [
+        10,
+        11
+      ],
+      "Pos": [
+        15.47,
+        303.49765,
+        90.840004
+      ],
+      "Rot": [
+        -0,
+        -0.99144953,
+        -0,
+        0.1304905
+      ],
+      "Scale": [
+        1.4999999,
+        1.4744505,
+        1.4999999
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        15.457421,
+        305.17596,
+        90.844315
+      ],
+      "WorldBoundsSize": [
+        2.5943763,
+        3.3692038,
+        1.2885885
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude/Visual/NPC_GameDude/SM_GameDude/SM_GameDude_Outline",
+      "Name": "SM_GameDude_Outline",
+      "Mesh": 16,
+      "Materials": [
+        2
+      ],
+      "Pos": [
+        15.47,
+        303.49765,
+        90.840004
+      ],
+      "Rot": [
+        -0,
+        -0.99144953,
+        -0,
+        0.1304905
+      ],
+      "Scale": [
+        1.4999999,
+        1.4744505,
+        1.4999999
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        15.4821825,
+        305.17596,
+        90.88548
+      ],
+      "WorldBoundsSize": [
+        2.6092434,
+        3.428163,
+        1.2635672
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/SM_Tar",
+      "Name": "SM_Tar",
+      "Mesh": 17,
+      "Materials": [
+        12
+      ],
+      "Pos": [
+        -10.238669,
+        241.101,
+        -119.56945
+      ],
+      "Rot": [
+        0.5010091,
+        -0.48891687,
+        -0.49898925,
+        -0.51084256
+      ],
+      "Scale": [
+        1.0000002,
+        1.0000005,
+        1.0000005
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.374128,
+        241.12929,
+        -119.52452
+      ],
+      "WorldBoundsSize": [
+        0.3066841,
+        1.7294335,
+        1.5875398
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/SM_Tar (1)",
+      "Name": "SM_Tar (1)",
+      "Mesh": 17,
+      "Materials": [
+        12
+      ],
+      "Pos": [
+        -10.248008,
+        241.717,
+        -119.17956
+      ],
+      "Rot": [
+        -0.15988807,
+        0.17633533,
+        -0.68879336,
+        -0.6847668
+      ],
+      "Scale": [
+        1.0000004,
+        1.0000004,
+        1.0000001
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.382407,
+        241.66129,
+        -119.17881
+      ],
+      "WorldBoundsSize": [
+        0.32201657,
+        2.1577454,
+        2.2276917
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/SM_Tar (2)",
+      "Name": "SM_Tar (2)",
+      "Mesh": 17,
+      "Materials": [
+        12
+      ],
+      "Pos": [
+        -10.256078,
+        242.26599,
+        -118.84266
+      ],
+      "Rot": [
+        0.45540023,
+        -0.4682219,
+        0.54093564,
+        0.52987516
+      ],
+      "Scale": [
+        1.0000004,
+        0.5891801,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.334185,
+        242.23007,
+        -118.88732
+      ],
+      "WorldBoundsSize": [
+        0.20101596,
+        1.9078007,
+        1.7839601
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/Player_Inside_Dark",
+      "Name": "Player_Inside_Dark",
+      "Mesh": 8,
+      "Materials": [
+        7
+      ],
+      "Pos": [
+        -10.465072,
+        241.656,
+        -119.13775
+      ],
+      "Rot": [
+        -0.003098558,
+        0.9658567,
+        0.25880075,
+        0.011564919
+      ],
+      "Scale": [
+        1.0000007,
+        1.0000002,
+        1.0000006
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.46548,
+        241.67982,
+        -119.124
+      ],
+      "WorldBoundsSize": [
+        0.30262882,
+        2.1363633,
+        1.7099857
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD0",
+      "Name": "SM_Phone_LOD0",
+      "Mesh": 9,
+      "Materials": [
+        13,
+        9
+      ],
+      "Pos": [
+        -10.465072,
+        241.656,
+        -119.13775
+      ],
+      "Rot": [
+        -0.0030989,
+        0.9658566,
+        0.2588007,
+        0.011565067
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.476827,
+        241.67982,
+        -119.124275
+      ],
+      "WorldBoundsSize": [
+        0.39998072,
+        2.2111602,
+        1.7883041
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD1",
+      "Name": "SM_Phone_LOD1",
+      "Mesh": 10,
+      "Materials": [
+        13,
+        9
+      ],
+      "Pos": [
+        -10.465072,
+        241.656,
+        -119.13775
+      ],
+      "Rot": [
+        -0.0030989,
+        0.9658566,
+        0.2588007,
+        0.011565067
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.471057,
+        241.67982,
+        -119.12414
+      ],
+      "WorldBoundsSize": [
+        0.3884413,
+        2.2111602,
+        1.7880278
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD2",
+      "Name": "SM_Phone_LOD2",
+      "Mesh": 11,
+      "Materials": [
+        13,
+        9
+      ],
+      "Pos": [
+        -10.465072,
+        241.656,
+        -119.13775
+      ],
+      "Rot": [
+        -0.0030989,
+        0.9658566,
+        0.2588007,
+        0.011565067
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.469575,
+        241.67982,
+        -119.1241
+      ],
+      "WorldBoundsSize": [
+        0.38544405,
+        2.2111602,
+        1.787956
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_LOD3",
+      "Name": "SM_Phone_LOD3",
+      "Mesh": 12,
+      "Materials": [
+        9,
+        13
+      ],
+      "Pos": [
+        -10.459379,
+        241.656,
+        -119.13761
+      ],
+      "Rot": [
+        -0.0030989,
+        0.9658566,
+        0.2588007,
+        0.011565067
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.466443,
+        241.67769,
+        -119.119316
+      ],
+      "WorldBoundsSize": [
+        0.37003225,
+        2.207122,
+        1.7793269
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_v4_Full_Outline_LOD0",
+      "Name": "SM_Phone_v4_Full_Outline_LOD0",
+      "Mesh": 13,
+      "Materials": [
+        7
+      ],
+      "Pos": [
+        -10.465072,
+        241.656,
+        -119.13775
+      ],
+      "Rot": [
+        -0.0030989,
+        0.9658566,
+        0.2588007,
+        0.011565067
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.465361,
+        241.67955,
+        -119.12416
+      ],
+      "WorldBoundsSize": [
+        0.4125283,
+        2.264312,
+        1.8414422
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    },
+    {
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Visual/PhoneSkinClassic/SM_Phone/SM_Phone_v4_Full_Outline_LOD1",
+      "Name": "SM_Phone_v4_Full_Outline_LOD1",
+      "Mesh": 14,
+      "Materials": [
+        7
+      ],
+      "Pos": [
+        -10.465072,
+        241.656,
+        -119.13775
+      ],
+      "Rot": [
+        -0.0030989,
+        0.9658566,
+        0.2588007,
+        0.011565067
+      ],
+      "Scale": [
+        1.0000002,
+        1,
+        1.0000002
+      ],
+      "ObjectActive": true,
+      "RendererEnabled": true,
+      "WorldBoundsCenter": [
+        -10.465272,
+        241.67975,
+        -119.1238
+      ],
+      "WorldBoundsSize": [
+        0.40220717,
+        2.2471566,
+        1.8244908
+      ],
+      "Skinned": false,
+      "Layer": 0,
+      "LayerName": "Default"
+    }
+  ],
+  "Stats": {
+    "Renderers": 30,
+    "Nodes": 27,
+    "StreamedOut": 0,
+    "RendererOff": 0,
+    "SkippedLod": 0,
+    "SkippedNoMesh": 3
+  }
+}

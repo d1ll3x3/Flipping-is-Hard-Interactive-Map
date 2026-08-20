@@ -1,0 +1,341 @@
+{
+  "RecordedAt": "2026-08-20 03:08:30",
+  "Sightings": [
+    {
+      "Name": "NpcDialogueRunner",
+      "Path": "YarnManagers(Clone)/NpcDialogueRunner",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        0,
+        0,
+        0
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NpcDialogueRunnerCanvas",
+      "Path": "YarnUI(Clone)/NpcDialogueRunnerCanvas",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        1280,
+        720,
+        0
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_MsElephant",
+      "Path": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        46.126312,
+        -5.5646286,
+        382.84772
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NPC_MissElephant",
+      "Path": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant/Visual/NPC_MissElephant",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        46.126312,
+        -5.5646286,
+        382.84772
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "NW_L1_Tutorial_Area_v6_Combined(Clone)/InteractableNPC_MsElephant/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        46.01097,
+        -6.834999,
+        382.89438
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_ToySoldier",
+      "Path": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -2.1841106,
+        15.883851,
+        112.74479
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NPC_ToySoldier",
+      "Path": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier/Visual/NPC_ToySoldier",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -2.1841106,
+        15.883851,
+        112.74479
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "NW_L2_Military_Area_v2_Combined(Clone)/InteractableNPC_ToySoldier/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -2.1799994,
+        14.64999,
+        112.76001
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NPCs",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---Narrator---/NPCs",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        0,
+        119.65001,
+        -105.1
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "---NPCs---",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -11.106487,
+        136.24896,
+        -89.787605
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_Muddy",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        24.43592,
+        132.23448,
+        -76.91456
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NPC_Muddy",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy/Visual/NPC_Muddy",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        24.43592,
+        132.23448,
+        -76.91456
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Muddy/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        24.446,
+        131.49,
+        -76.915
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_Plonk",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Plonk",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -46.8,
+        131.7491,
+        -101.18
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NPC_Plank",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Plonk/Visual/NPC_Plank",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -46.8,
+        131.7491,
+        -101.18
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Plonk/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -46.8,
+        130.72,
+        -101.18
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_Phone",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        5.1055293,
+        139.94583,
+        -100.81967
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/---NPCs---/InteractableNPC_Phone/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        5.418379,
+        138.94385,
+        -102.0202
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_GameDude",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        15.473519,
+        305.17596,
+        90.85864
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "NPC_GameDude",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude/Visual/NPC_GameDude",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        15.473519,
+        305.17596,
+        90.85864
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        15.47,
+        303.49765,
+        90.840004
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "TeleportTargetNPC",
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_1/TeleportTargetNPC",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -3.9825025,
+        130.97092,
+        -79.08091
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Interactable_Beacon_2_WithNPC",
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -9.204212,
+        125.01572,
+        -60.75409
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "TeleportTargetNPC",
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/TeleportTargetNPC",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -13.26914,
+        239.8556,
+        -120.26279
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "InteractableNPC_Microwaver",
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -10.6796255,
+        241.72427,
+        -119.156815
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Sound_Npc",
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_2_WithNPC/InteractableNPC_Microwaver/Sound_Npc",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -10.444342,
+        241.79001,
+        -118.79215
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "TeleportTargetNPC",
+      "Path": "SpawnableArea_Beacons_NW-demo(Clone)/Interactable_Beacon_3/TeleportTargetNPC",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        -24.452805,
+        242.7756,
+        -110.970856
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    },
+    {
+      "Name": "Networked_NpcHelpBeam(Clone)",
+      "Path": "Networked_NpcHelpBeam(Clone)",
+      "Scene": "Scene_Game_NW-DemoLive",
+      "Pos": [
+        4.085937,
+        117.156456,
+        -98.7775
+      ],
+      "Active": true,
+      "RecordedAt": "2026-08-20 03:08:30"
+    }
+  ]
+}

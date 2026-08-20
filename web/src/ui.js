@@ -326,7 +326,7 @@ export class Ui {
  * Anything missing from here still gets a chip - a new type should appear on its own, not
  * wait for somebody to remember this line.
  */
-const CHIPS = ['coin', 'skin', 'checkpoint', 'skip', 'route', 'note'];
+const CHIPS = ['coin', 'skin', 'checkpoint', 'npc', 'skip', 'route', 'note'];
 
 const chipOrder = () => {
   const ordered = CHIPS.filter((type) => TYPES[type]);
