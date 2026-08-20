@@ -85,9 +85,19 @@ const SKIP_LAYERS = new Set(['TransparentFX', 'UI', 'Water']);
 // away" is wide and unambiguous.
 const MAX_DISTANCE = Number(process.env.MAX_DISTANCE ?? 900);
 
+// The game's own name for an NPC object, as in build-markers.mjs and merge-dumps.mjs.
+const NPC_PATH = 'InteractableNPC_';
+
+// Objects taken off the map by hand in the editor: props the demo still ships from older
+// versions of it. The web app hides them as soon as the file is committed; dropping them
+// here as well is what stops them being downloaded at all.
+const HIDDEN = fileURLToPath(new URL('../web/public/data/hidden.json', import.meta.url));
+let hidden = new Set();
+
 async function main() {
   const dump = JSON.parse(await readFile(join(RAW, 'scene.json'), 'utf8'));
   const index = JSON.parse(await readFile(join(RAW, 'rip-index.json'), 'utf8'));
+  hidden = await hiddenObjects();
 
   const document = new Document();
   document.createBuffer();
@@ -564,6 +574,14 @@ function keep(node, materials, streamed, centre) {
   // What should not be on the map is filtered by name above, which is a test that does not
   // depend on what happened to be switched on the moment the dump was taken.
 
+  // Inside an NPC, switched off does not mean streamed out: it means the character is not
+  // in that state. Miss Elephant ships as Base, Fixed and Ripped and the game had Ripped
+  // on - drawing all three stands an intact plushie on top of the torn one you actually
+  // meet. This is the exception to the paragraph above, and it is narrow on purpose: an
+  // NPC is one object with one state, not an area that streams.
+  if (node.ObjectActive === false && node.Path.includes(NPC_PATH)) return false;
+
+  if (hidden.has(node.Path)) return false;
   if (SKIP_LAYERS.has(node.LayerName)) return false;
   if (SKIP_PATHS_ALWAYS.some((re) => re.test(node.Path))) return false;
   if (centre && distanceTo(node.Pos, centre) > MAX_DISTANCE) return false;
@@ -587,6 +605,18 @@ function keep(node, materials, streamed, centre) {
   // and depth-faded, which glTF cannot express, so they arrive as solid slabs: five
   // 105-unit purple boxes sitting over the playground.
   return !paintedOnlyWith(node, materials, isEffect);
+}
+
+/** The removal list, which is only there once somebody has removed something. */
+async function hiddenObjects() {
+  try {
+    const { hidden: paths } = JSON.parse(await readFile(HIDDEN, 'utf8'));
+    if (paths?.length) console.log(`hidden    ${paths.length} objects removed by hand`);
+    return new Set(paths ?? []);
+  } catch (error) {
+    if (error.code === 'ENOENT') return new Set();
+    throw error;
+  }
 }
 
 function paintedOnlyWith(node, materials, predicate) {

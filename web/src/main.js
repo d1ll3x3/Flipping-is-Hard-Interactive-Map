@@ -126,6 +126,7 @@ async function loadLevel(meta) {
         level.add(gltf.scene);
         loaded.add(name);
         layers.apply();
+        prune?.apply();
       })
       .finally(() => loading_.delete(name));
 
@@ -157,6 +158,22 @@ async function loadLevel(meta) {
   if (new URLSearchParams(location.search).get('edit') === '1' && (await unlockEditor())) {
     editor = new Editor(markers, camera, controls, sceneName ?? 'Scene_Game_NW-DemoLive');
     editor.attachUi(ui);
+
+    // The tool for taking objects off the map, on a local dev server and nowhere else: the
+    // import sits behind a constant the build folds to false, so not a line of it reaches a
+    // visitor. What they get is the result - build-glb.mjs has already left those objects
+    // out of the geometry.
+    //
+    // After the editor rather than with the rest of the level, because its controls go in
+    // the editor's panel. Pieces that have already landed are caught by the apply() here;
+    // the ones still in flight, by the one in fetchChunk.
+    if (import.meta.env.DEV) {
+      const { Prune } = await import('./prune.js');
+      prune = new Prune(level, editor.panel);
+      await prune.load(asset('data/hidden.json'));
+      prune.apply();
+      editor.prune = prune;
+    }
   }
 
   const results = await Promise.allSettled(all);
@@ -184,6 +201,7 @@ function union(boxes) {
 }
 
 let editor = null;
+let prune = null;
 
 // Which way the camera looks in from: one corner, a little above. The length is set from how
 // big the level turns out to be.
@@ -247,7 +265,7 @@ renderer.domElement.addEventListener('pointerup', (event) => {
     return;
   }
 
-  if (editor?.handleClick(ground?.point)) return;
+  if (editor?.handleClick(ground?.point, ground?.object)) return;
 });
 
 addEventListener('hashchange', selectFromHash);

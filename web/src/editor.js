@@ -87,6 +87,7 @@ export class Editor {
     this.panel.querySelector('#undoPoint').addEventListener('click', () => this.undoPoint());
     this.panel.querySelector('#clearPath').addEventListener('click', () => this.clearPath());
     this.panel.querySelector('#export').addEventListener('click', () => this.export());
+
     this.clipFile = this.panel.querySelector('#clipFile');
     this.clipHint = this.panel.querySelector('#clipHint');
     this.pickClip = this.panel.querySelector('#pickClip');
@@ -133,7 +134,11 @@ export class Editor {
    * Handles a click on the level. Returns true when it consumed the click, so the caller
    * knows not to treat it as a selection.
    */
-  handleClick(point) {
+  handleClick(point, object) {
+    // The object-removal tool, when there is one. It is local-only, so in a built site
+    // this is undefined and the click goes on to the markers as it always did.
+    if (this.prune?.handleClick(object)) return true;
+
     if (!this.mode || !point) return false;
 
     if (this.mode === 'path') {
