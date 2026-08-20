@@ -1512,7 +1512,7 @@
     {
       "id": "skip-51",
       "type": "skip",
-      "name": "1st to 3rd Pad",
+      "name": "Chip Skip",
       "pos": [
         -64.29,
         185.09,
