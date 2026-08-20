@@ -396,6 +396,15 @@ textarea:focus {
   border-radius: 0.4rem;
 }
 
+/* No fixed ratio here, unlike the clips: a screenshot is whatever shape it was taken in,
+   and cropping it to 16/9 would cut off the half that shows where you land. */
+#detail img {
+  display: block;
+  width: 100%;
+  margin-top: 0.6rem;
+  border-radius: 0.4rem;
+}
+
 .notes {
   margin: 0.6rem 0 0;
   white-space: pre-wrap;

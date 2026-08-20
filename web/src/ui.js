@@ -293,6 +293,23 @@ export class Ui {
       }
     }
 
+    if (marker.image) {
+      // A link around it, so the panel shows it at panel width and a click opens the full
+      // size - a screenshot of a skip is worth looking at closely.
+      const link = document.createElement('a');
+      link.href = marker.image;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+
+      const photo = document.createElement('img');
+      photo.src = marker.image;
+      photo.alt = marker.name;
+      photo.loading = 'lazy';
+
+      link.append(photo);
+      this.detail.append(link);
+    }
+
     if (marker.notes) {
       const notes = document.createElement('p');
       notes.className = 'notes';

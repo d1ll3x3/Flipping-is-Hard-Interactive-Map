@@ -11,11 +11,18 @@
  */
 import { passphraseMatches } from '../../shared/passphrase.js';
 
-// A clip is a few seconds of a trick. Anything this size is a mistake - a full recording
-// picked by accident, most likely - and it is kinder to say so than to store it.
+// A clip is a few seconds of a trick and a photo is one screen. Anything this size is a
+// mistake - a full recording picked by accident, most likely - and it is kinder to say so
+// than to store it.
 const MAX_UPLOAD = 60 * 1024 * 1024;
 
-const TYPES = { 'video/mp4': 'mp4', 'video/webm': 'webm' };
+const TYPES = {
+  'video/mp4': 'mp4',
+  'video/webm': 'webm',
+  'image/webp': 'webp',
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+};
 
 export default {
   async fetch(request, env) {
@@ -96,12 +103,12 @@ async function upload(request, env) {
 
   const type = (request.headers.get('Content-Type') ?? '').split(';')[0].trim();
   if (!TYPES[type]) {
-    return json({ error: `Videos only - got ${type || 'nothing'}` }, 415, request, env);
+    return json({ error: `Clips and photos only - got ${type || 'nothing'}` }, 415, request, env);
   }
 
   const length = Number(request.headers.get('Content-Length') ?? 0);
   if (length > MAX_UPLOAD) {
-    return json({ error: `That clip is ${mb(length)} MB. The limit is ${mb(MAX_UPLOAD)} MB.` }, 413, request, env);
+    return json({ error: `That file is ${mb(length)} MB. The limit is ${mb(MAX_UPLOAD)} MB.` }, 413, request, env);
   }
 
   const name = safeName(request.headers.get('X-Clip-Name'), TYPES[type]);

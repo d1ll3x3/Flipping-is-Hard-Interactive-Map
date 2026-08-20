@@ -664,6 +664,7 @@ function normalize(marker) {
     difficulty: marker.difficulty ?? null,
     timeSaved: marker.timeSaved ?? null,
     video: marker.video ?? null,
+    image: marker.image ?? null,
     notes: marker.notes ?? '',
     sourcePath: marker.sourcePath ?? null,
   };

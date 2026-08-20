@@ -204,6 +204,7 @@ const marker = ({ id, type, name, pos, sourcePath }) => ({
   difficulty: null,
   timeSaved: null,
   video: null,
+  image: null,
   notes: '',
   sourcePath,
 });

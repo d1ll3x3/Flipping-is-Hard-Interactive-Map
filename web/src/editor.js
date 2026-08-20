@@ -1,6 +1,8 @@
 import { TYPES } from './markers.js';
 import { loadBaseSha, saveMarkers, savingConfigured } from './save.js';
-import { canCompress, compress, upload } from './video.js';
+import { canCompress, compress } from './video.js';
+import { canShrink, shrink } from './photo.js';
+import { upload } from './bucket.js';
 
 /**
  * Marker authoring, enabled with ?edit=1. Clicking the level places a marker where the
@@ -41,6 +43,7 @@ export class Editor {
         <label>Seconds saved <input name="timeSaved" type="number" step="0.1" min="0"></label>
         <label>Difficulty <input name="difficulty" type="number" min="1" max="5"></label>
         <label>Video <input name="video" type="url" placeholder="https://youtu.be/...?t=42"></label>
+        <label>Photo <input name="image" type="url" placeholder="https://…/shot.webp"></label>
         <fieldset>
           <legend>Upload a clip</legend>
           <p class="hint">Pick a recording and it is shrunk in your browser and put on the
@@ -49,6 +52,15 @@ export class Editor {
           <button type="button" id="pickClip">Choose a video…</button>
           <input type="file" id="clipFile" accept="video/*" hidden>
           <p class="hint" id="clipHint"></p>
+        </fieldset>
+        <fieldset>
+          <legend>Upload a photo</legend>
+          <p class="hint">A screenshot of the spot. It is shrunk here and put on the map's
+            own storage, and the address lands in the Photo field above - clear that field to
+            take it off the marker.</p>
+          <button type="button" id="pickPhoto">Choose a photo…</button>
+          <input type="file" id="photoFile" accept="image/*" hidden>
+          <p class="hint" id="photoHint"></p>
         </fieldset>
         <label>Notes <textarea name="notes" rows="3"></textarea></label>
         <fieldset>
@@ -93,6 +105,11 @@ export class Editor {
     this.pickClip = this.panel.querySelector('#pickClip');
     this.pickClip.addEventListener('click', () => this.clipFile.click());
     this.clipFile.addEventListener('change', () => this.addClip(this.clipFile.files[0]));
+    this.photoFile = this.panel.querySelector('#photoFile');
+    this.photoHint = this.panel.querySelector('#photoHint');
+    this.pickPhoto = this.panel.querySelector('#pickPhoto');
+    this.pickPhoto.addEventListener('click', () => this.photoFile.click());
+    this.photoFile.addEventListener('change', () => this.addPhoto(this.photoFile.files[0]));
     this.fileHint = this.panel.querySelector('#fileHint');
     this.importFile = this.panel.querySelector('#importFile');
     this.panel.querySelector('#import').addEventListener('click', () => this.importFile.click());
@@ -183,6 +200,56 @@ export class Editor {
    * The marker is read once at the start and used throughout: re-encoding runs in real time,
    * and selecting a different marker halfway through must not land the clip on that one.
    */
+  /**
+   * Shrinks a screenshot, puts it in the bucket and points the marker at it.
+   *
+   * Same shape as addClip, and for the same reasons: the marker is taken now rather than at
+   * the end, because uploading takes long enough for the selection to have moved on.
+   */
+  async addPhoto(file) {
+    // Cleared so that picking the same file twice in a row still fires a change event.
+    this.photoFile.value = '';
+    if (!file) return;
+
+    const marker = this.markers.selected;
+    if (!marker) {
+      this.photoHint.textContent = 'Select a marker first.';
+      return;
+    }
+
+    this.pickPhoto.disabled = true;
+
+    try {
+      const was = file.size;
+      let photo = file;
+
+      if (canShrink()) {
+        this.photoHint.textContent = `Shrinking "${file.name}" (${mb(was)} MB)…`;
+        photo = await shrink(file);
+      } else {
+        this.photoHint.textContent = `This browser cannot shrink, uploading as is (${mb(was)} MB)…`;
+      }
+
+      this.photoHint.textContent = `Uploading ${mb(photo.size)} MB…`;
+      const url = await upload(photo, marker.name || marker.id);
+
+      this.markers.update(marker.id, { image: url });
+      // The form is only refreshed when this marker is still the one on screen, or the
+      // fields of whatever got selected meanwhile would be overwritten with this one's.
+      if (this.markers.selected?.id === marker.id) {
+        this.showForm(marker);
+        this.ui?.renderDetail(marker);
+      }
+
+      this.photoHint.textContent =
+        `Added to "${marker.name}": ${mb(was)} -> ${mb(photo.size)} MB. Press Save to keep it.`;
+    } catch (error) {
+      this.photoHint.textContent = `Not added: ${error.message}`;
+    } finally {
+      this.pickPhoto.disabled = false;
+    }
+  }
+
   async addClip(file) {
     // Cleared so that picking the same file twice in a row still fires a change event.
     this.clipFile.value = '';
@@ -242,8 +309,10 @@ export class Editor {
     elements.timeSaved.value = marker.timeSaved ?? '';
     elements.difficulty.value = marker.difficulty ?? '';
     elements.video.value = marker.video ?? '';
+    elements.image.value = marker.image ?? '';
     elements.notes.value = marker.notes ?? '';
     this.clipHint.textContent = '';
+    this.photoHint.textContent = '';
     this.showPath(marker);
   }
 
@@ -263,6 +332,7 @@ export class Editor {
       timeSaved: numberOrNull(elements.timeSaved.value),
       difficulty: numberOrNull(elements.difficulty.value),
       video: elements.video.value || null,
+      image: elements.image.value || null,
       notes: elements.notes.value,
     });
   }

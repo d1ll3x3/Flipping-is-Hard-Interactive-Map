@@ -12,9 +12,6 @@
  * ask for. That means it runs in real time - a seven second clip takes seven seconds - which
  * for clips this length is a fair trade against a 30 MB download of somebody else's ffmpeg.
  */
-import { passphrase } from './access.js';
-
-const UPLOAD_URL = 'https://fih-map-videos.fih-map-editor-worker.workers.dev/';
 
 // Enough for a game with flat colours and hard edges. Measured against the originals: the
 // same clips at this rate are a third of the size and score 0.986 SSIM, which is not a
@@ -95,26 +92,4 @@ export async function compress(file, onProgress = () => {}) {
   }
 }
 
-/**
- * Puts a clip in the bucket and returns the address the map should point at.
- *
- * `name` only suggests the file name - the Worker sanitises it and adds a random tail, so
- * two people uploading "gap jump" do not overwrite each other and a re-upload is never
- * hidden behind the year-long cache the clips are served with.
- */
-export async function upload(blob, name) {
-  const response = await fetch(UPLOAD_URL, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': blob.type || 'video/mp4',
-      'X-Passphrase': passphrase(),
-      'X-Clip-Name': name,
-    },
-    body: blob,
-  });
 
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(payload.error ?? `Upload failed: HTTP ${response.status}`);
-
-  return payload.url;
-}
