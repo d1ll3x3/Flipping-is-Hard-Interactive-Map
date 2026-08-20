@@ -2315,6 +2315,40 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-84",
+      "type": "skip",
+      "name": "Nail Skip",
+      "pos": [
+        -7.95,
+        131,
+        -95.66
+      ],
+      "path": [
+        [
+          -8.01,
+          143.9,
+          -100.78
+        ],
+        [
+          -7.95,
+          152.41,
+          -100.78
+        ],
+        [
+          -10.22,
+          153.32,
+          -100.76
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
