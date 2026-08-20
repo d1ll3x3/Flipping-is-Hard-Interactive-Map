@@ -493,9 +493,9 @@
         221.75,
         -108.79
       ],
-      "difficulty": 3.5,
+      "difficulty": 3,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/0gVXsVOxOLE",
       "image": null,
       "notes": "",
       "sourcePath": null
@@ -503,7 +503,7 @@
     {
       "id": "skip-18",
       "type": "skip",
-      "name": "Phone Break Skip to 1st Platform",
+      "name": "Phone Break Pad to 1st Platform",
       "pos": [
         -67.61,
         243.41,
@@ -1559,7 +1559,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": 4,
+      "difficulty": 3.5,
       "timeSaved": null,
       "video": "https://youtu.be/iiAUOKHjsv4",
       "image": null,
@@ -1569,7 +1569,7 @@
     {
       "id": "skip-53",
       "type": "skip",
-      "name": "Phone Break Skip to 2nd Platform",
+      "name": "Phone Break Pad to 2nd Platform",
       "pos": [
         -67.04,
         243.41,
@@ -1599,7 +1599,7 @@
       ],
       "difficulty": 4.5,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/m70_mzVWg70",
       "image": null,
       "notes": "",
       "sourcePath": null
