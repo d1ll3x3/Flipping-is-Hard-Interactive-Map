@@ -569,7 +569,7 @@
     {
       "id": "skip-20",
       "type": "skip",
-      "name": "First to second floor skip",
+      "name": "First to Second Floor Skip (Right Side)",
       "pos": [
         -8.29,
         253.8,
@@ -602,7 +602,7 @@
     {
       "id": "skip-21",
       "type": "skip",
-      "name": "First to second floor bis",
+      "name": "First to Second Floor Skip (Middle)",
       "pos": [
         -8.27,
         253.17,
@@ -2472,6 +2472,35 @@
       "difficulty": 1.5,
       "timeSaved": null,
       "video": "https://youtu.be/g09yAxpP0OE",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-89",
+      "type": "skip",
+      "name": "First to Second Floor Skip (Left Side)",
+      "pos": [
+        -9.04,
+        252.68,
+        -116.19
+      ],
+      "path": [
+        [
+          -6.55,
+          255.97,
+          -115.36
+        ],
+        [
+          -5.91,
+          258.33,
+          -116.38
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 2,
+      "timeSaved": null,
+      "video": null,
       "image": null,
       "notes": "",
       "sourcePath": null
