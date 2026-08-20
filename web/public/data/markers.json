@@ -2291,6 +2291,30 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-83",
+      "type": "skip",
+      "name": "Button to Broken House",
+      "pos": [
+        -58,
+        -20.37,
+        279.22
+      ],
+      "path": [
+        [
+          -50.12,
+          -19.61,
+          282.26
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 1,
+      "timeSaved": null,
+      "video": "https://youtu.be/SzePvdKG3Os",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
