@@ -1401,7 +1401,7 @@
     {
       "id": "skip-48",
       "type": "skip",
-      "name": "NSS (Nail Skip Skip)",
+      "name": "Full NSS (Nail Skip Skip)",
       "pos": [
         -8.49,
         131.53,
@@ -2348,6 +2348,55 @@
       "video": null,
       "image": null,
       "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-85",
+      "type": "skip",
+      "name": "Short NSS (Nail Skip Skip)",
+      "pos": [
+        -7.9,
+        131.57,
+        -42.41
+      ],
+      "path": [
+        [
+          -13.03,
+          130.92,
+          -64.47
+        ],
+        [
+          -15.51,
+          130.92,
+          -83.07
+        ],
+        [
+          -15.67,
+          139.57,
+          -96.18
+        ],
+        [
+          -16.76,
+          148.31,
+          -96.19
+        ],
+        [
+          -19.3,
+          149.03,
+          -93.96
+        ],
+        [
+          -15.34,
+          153.32,
+          -98.69
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 5,
+      "timeSaved": null,
+      "video": "https://youtu.be/m986qV8S73o",
+      "image": null,
+      "notes": "Lands on ledge first then climbs up to pad area.",
       "sourcePath": null
     }
   ]
