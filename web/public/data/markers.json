@@ -2621,6 +2621,50 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "route-93",
+      "type": "route",
+      "name": "Advanced Route L2",
+      "pos": [
+        -7.04,
+        61.58,
+        149.98
+      ],
+      "path": [
+        [
+          10.71,
+          26.23,
+          142.74
+        ],
+        [
+          7.98,
+          14.65,
+          123.71
+        ],
+        [
+          3.02,
+          14.65,
+          104.09
+        ],
+        [
+          2.94,
+          20.09,
+          98.18
+        ],
+        [
+          4.49,
+          23.92,
+          94.73
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
