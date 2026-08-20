@@ -2257,6 +2257,40 @@
       "image": "https://fih-map-videos.fih-map-editor-worker.workers.dev/ghost-3-4705f.webp",
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-82",
+      "type": "skip",
+      "name": "Over The Hill",
+      "pos": [
+        -101.42,
+        -20.66,
+        406.01
+      ],
+      "path": [
+        [
+          -101.26,
+          -25.42,
+          376.45
+        ],
+        [
+          -102.47,
+          -22.81,
+          364.06
+        ],
+        [
+          -98.95,
+          -22.29,
+          359.13
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 3,
+      "timeSaved": 5,
+      "video": "https://youtu.be/5H5y-yAhv-A",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
