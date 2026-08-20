@@ -2427,6 +2427,54 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-87",
+      "type": "skip",
+      "name": "Ladder Skip",
+      "pos": [
+        -9.29,
+        231.61,
+        -110.37
+      ],
+      "path": [
+        [
+          1.14,
+          239.02,
+          -107.67
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 2,
+      "timeSaved": null,
+      "video": "https://youtu.be/mpVjfv228c0",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-88",
+      "type": "skip",
+      "name": "Ladder to Start of Pyramid",
+      "pos": [
+        0.92,
+        238.99,
+        -102.31
+      ],
+      "path": [
+        [
+          1.5,
+          243,
+          -99.91
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 1.5,
+      "timeSaved": null,
+      "video": "https://youtu.be/g09yAxpP0OE",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
