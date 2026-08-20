@@ -541,7 +541,7 @@
     {
       "id": "skip-19",
       "type": "skip",
-      "name": "Pyramid first floor skip",
+      "name": "Pyramid First Floor Skip",
       "pos": [
         -7.95,
         250.54,
@@ -561,7 +561,7 @@
       ],
       "difficulty": 2,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/T2WNd4Wce6w",
       "image": null,
       "notes": "",
       "sourcePath": null
@@ -594,7 +594,7 @@
       ],
       "difficulty": 2,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/jsr-t326AhI",
       "image": null,
       "notes": "",
       "sourcePath": null
@@ -635,7 +635,7 @@
     {
       "id": "skip-22",
       "type": "skip",
-      "name": "Second to Third floor skip",
+      "name": "Second to Third floor Skip",
       "pos": [
         -5.99,
         259.44,
