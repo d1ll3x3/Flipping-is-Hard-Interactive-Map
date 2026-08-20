@@ -2138,6 +2138,27 @@
       "video": null,
       "notes": "",
       "sourcePath": "NW_L3_Playground_Area_Demo_v5_Combined(Clone)/A8_Demo/InteractableNPC_GameDude"
+    },
+    {
+      "id": "npc-80",
+      "type": "note",
+      "name": "Cake",
+      "pos": [
+        32.32,
+        304.07,
+        87.92
+      ],
+      "path": [],
+      "lookAt": [
+        16.67,
+        312.06,
+        66.14
+      ],
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
