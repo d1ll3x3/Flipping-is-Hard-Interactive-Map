@@ -141,7 +141,7 @@
     {
       "id": "skip-6",
       "type": "skip",
-      "name": "Cardboard wall jump",
+      "name": "Cardboard Wall Jump (Left Side)",
       "pos": [
         0.18,
         14.65,
@@ -166,7 +166,7 @@
       ],
       "difficulty": 1,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/NEr_vv8sqfg",
       "image": null,
       "notes": "",
       "sourcePath": null
@@ -2501,6 +2501,30 @@
       "difficulty": 2,
       "timeSaved": null,
       "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-90",
+      "type": "skip",
+      "name": "Cardboard Wall Jump (Right Side)",
+      "pos": [
+        4.45,
+        14.65,
+        101.25
+      ],
+      "path": [
+        [
+          5.12,
+          19.97,
+          98.9
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 1,
+      "timeSaved": null,
+      "video": "https://youtu.be/w_tihJDddRA",
       "image": null,
       "notes": "",
       "sourcePath": null
