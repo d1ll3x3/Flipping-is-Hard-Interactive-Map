@@ -65,7 +65,7 @@
     {
       "id": "skip-3",
       "type": "skip",
-      "name": "Tower Skip",
+      "name": "Cardboard Tower Skip",
       "pos": [
         -4.94,
         58.68,
@@ -90,7 +90,7 @@
       ],
       "difficulty": 4,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/VcLdFaJgfAU",
       "image": null,
       "notes": "",
       "sourcePath": null
@@ -98,7 +98,7 @@
     {
       "id": "skip-5",
       "type": "skip",
-      "name": "Cube Skip",
+      "name": "Cardboard Cube Skip",
       "pos": [
         -4.89,
         59.61,
@@ -133,7 +133,7 @@
       ],
       "difficulty": 1,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/-SXz9fE6Tiw",
       "image": null,
       "notes": "",
       "sourcePath": null
