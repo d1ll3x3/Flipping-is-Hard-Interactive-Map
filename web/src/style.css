@@ -13,6 +13,47 @@
   box-sizing: border-box;
 }
 
+/* Scrollbars, because the panel otherwise comes with a strip of Windows grey and a pair of
+   arrow buttons down the side of a dark page.
+
+   The two syntaxes do not combine: the moment a browser understands scrollbar-color it draws
+   the standard scrollbar and ignores every ::-webkit- rule below, so the standard pair has to
+   stand on its own and the ::-webkit- block is there for browsers too old to read it.
+
+   On * rather than on html because only one of the two inherits: scrollbar-color does,
+   scrollbar-width does not, and setting them together on the root left the panel with the
+   right colour at the full sixteen pixels. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+/* No track and no arrow buttons: what is left is the thumb floating in the gutter, which is
+   as much chrome as a side panel needs. */
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--border);
+  /* A transparent border, and a background that stops at it, is what makes the thumb a slim
+     pill inside the gutter instead of a bar filling it edge to edge. */
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+  background-clip: padding-box;
+}
+
 html,
 body {
   margin: 0;
@@ -121,16 +162,21 @@ textarea:focus {
   outline-offset: -1px;
 }
 
+/* A grid rather than a wrapping row: six types come to 306px of chips in a 267px panel, so
+   the row breaks either way, and left to itself it breaks after five and leaves the last one
+   sitting on its own. Three columns splits them evenly however many there are, and the
+   widest label - Checkpoint - still fits a third of the panel. */
 #filters {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.3rem;
 }
 
 .chip {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  padding: 0.22rem 0.62rem;
+  justify-content: center;
+  padding: 0.22rem 0.5rem;
   border: 1px solid var(--border);
   border-radius: 999px;
   color: var(--muted);
@@ -167,7 +213,9 @@ textarea:focus {
 #levels {
   display: flex;
   align-items: center;
-  align-self: flex-start;
+  /* Centred, and only as wide as the stars: the panel is a flex column, so without this the
+     pill either hugs the left edge or stretches the full width with the stars adrift in it. */
+  align-self: center;
   padding: 0.1rem 0.35rem;
   border: 1px solid var(--border);
   border-radius: 999px;
@@ -263,6 +311,12 @@ textarea:focus {
 .row.active {
   border-color: var(--accent);
   border-left-color: var(--chip);
+}
+
+/* Room left around a row when the map scrolls the list to it. Without it the row lands
+   flush against the edge of the panel, which reads as cut off rather than as found. */
+.row {
+  scroll-margin: 0.75rem;
 }
 
 .row-name {

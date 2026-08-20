@@ -108,7 +108,7 @@ export class Editor {
 
     this.markers.onSelect = (marker) => {
       this.showForm(marker);
-      this.ui?.renderDetail(marker);
+      this.ui?.showSelection(marker);
     };
   }
 

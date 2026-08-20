@@ -9,6 +9,7 @@ export const TYPES = {
   route: { label: 'Route', color: '#4ea1ff' },
   checkpoint: { label: 'Checkpoint', color: '#48d597' },
   coin: { label: 'Coin', color: '#f5c451' },
+  skin: { label: 'Skin', color: '#ff7ab6' },
   note: { label: 'Note', color: '#b98cf5' },
 };
 
@@ -100,7 +101,11 @@ export class Markers {
     // Checkpoints and coins to begin with: they are the level's own landmarks and read as
     // a map. The skips and routes are the interesting part but there are dozens of them,
     // and all of it at once was a wall of circles - the visitor switches them on.
-    this.filter = { types: new Set(['checkpoint', 'coin']), levels: new Set(LEVELS), text: '' };
+    this.filter = {
+      types: new Set(['checkpoint', 'coin', 'skin']),
+      levels: new Set(LEVELS),
+      text: '',
+    };
     this.onChange = () => {};
     this.onSelect = () => {};
 
