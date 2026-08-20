@@ -1,11 +1,11 @@
 {
   "scene": "Scene_Game_NW-DemoLive",
   "exportedAt": "2026-08-16 16:32:23",
-  "builtAt": "2026-08-20T01:33:33.253Z",
+  "builtAt": "2026-08-20T01:53:31.313Z",
   "lodLevel": 0,
-  "nodes": 4075,
-  "vertices": 3460475,
-  "bytes": 12101976,
+  "nodes": 4074,
+  "vertices": 3459277,
+  "bytes": 12079040,
   "bounds": {
     "min": [
       -661,
@@ -77,7 +77,7 @@
       "areas": [
         "NW_L3_Playground_Area_Demo_v5_Combined"
       ],
-      "bytes": 4077832,
+      "bytes": 4054896,
       "bounds": {
         "min": [
           -92.81000244448606,
