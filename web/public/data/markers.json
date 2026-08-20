@@ -701,7 +701,7 @@
     {
       "id": "skip-24",
       "type": "skip",
-      "name": "Long jump before cannon ",
+      "name": "Long Jump to Last Cannon",
       "pos": [
         -7.54,
         294.21,
@@ -721,7 +721,7 @@
       ],
       "difficulty": 1.5,
       "timeSaved": null,
-      "video": null,
+      "video": "https://youtu.be/UEdpNe_owEc",
       "image": null,
       "notes": "",
       "sourcePath": null
