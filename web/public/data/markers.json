@@ -2398,6 +2398,35 @@
       "image": null,
       "notes": "Lands on ledge first then climbs up to pad area.",
       "sourcePath": null
+    },
+    {
+      "id": "skip-86",
+      "type": "skip",
+      "name": "Bottom Squat Skip",
+      "pos": [
+        -12.52,
+        156.25,
+        -112.91
+      ],
+      "path": [
+        [
+          -18.81,
+          175.24,
+          -124.91
+        ],
+        [
+          -27.7,
+          181.89,
+          -138.22
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 3,
+      "timeSaved": null,
+      "video": "https://youtu.be/Ki9SamZ5yp0",
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
