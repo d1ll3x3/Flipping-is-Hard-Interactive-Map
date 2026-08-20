@@ -1,11 +1,11 @@
 {
   "scene": "Scene_Game_NW-DemoLive",
   "exportedAt": "2026-08-16 16:32:23",
-  "builtAt": "2026-08-19T20:06:43.077Z",
+  "builtAt": "2026-08-20T01:33:33.253Z",
   "lodLevel": 0,
-  "nodes": 4084,
-  "vertices": 3455167,
-  "bytes": 11720916,
+  "nodes": 4075,
+  "vertices": 3460475,
+  "bytes": 12101976,
   "bounds": {
     "min": [
       -661,
@@ -37,10 +37,10 @@
       "areas": [
         "NW_L1_Tutorial_Area_v6_Combined"
       ],
-      "bytes": 3063532,
+      "bytes": 3109792,
       "bounds": {
         "min": [
-          -144.69745100451152,
+          -131.43300003718593,
           -84.57116112323168,
           250.2600098562712
         ],
@@ -57,7 +57,7 @@
       "areas": [
         "NW_L2_Military_Area_v2_Combined"
       ],
-      "bytes": 2854816,
+      "bytes": 2914452,
       "bounds": {
         "min": [
           -27.52599114322664,
@@ -77,7 +77,7 @@
       "areas": [
         "NW_L3_Playground_Area_Demo_v5_Combined"
       ],
-      "bytes": 3802668,
+      "bytes": 4077832,
       "bounds": {
         "min": [
           -92.81000244448606,
