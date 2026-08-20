@@ -1703,7 +1703,11 @@
         399.42
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -104.68,
+        -12.9,
+        389.27
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1720,7 +1724,11 @@
         284.37
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -79.47,
+        -17.52,
+        306.25
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1737,7 +1745,11 @@
         342.96
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -85.48,
+        -0.25,
+        318.29
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1754,7 +1766,11 @@
         382.11
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -56.57,
+        13.34,
+        366.8
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1788,7 +1804,11 @@
         117.62
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -10.52,
+        46.31,
+        108.1
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1805,7 +1825,11 @@
         139.73
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        43.5,
+        41.1,
+        112.57
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1822,7 +1846,11 @@
         134.64
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -7.93,
+        23.02,
+        156.15
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1856,7 +1884,11 @@
         -127.78
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        51.68,
+        135.96,
+        -108.48
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1873,7 +1905,11 @@
         -131.34
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        27.39,
+        156.07,
+        -149.34
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1890,7 +1926,11 @@
         -122.41
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        44.49,
+        208.31,
+        -137.03
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -1941,7 +1981,11 @@
         74.88
       ],
       "path": [],
-      "lookAt": null,
+      "lookAt": [
+        -49.04,
+        345.45,
+        54.21
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
