@@ -92,7 +92,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/VcLdFaJgfAU",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -135,7 +135,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/-SXz9fE6Tiw",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -168,7 +168,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/NEr_vv8sqfg",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -497,7 +497,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/0gVXsVOxOLE",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -563,7 +563,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/T2WNd4Wce6w",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -596,7 +596,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/jsr-t326AhI",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -662,7 +662,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/dd5KjwkGP5I",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -695,7 +695,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/73QYzppEqoA",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -723,7 +723,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/UEdpNe_owEc",
       "image": null,
-      "notes": "Shows both methods, one jumping in mid-air, and one doing a long-jump.",
+      "notes": "Shows both methods, one jumping in mid-air, and one doing a long-jump.\n\nVideo by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -1477,7 +1477,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/h-k9coSUGWg",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -1539,7 +1539,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/tjiYHWpbKPc",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -1563,7 +1563,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/iiAUOKHjsv4",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -1601,7 +1601,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/m70_mzVWg70",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2284,12 +2284,16 @@
           359.16
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        -76.43,
+        12.64,
+        400.08
+      ],
       "difficulty": 3,
       "timeSaved": 5,
       "video": "https://youtu.be/5H5y-yAhv-A",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2308,12 +2312,16 @@
           282.26
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        -82.95,
+        -4.26,
+        282.3
+      ],
       "difficulty": 1,
       "timeSaved": null,
       "video": "https://youtu.be/SzePvdKG3Os",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2396,7 +2404,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/m986qV8S73o",
       "image": null,
-      "notes": "Lands on ledge first then climbs up to pad area.",
+      "notes": "Lands on ledge first then climbs up to pad area.\n\nVideo by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2425,7 +2433,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/Ki9SamZ5yp0",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2449,7 +2457,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/mpVjfv228c0",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2473,7 +2481,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/g09yAxpP0OE",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2526,7 +2534,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/w_tihJDddRA",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
@@ -2550,7 +2558,7 @@
       "timeSaved": null,
       "video": "https://youtu.be/tSD_us0_S64",
       "image": null,
-      "notes": "",
+      "notes": "Video by : Idrewthat\nSkip found by : ",
       "sourcePath": null
     },
     {
