@@ -1709,7 +1709,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 1.5,
       "timeSaved": null,
       "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/easy-route-tunnel-skip-70iy6.mp4",
       "image": null,
