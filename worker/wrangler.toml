@@ -14,3 +14,9 @@ ALLOWED_ORIGINS = "https://d1ll3x3.github.io,http://localhost:5173"
 # personal email does not end up in the history of a public repository.
 COMMIT_NAME = "fih-map editor"
 COMMIT_EMAIL = "188931332+d1ll3x3@users.noreply.github.com"
+
+# Where the editors' floating note lives. Deliberately not a file in the repository: the
+# repository is public, and the note is meant for the people who hold the passphrase.
+[[kv_namespaces]]
+binding = "NOTES"
+id = "66fe6fca0dd74a7283c17dbb2418441e"

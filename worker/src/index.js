@@ -40,7 +40,7 @@ export default {
       return json({ error: 'Wrong passphrase' }, 401, origin);
     }
 
-    if (body.action !== 'sha' && body.action !== 'save') {
+    if (!ACTIONS.includes(body.action)) {
       return json({ error: `Unknown action: ${body.action}` }, 400, origin);
     }
 
@@ -49,15 +49,79 @@ export default {
     }
 
     try {
-      const result = body.action === 'sha' ? { sha: await currentSha(env) } : await save(body, env);
+      const result = await run(body, env);
       return json(result, 200, origin);
     } catch (error) {
       // The message carries GitHub's own words, which is what makes a failed save
-      // diagnosable from the editor instead of just "something went wrong".
-      return json({ error: error.message }, 502, origin);
+      // diagnosable from the editor instead of just "something went wrong". Anything the
+      // Worker itself turned down says so with its own status.
+      return json({ error: error.message }, error.status ?? 502, origin);
     }
   },
 };
+
+/** An error the Worker itself is raising, with the status that goes with it. */
+const refused = (message, status) => Object.assign(new Error(message), { status });
+
+const ACTIONS = ['sha', 'save', 'notes', 'notes-save'];
+
+function run(body, env) {
+  switch (body.action) {
+    case 'sha':
+      return currentSha(env).then((sha) => ({ sha }));
+    case 'save':
+      return save(body, env);
+    case 'notes':
+      return readNotes(env);
+    default:
+      return writeNotes(body, env);
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────── notes ──
+
+/**
+ * The editors' shared note - how to record a clip, what to name things, whatever they need
+ * to tell each other.
+ *
+ * It lives in KV rather than in the repository because the repository is public and the
+ * note is not: reading it goes through the passphrase check above, so it is visible to the
+ * same people who can edit the map and to nobody else. It also means writing one does not
+ * cost a commit and a rebuild of the site.
+ */
+const NOTES_KEY = 'notes';
+
+// Long enough for a page of instructions, short enough that a paste of something else
+// entirely is turned away rather than stored.
+const NOTES_MAX = 20000;
+
+async function readNotes(env) {
+  const stored = await env.NOTES.get(NOTES_KEY, 'json');
+
+  return { text: stored?.text ?? '', updatedAt: stored?.updatedAt ?? null };
+}
+
+/**
+ * Last save wins, but only against the revision it was written on top of: an editor who
+ * loaded the note before someone else changed it is told to reload instead of silently
+ * replacing what they never saw.
+ */
+async function writeNotes({ text, baseAt }, env) {
+  if (typeof text !== 'string') throw refused('The note must be text', 400);
+  if (text.length > NOTES_MAX) throw refused(`The note is longer than ${NOTES_MAX} characters`, 400);
+
+  const current = await readNotes(env);
+  // undefined means "whatever is there", for a caller that has not read it first. null is
+  // an editor who loaded an empty note, and that still has to match.
+  if (baseAt !== undefined && baseAt !== current.updatedAt) {
+    throw refused('Someone else changed the note. Press Reload to see it, then edit again.', 409);
+  }
+
+  const updatedAt = new Date().toISOString();
+  await env.NOTES.put(NOTES_KEY, JSON.stringify({ text, updatedAt }));
+
+  return { updatedAt };
+}
 
 // ───────────────────────────────────────────────────────────────────────── github ──
 

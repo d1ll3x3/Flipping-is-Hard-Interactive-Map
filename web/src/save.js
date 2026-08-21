@@ -31,6 +31,20 @@ export async function saveMarkers(scene, markers) {
   return result;
 }
 
+/**
+ * The editors' shared note. It is not in the repository - see worker/ - so it is read
+ * through the same call the saves go through, and the passphrase is what makes it visible.
+ */
+export async function loadNotes() {
+  return call({ action: 'notes' });
+}
+
+/** `baseAt` is the note's own timestamp when it was loaded, so a save cannot land on top
+ * of a version this editor never saw. */
+export async function saveNotes(text, baseAt) {
+  return call({ action: 'notes-save', text, baseAt });
+}
+
 async function call(body) {
   const response = await fetch(SAVE_URL, {
     method: 'POST',

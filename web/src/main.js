@@ -159,6 +159,11 @@ async function loadLevel(meta) {
     editor = new Editor(markers, camera, controls, sceneName ?? 'Scene_Game_NW-DemoLive');
     editor.attachUi(ui);
 
+    // The note the editors keep for each other. Behind the same unlock as the editor, and
+    // its text is not in the site at all - it is fetched with the passphrase.
+    const { Notes } = await import('./notes.js');
+    new Notes(editor.panel);
+
     // The tool for taking objects off the map, on a local dev server and nowhere else: the
     // import sits behind a constant the build folds to false, so not a line of it reaches a
     // visitor. What they get is the result - build-glb.mjs has already left those objects

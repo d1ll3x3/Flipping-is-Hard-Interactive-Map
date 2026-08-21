@@ -128,6 +128,18 @@ to publish, by committing the file by hand.
 To change the passphrase, replace the hash in `web/src/access.js` with the one printed by the
 command documented there, and set the same value as the Worker's `EDITOR_HASH` secret.
 
+### The editors' note
+
+An unlocked editor also gets a floating window with a note the editors share — how to record
+a clip, what to call things, whatever they need to explain to each other. It is dragged
+around by its title bar and rolls up to that bar when it is in the way.
+
+The text is not in the site and not in this repository: it lives in the Worker's KV store,
+and reading it goes through the same passphrase check as saving, so it is visible to the
+people who can edit the map and to nobody else. Saving it costs no commit and no rebuild —
+the next editor to open the map sees it straight away. Two editors writing at once are not
+merged, but the second one is turned away rather than overwriting what they never saw.
+
 ## Things that were hard to find
 
 All of them are commented in the code, but they are worth knowing before touching anything:

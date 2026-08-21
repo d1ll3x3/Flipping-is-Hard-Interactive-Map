@@ -592,6 +592,120 @@ textarea:focus {
   }
 }
 
+/* ─────────────────────────────────────────────────────────────────────── notes ── */
+
+/* The editors' floating note. Only ever in the page for someone who unlocked the editor,
+   so there is no visitor state to style. */
+#notes {
+  position: fixed;
+  right: 0.9rem;
+  top: 0.9rem;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  width: min(22rem, calc(100vw - 2rem));
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  background: color-mix(in srgb, var(--panel) 95%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+/* display:flex would otherwise beat the user agent's [hidden] { display: none }, the same
+   way it does for the editor's form. */
+#notes[hidden] {
+  display: none;
+}
+
+#notes header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid var(--border);
+  cursor: move;
+  /* Or dragging the bar selects its own title, and the window drags with a blue smear on it. */
+  user-select: none;
+  touch-action: none;
+}
+
+#notes h2 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.window-buttons {
+  display: flex;
+  gap: 0.1rem;
+}
+
+#notes .roll,
+#notes .shut {
+  padding: 0 0.35rem;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#notes .roll:hover,
+#notes .shut:hover {
+  color: var(--text);
+}
+
+#notes .body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem;
+}
+
+#notes.rolled .body {
+  display: none;
+}
+
+#notes.rolled header {
+  border-bottom: 0;
+}
+
+#notes textarea {
+  padding: 0.45rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--panel-soft);
+  color: var(--text);
+  font: inherit;
+  /* Downwards only: sideways would take it past the window's own edge. */
+  resize: vertical;
+}
+
+#notes button {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--panel-soft);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+#notes button:hover {
+  border-color: var(--accent);
+}
+
+#notes button:disabled {
+  opacity: 0.5;
+  cursor: default;
+  border-color: var(--border);
+}
+
+#notes .primary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 /* ────────────────────────────────────────────────────────────────── controls ── */
 
 #controls {

@@ -15,6 +15,14 @@ Two actions, both `POST /`:
 |---|---|
 | `{"action": "sha", "passphrase": "…"}` | the revision the editor should start from |
 | `{"action": "save", "passphrase": "…", "scene": "…", "markers": [...], "baseSha": "…"}` | the new revision and the commit URL |
+| `{"action": "notes", "passphrase": "…"}` | the editors' shared note and when it changed |
+| `{"action": "notes-save", "passphrase": "…", "text": "…", "baseAt": "…"}` | when it changed, now |
+
+The note is kept in the `NOTES` KV namespace rather than in the repository, which is public:
+reading it needs the passphrase, so it stays with the people who hold it. `baseAt` is the
+timestamp the editor loaded, and a write with a stale one is refused with a 409 instead of
+replacing a version that editor never saw. Create the namespace once with
+`npx wrangler kv namespace create NOTES` and put the id it prints in `wrangler.toml`.
 
 `baseSha` is what makes concurrent editing safe: GitHub refuses the write if anyone
 committed in between, and the editor is told to reload rather than overwriting their work.
