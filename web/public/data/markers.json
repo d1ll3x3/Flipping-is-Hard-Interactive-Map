@@ -2351,11 +2351,11 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 5,
       "timeSaved": null,
       "video": null,
       "image": null,
-      "notes": "",
+      "notes": "Using the nails on the outside, you can climb up all the way to the pad area. A bit easier than NSS, but still very hard.",
       "sourcePath": null
     },
     {
