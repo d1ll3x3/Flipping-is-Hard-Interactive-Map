@@ -838,9 +838,9 @@
         ]
       ],
       "lookAt": [
-        -70.87,
-        40.8,
-        231.71
+        -61.66,
+        164.84,
+        361.59
       ],
       "difficulty": null,
       "timeSaved": null,
@@ -876,9 +876,9 @@
         ]
       ],
       "lookAt": [
-        -110.01,
-        -6.04,
-        383.96
+        -68.06,
+        73.94,
+        365.28
       ],
       "difficulty": null,
       "timeSaved": null,
@@ -2622,7 +2622,11 @@
           94.43
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        39.63,
+        72.69,
+        135.36
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
@@ -2666,7 +2670,11 @@
           94.73
         ]
       ],
-      "lookAt": null,
+      "lookAt": [
+        31.77,
+        71.55,
+        137.18
+      ],
       "difficulty": null,
       "timeSaved": null,
       "video": null,
