@@ -57,10 +57,10 @@
       ],
       "difficulty": 1,
       "timeSaved": null,
+      "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/high-jump-4298d.mp4",
       "image": null,
       "notes": "",
-      "sourcePath": null,
-      "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/high-jump-4298d.mp4"
+      "sourcePath": null
     },
     {
       "id": "skip-3",
