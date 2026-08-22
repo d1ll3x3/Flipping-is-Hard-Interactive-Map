@@ -38,6 +38,43 @@ export const headerSafe = (name) =>
  * two people uploading "gap jump" do not overwrite each other and a re-upload is never
  * hidden behind the year-long cache these are served with.
  */
+/**
+ * Everything in the bucket, newest first.
+ *
+ * The Worker will not list itself to a stranger, so this needs the passphrase like an
+ * upload does - which is why the media page asks for it before it shows anything.
+ */
+export async function list() {
+  const response = await fetch(`${UPLOAD_URL}?list=1`, {
+    headers: { 'X-Passphrase': passphrase() },
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error ?? `HTTP ${response.status}`);
+
+  return payload.objects.sort((a, b) => String(b.uploaded).localeCompare(String(a.uploaded)));
+}
+
+/**
+ * Takes a file out of the bucket. There is no undo: R2 keeps no copy, and the file is not
+ * in the repository either.
+ */
+export async function remove(key) {
+  const response = await fetch(UPLOAD_URL + encodeURIComponent(key), {
+    method: 'DELETE',
+    headers: { 'X-Passphrase': passphrase() },
+  });
+
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error ?? `HTTP ${response.status}`);
+
+  return payload.deleted;
+}
+
+/** The address a bucket key is served at, and the key behind an address. */
+export const addressOf = (key) => UPLOAD_URL + encodeURIComponent(key);
+export const keyOf = (url) => (url.startsWith(UPLOAD_URL) ? decodeURIComponent(url.slice(UPLOAD_URL.length)) : null);
+
 export async function upload(blob, name) {
   const response = await fetch(UPLOAD_URL, {
     method: 'PUT',

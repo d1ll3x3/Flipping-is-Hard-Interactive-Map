@@ -476,8 +476,21 @@ textarea:focus {
   cursor: pointer;
 }
 
-#editor button:hover {
+#editor button:hover,
+#editor .link:hover {
   border-color: var(--accent);
+}
+
+/* A link, not a button, because it opens another page - but it belongs to the same row of
+   controls and reads as one of them. */
+#editor .link {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--panel-soft);
+  color: var(--accent);
+  text-align: center;
+  text-decoration: none;
 }
 
 #editor button:disabled {

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Media — FIH Map</title>
+    <link rel="stylesheet" href="/src/media.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Clips and photos</h1>
+      <p class="sub" id="summary">Checking the passphrase…</p>
+      <p class="note" id="note"></p>
+    </header>
+
+    <div class="bar" id="bar" hidden>
+      <input type="search" id="search" placeholder="Search by name, id or file…" autocomplete="off" />
+      <button type="button" class="tab" data-filter="all" aria-pressed="true">All <span class="n"></span></button>
+      <button type="button" class="tab" data-filter="clips" aria-pressed="false">Uploaded clips <span class="n"></span></button>
+      <button type="button" class="tab" data-filter="youtube" aria-pressed="false">YouTube <span class="n"></span></button>
+      <button type="button" class="tab" data-filter="photos" aria-pressed="false">Photos <span class="n"></span></button>
+      <button type="button" class="tab warn" data-filter="orphans" aria-pressed="false" hidden>
+        Unused <span class="n"></span>
+      </button>
+    </div>
+
+    <main id="list"></main>
+    <p class="empty" id="empty" hidden>Nothing matches that search.</p>
+
+    <dialog id="viewer">
+      <div class="viewer-bar">
+        <h2 id="viewerName"></h2>
+        <a id="viewerLink" href="#" target="_blank" rel="noopener">Open the original</a>
+        <button type="button" class="shut" id="viewerShut" aria-label="Close">&times;</button>
+      </div>
+      <div class="stage" id="stage"></div>
+    </dialog>
+
+    <script type="module" src="/src/media.js"></script>
+  </body>
+</html>

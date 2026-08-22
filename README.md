@@ -140,6 +140,21 @@ people who can edit the map and to nobody else. Saving it costs no commit and no
 the next editor to open the map sees it straight away. Two editors writing at once are not
 merged, but the second one is turned away rather than overwriting what they never saw.
 
+### The media page
+
+`media.html` — linked from the editor panel — lists every clip and photo the map uses, with
+a player: click one and it plays there, whether it is a file of ours or a YouTube link. It
+asks for the same passphrase and shows nothing without it.
+
+It also asks the clip Worker what is actually in the bucket, which answers the question the
+marker list cannot: **Unused** are files that were uploaded and that no marker points at.
+Almost always a second take — every upload gets a new name on purpose, so the first one is
+left behind. Those, and only those, have a **Delete** button; a file a marker still uses is
+not offered, because taking it out would leave that marker showing a broken video. Deleting
+is final: R2 keeps no copy and the file is not in git either. The other direction is
+reported too — a marker pointing at a file that is no longer in the bucket is named at the
+top of the page.
+
 ## Things that were hard to find
 
 All of them are commented in the code, but they are worth knowing before touching anything:

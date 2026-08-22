@@ -1,4 +1,4 @@
-import { TYPES } from './markers.js';
+import { TYPES } from './types.js';
 import { loadBaseSha, saveMarkers, savingConfigured } from './save.js';
 import { canCompress, compress } from './video.js';
 import { canShrink, shrink } from './photo.js';
@@ -88,6 +88,10 @@ export class Editor {
       <p class="hint" id="fileHint">Export downloads the marker list as a file; Import loads
         one back in. An import replaces everything on the map but changes nothing in the
         repo until you press Save.</p>
+      <a class="link" href="${import.meta.env.BASE_URL}media.html" target="_blank" rel="noopener">
+        Clips and photos &rarr;</a>
+      <p class="hint">Everything uploaded, in one page: what each marker uses, and what is
+        sitting in storage that nothing points at.</p>
     `;
 
     this.form = this.panel.querySelector('#form');

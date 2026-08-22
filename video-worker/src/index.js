@@ -27,14 +27,20 @@ const TYPES = {
 export default {
   async fetch(request, env) {
     if (request.method === 'PUT') return upload(request, env);
+    if (request.method === 'DELETE') return remove(request, env);
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: cors(request, env) });
     }
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
-      return new Response('Only GET and PUT', { status: 405, headers: { Allow: 'GET, HEAD, PUT' } });
+      return new Response('Only GET, PUT and DELETE', {
+        status: 405,
+        headers: { Allow: 'GET, HEAD, PUT, DELETE' },
+      });
     }
+
+    if (new URL(request.url).searchParams.has('list')) return list(request, env);
 
     return serve(request, env);
   },
@@ -82,6 +88,36 @@ async function serve(request, env) {
   return new Response(object.body, { status: 200, headers });
 }
 
+// ────────────────────────────────────────────────────────────────────── listing ──
+
+/**
+ * Everything in the bucket, for finding the files nothing points at any more.
+ *
+ * Behind the passphrase, unlike the reads: a clip is public to anyone who has its address,
+ * but the list of every address is not something a visitor needs, and a bucket that
+ * enumerates itself is a bucket somebody can copy wholesale.
+ */
+async function list(request, env) {
+  if (!(await passphraseMatches(request.headers.get('X-Passphrase'), env.EDITOR_HASH))) {
+    return json({ error: 'Wrong passphrase' }, 401, request, env);
+  }
+
+  const objects = [];
+  let cursor;
+
+  // R2 answers a page at a time, so this walks to the end of them. A few hundred clips fit
+  // in one request comfortably; this is not a bucket that needs paging of its own.
+  do {
+    const page = await env.VIDEOS.list({ cursor, limit: 1000 });
+    for (const object of page.objects) {
+      objects.push({ key: object.key, size: object.size, uploaded: object.uploaded });
+    }
+    cursor = page.truncated ? page.cursor : null;
+  } while (cursor);
+
+  return json({ objects }, 200, request, env);
+}
+
 // ──────────────────────────────────────────────────────────────────────── write ──
 
 /**
@@ -122,6 +158,35 @@ async function upload(request, env) {
 }
 
 /**
+ * Takes a file out of the bucket for good.
+ *
+ * Guarded like the upload rather than like a read, and deliberately unforgiving about what
+ * it will delete: only a plain key, so a path cannot walk anywhere, and R2 keeps no copy of
+ * what goes. The map's own history does not help here either - the file is not in git.
+ */
+async function remove(request, env) {
+  const origin = allowedOrigin(request.headers.get('Origin'), env);
+  if (request.headers.get('Origin') && !origin) {
+    return json({ error: 'Origin not allowed' }, 403, request, env);
+  }
+
+  if (!(await passphraseMatches(request.headers.get('X-Passphrase'), env.EDITOR_HASH))) {
+    return json({ error: 'Wrong passphrase' }, 401, request, env);
+  }
+
+  const key = decodeURIComponent(new URL(request.url).pathname.slice(1));
+  if (!key || key.includes('/')) return json({ error: 'Ask for one clip by name' }, 400, request, env);
+
+  // head first, so deleting something that is already gone says so instead of reporting a
+  // success that did nothing.
+  if (!(await env.VIDEOS.head(key))) return json({ error: `No clip called "${key}".` }, 404, request, env);
+
+  await env.VIDEOS.delete(key);
+
+  return json({ deleted: key }, 200, request, env);
+}
+
+/**
  * A key that cannot escape the bucket or collide with an existing clip.
  *
  * Everything but letters, digits and dashes goes, which rules out the slashes and dots that
@@ -157,7 +222,7 @@ function cors(request, env) {
 
   return {
     'Access-Control-Allow-Origin': origin ?? '*',
-    'Access-Control-Allow-Methods': 'GET, HEAD, PUT, OPTIONS',
+    'Access-Control-Allow-Methods': 'GET, HEAD, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, X-Passphrase, X-Clip-Name',
     'Access-Control-Max-Age': '86400',
   };

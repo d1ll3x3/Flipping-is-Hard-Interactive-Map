@@ -1,4 +1,5 @@
-import { TYPES, LEVELS, difficultyLevel } from './markers.js';
+import { LEVELS, difficultyLevel } from './markers.js';
+import { TYPES } from './types.js';
 
 /** The visitor-facing side panel: filterable list plus the detail card of what is selected. */
 export class Ui {

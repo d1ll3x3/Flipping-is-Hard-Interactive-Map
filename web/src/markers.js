@@ -2,17 +2,8 @@ import * as THREE from 'three';
 import { Line2 } from 'three/examples/jsm/lines/Line2.js';
 import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
+import { TYPES } from './types.js';
 
-/** The kinds of thing a marker can be, and how each one reads on the map. */
-export const TYPES = {
-  skip: { label: 'Skip', color: '#ff6b4e' },
-  route: { label: 'Route', color: '#4ea1ff' },
-  checkpoint: { label: 'Checkpoint', color: '#48d597' },
-  coin: { label: 'Coin', color: '#f5c451' },
-  skin: { label: 'Skin', color: '#ff7ab6' },
-  npc: { label: 'NPC', color: '#4ed8e6' },
-  note: { label: 'Note', color: '#b98cf5' },
-};
 
 /**
  * The difficulties a marker can carry. markers.json is hand-written and imported from files,
