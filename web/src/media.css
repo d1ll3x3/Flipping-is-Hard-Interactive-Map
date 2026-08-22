@@ -82,10 +82,10 @@ input[type='search'] {
   font: inherit;
 }
 
+/* One look for every button on the page: the filter tabs across the top and the actions
+   down the side of a card. They differ in size, not in kind. */
 .tab,
-.copy,
-.delete {
-  padding: 0.45rem 0.7rem;
+.actions button {
   border: 1px solid var(--border);
   border-radius: 0.4rem;
   background: var(--panel-soft);
@@ -94,8 +94,12 @@ input[type='search'] {
   cursor: pointer;
 }
 
+.tab {
+  padding: 0.45rem 0.7rem;
+}
+
 .tab:hover,
-.copy:hover {
+.actions button:hover:not(:disabled) {
   border-color: var(--accent);
 }
 
@@ -109,13 +113,15 @@ input[type='search'] {
   color: var(--warn);
 }
 
-.delete:hover {
+/* Deleting is the one thing here that cannot be undone, so it is the one button that turns
+   red before it is pressed. */
+.actions .delete:hover:not(:disabled) {
   border-color: var(--danger);
   color: var(--danger);
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: default;
 }
 
@@ -204,6 +210,28 @@ h2::after {
   object-fit: cover;
 }
 
+/* A marker with nothing on it: no frame to show, so the square carries the marker's own
+   colour and says as much as there is to say. */
+.thumb.nothing {
+  border: 1px dashed var(--border);
+  background: color-mix(in srgb, var(--dot) 12%, var(--panel-soft));
+}
+
+.thumb.nothing::after {
+  content: '';
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: var(--dot);
+  opacity: 0.7;
+}
+
+.progress {
+  margin: 0.25rem 0 0;
+  color: var(--accent);
+  font: var(--mono);
+}
+
 /* The badge that says this opens a player, in a corner rather than the middle so it never
    covers the part of the frame you are trying to recognise. */
 .play {
@@ -246,6 +274,10 @@ h2::after {
   color: var(--accent);
 }
 
+a.name {
+  text-decoration: none;
+}
+
 .meta,
 .file {
   margin: 0.1rem 0 0;
@@ -266,10 +298,19 @@ h2::after {
   text-decoration: underline;
 }
 
+/* Down the right-hand side of a card, all the same width whether there is one of them or
+   three, so the cards in a row line up instead of each finding its own edge. */
 .actions {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  width: 6.5rem;
+}
+
+.actions button {
+  padding: 0.32rem 0.5rem;
+  font-size: 0.78rem;
+  white-space: nowrap;
 }
 
 .empty {

@@ -146,8 +146,16 @@ merged, but the second one is turned away rather than overwriting what they neve
 a player: click one and it plays there, whether it is a file of ours or a YouTube link. It
 asks for the same passphrase and shows nothing without it.
 
-It also asks the clip Worker what is actually in the bucket, which answers the question the
-marker list cannot: **Unused** are files that were uploaded and that no marker points at.
+Two sections answer what the marker list cannot on its own. **Nothing yet** is the markers
+with no clip and no photo at all — what still needs recording — and each one can be given
+one from here: **Add clip** and **Add photo** shrink the file in the browser, put it in the
+bucket and commit the marker, exactly as the editor's own upload does, and **Add link**
+takes an address instead (a YouTube video, or a file already in the bucket). **Unassign**
+does the opposite: it takes a file off a marker and leaves it in storage, where it turns up
+under Unused.
+
+**Unused** is the other half, and it needs asking the clip Worker what is actually in the
+bucket: files that were uploaded and that no marker points at.
 Almost always a second take — every upload gets a new name on purpose, so the first one is
 left behind. Those, and only those, have a **Delete** button; a file a marker still uses is
 not offered, because taking it out would leave that marker showing a broken video. Deleting

@@ -10,7 +10,10 @@
  * not something a visitor needs, and the Worker refuses to hand it over anyway.
  */
 import { TYPES } from './types.js';
-import { addressOf, keyOf, list, remove } from './bucket.js';
+import { addressOf, keyOf, list, remove, upload } from './bucket.js';
+import { loadBaseSha, saveMarkers, savingConfigured } from './save.js';
+import { canCompress, compress } from './video.js';
+import { canShrink, shrink } from './photo.js';
 import { unlockEditor } from './access.js';
 
 const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
@@ -24,6 +27,13 @@ const search = document.getElementById('search');
 
 let rows = [];
 let filter = 'all';
+
+// The marker list as it came out of the repository, and what the level is called. Uploading
+// from here edits one of these and commits the lot, the same way the editor's Save does.
+let markers = [];
+let scene = null;
+let objects = null;
+let saving = false;
 
 // What the note says when nothing has just gone wrong: the standing warning about markers
 // whose file is missing, or nothing at all. A failed delete writes over it, and a delete
@@ -40,37 +50,59 @@ async function start() {
 
   summary.textContent = 'Loading…';
 
-  const markers = await fetch(asset('data/markers.json'))
+  const file = await fetch(asset('data/markers.json'))
     .then((response) => response.json())
     .catch((error) => {
       summary.textContent = `Could not read the marker list: ${error.message}`;
       return null;
     });
 
-  if (!markers) return;
+  if (!file) return;
 
-  rows = markers.markers.flatMap((marker) => [
-    ...(marker.video ? [entry(marker, marker.video, 'video')] : []),
-    ...(marker.image ? [entry(marker, marker.image, 'photo')] : []),
-  ]);
+  markers = file.markers;
+  scene = file.scene;
 
   // The bucket is asked for separately and is allowed to fail on its own: the page is still
   // worth showing without it, it just cannot say what is unused.
-  let objects = null;
   try {
     objects = await list();
   } catch (error) {
     say(`Could not read the bucket, so nothing here is marked as unused: ${error.message}`, true);
   }
 
+  // Which revision an upload from here would be committing against. Without it the button
+  // is still shown, but saying why it cannot be used beats a click that fails.
+  saving = savingConfigured();
+  if (saving) {
+    try {
+      await loadBaseSha();
+    } catch (error) {
+      saving = false;
+      say(`Uploading is off: the save service is unreachable (${error.message})`, true);
+    }
+  } else {
+    say('Uploading is off: saving is not set up on this deployment.', true);
+  }
+
+  rebuild();
+  bar.hidden = false;
+}
+
+/** Everything on the page, worked out again from the marker list and the bucket listing. */
+function rebuild() {
+  rows = markers.flatMap((marker) => [
+    ...(marker.video ? [entry(marker, marker.video, 'video')] : []),
+    ...(marker.image ? [entry(marker, marker.image, 'photo')] : []),
+  ]);
+
+  const files = rows.length;
   if (objects) addOrphans(objects);
+  addMissing();
 
   summary.textContent =
-    `${rows.filter((row) => !row.orphan).length} files across ${markers.markers.length} markers. ` +
-    'Click any of them to watch it here.';
+    `${files} files across ${markers.length} markers. Click any of them to watch it here.`;
 
   render();
-  bar.hidden = false;
 }
 
 /** A file a marker points at. */
@@ -82,6 +114,9 @@ function entry(marker, url, kind) {
     id: marker.id,
     name: marker.name,
     type: marker.type,
+    // Kept so the file can be taken off the marker again from here.
+    marker,
+    field: kind === 'video' ? 'video' : 'image',
     kind,
     url,
     key,
@@ -162,6 +197,35 @@ function say(text, warn) {
   note.classList.toggle('warn', Boolean(warn));
 }
 
+/**
+ * The markers with nothing on them at all - no clip and no photo.
+ *
+ * The question the file list cannot answer on its own: it can only show what exists, and
+ * what somebody planning an afternoon of recording wants is the opposite of that.
+ */
+function addMissing() {
+  const empty = markers
+    .filter((marker) => !marker.video && !marker.image)
+    .map((marker) => ({
+      id: marker.id,
+      name: marker.name,
+      type: 'missing',
+      markerType: marker.type,
+      kind: 'none',
+      url: null,
+      key: null,
+      file: 'nothing uploaded yet',
+      source: 'none',
+      embed: '',
+      thumb: null,
+      inline: false,
+      missing: true,
+      marker,
+    }));
+
+  rows = [...empty, ...rows];
+}
+
 const size = (bytes) =>
   bytes >= 1048576 ? `${(bytes / 1048576).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`;
 
@@ -173,6 +237,7 @@ function render() {
   // Unused first: it is the half somebody came here to deal with. Then the marker types in
   // the order the map itself uses.
   const groups = [
+    { type: 'missing', label: 'Nothing yet', color: 'var(--muted)' },
     { type: 'orphan', label: 'Unused', color: 'var(--warn)' },
     ...Object.entries(TYPES).map(([type, meta]) => ({ type, label: meta.label, color: meta.color })),
   ];
@@ -203,21 +268,37 @@ function card(row) {
   article.dataset.kind = row.kind;
   article.dataset.source = row.source;
   article.dataset.orphan = row.orphan ? '1' : '0';
+  article.dataset.missing = row.missing ? '1' : '0';
   article.dataset.search = `${row.name} ${row.id} ${row.file}`.toLowerCase();
 
-  const thumb = document.createElement('button');
-  thumb.type = 'button';
+  const thumb = document.createElement(row.missing ? 'div' : 'button');
   thumb.className = 'thumb';
-  thumb.setAttribute('aria-label', `Watch ${row.name}`);
-  thumb.append(preview(row));
-  thumb.insertAdjacentHTML('beforeend', `<span class="play">${row.kind === 'video' ? '&#9654;' : '&#9906;'}</span>`);
-  thumb.addEventListener('click', () => open(row));
+  if (row.missing) {
+    // Nothing to open, so it is not a button: it carries the marker's own colour instead,
+    // which is the only thing there is to say about it.
+    thumb.classList.add('nothing');
+    thumb.style.setProperty('--dot', TYPES[row.markerType]?.color ?? 'var(--muted)');
+  } else {
+    thumb.type = 'button';
+    thumb.setAttribute('aria-label', `Watch ${row.name}`);
+    thumb.append(preview(row));
+    thumb.insertAdjacentHTML('beforeend', `<span class="play">${row.kind === 'video' ? '&#9654;' : '&#9906;'}</span>`);
+    thumb.addEventListener('click', () => open(row));
+  }
 
-  const name = document.createElement('button');
-  name.type = 'button';
+  // A marker with nothing on it opens on the map instead, which is where you go to see what
+  // the skip actually is before recording it.
+  const name = document.createElement(row.missing ? 'a' : 'button');
   name.className = 'name';
   name.textContent = row.name;
-  name.addEventListener('click', () => open(row));
+  if (row.missing) {
+    name.href = `${import.meta.env.BASE_URL}#${row.id}`;
+    name.target = '_blank';
+    name.rel = 'noopener';
+  } else {
+    name.type = 'button';
+    name.addEventListener('click', () => open(row));
+  }
 
   const what = document.createElement('div');
   what.className = 'what';
@@ -227,28 +308,59 @@ function card(row) {
     `<p class="meta">${
       row.orphan
         ? `<span class="warn">unused</span> · ${row.kind === 'video' ? 'clip' : 'photo'}`
-        : `<span class="id"></span> · ${row.kind === 'video' ? 'clip' : 'photo'} · ${
-            row.source === 'bucket' ? 'bucket' : row.source === 'youtube' ? 'YouTube' : 'link'
-          }`
+        : row.missing
+          ? `<span class="id"></span> · ${TYPES[row.markerType]?.label ?? row.markerType}`
+          : `<span class="id"></span> · ${row.kind === 'video' ? 'clip' : 'photo'} · ${
+              row.source === 'bucket' ? 'bucket' : row.source === 'youtube' ? 'YouTube' : 'link'
+            }`
     }</p>
-     <p class="file"><a target="_blank" rel="noopener"></a></p>`
+     <p class="file">${row.missing ? '<span></span>' : '<a target="_blank" rel="noopener"></a>'}</p>`
   );
   // Set as text rather than interpolated, so a marker named with an angle bracket cannot
   // write markup into the page.
   const id = what.querySelector('.id');
   if (id) id.textContent = row.id;
-  const link = what.querySelector('.file a');
-  link.href = row.url;
-  link.textContent = row.file;
+  const link = what.querySelector('.file a, .file span');
+  if (row.missing) {
+    link.textContent = row.file;
+  } else {
+    link.href = row.url;
+    link.textContent = row.file;
+  }
 
   article.append(thumb, what, buttons(row, article));
   return article;
 }
 
-/** Copy, and for a file of ours, delete. */
+/** Copy, and for a file of ours, delete; for a marker with nothing on it, upload. */
 function buttons(row, article) {
   const box = document.createElement('div');
   box.className = 'actions';
+
+  if (row.missing) {
+    for (const [kind, label] of [
+      ['video', 'Add clip'],
+      ['photo', 'Add photo'],
+    ]) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = label;
+      button.disabled = !saving;
+      button.addEventListener('click', () => add(row, kind, box));
+      box.append(button);
+    }
+
+    // For a clip that is already somewhere - a YouTube video, or a file in the bucket that
+    // came off another marker and is sitting under Unused.
+    const link = document.createElement('button');
+    link.type = 'button';
+    link.textContent = 'Add link';
+    link.disabled = !saving;
+    link.addEventListener('click', () => paste(row, box));
+    box.append(link);
+
+    return box;
+  }
 
   const copy = document.createElement('button');
   copy.type = 'button';
@@ -267,6 +379,17 @@ function buttons(row, article) {
     }, 1200);
   });
   box.append(copy);
+
+  // Takes the file off the marker without touching the file itself: it drops into Unused,
+  // where it can be put on another marker or deleted on purpose.
+  if (row.marker) {
+    const off = document.createElement('button');
+    off.type = 'button';
+    off.textContent = 'Unassign';
+    off.disabled = !saving;
+    off.addEventListener('click', () => unassign(row, box));
+    box.append(off);
+  }
 
   // Only files in our own bucket can be deleted, and a file a marker still uses is not
   // offered at all: taking it out would leave that marker showing a broken video.
@@ -313,6 +436,165 @@ async function destroy(row, article, button) {
   }
 }
 
+/**
+ * Puts a recording or a screenshot on a marker that has neither, from here.
+ *
+ * The same three steps the editor does - shrink in the browser, put it in the bucket, commit
+ * the marker list - because they are the same functions. Re-encoding a clip runs in real
+ * time, so a ten second clip takes ten seconds and the card says so while it happens.
+ */
+async function add(row, kind, box) {
+  const file = await pick(kind === 'video' ? 'video/*' : 'image/*');
+  if (!file) return;
+
+  const buttons = [...box.querySelectorAll('button')];
+  for (const button of buttons) button.disabled = true;
+
+  const step = (text) => progress(box, text);
+
+  try {
+    const was = file.size;
+    let blob = file;
+
+    if (kind === 'video' && canCompress()) {
+      step(`Re-encoding ${mb(was)} MB… 0%`);
+      blob = await compress(file, (done) => step(`Re-encoding ${mb(was)} MB… ${Math.round(done * 100)}%`));
+    } else if (kind === 'photo' && canShrink()) {
+      step(`Shrinking ${mb(was)} MB…`);
+      blob = await shrink(file);
+    } else {
+      // Worth saying rather than quietly uploading 15 MB: everyone who opens that marker
+      // pays for it, and the person here is the only one who can fix it.
+      step(`This browser cannot re-encode, uploading ${mb(was)} MB as is…`);
+    }
+
+    step(`Uploading ${mb(blob.size)} MB…`);
+    const url = await upload(blob, row.name || row.id);
+
+    step('Saving to the repo…');
+    await write(row.marker, kind === 'video' ? 'video' : 'image', url);
+    done(`Added to "${row.name}". The map republishes in about a minute.`);
+  } catch (error) {
+    step(`Not added: ${error.message}`);
+    for (const button of buttons) button.disabled = false;
+    console.error(error);
+  }
+}
+
+/**
+ * Puts a video or photo that already exists on a marker: a YouTube link, or the address of
+ * a file under Unused that belongs to this marker after all.
+ *
+ * Which field it lands in is decided by the address: anything that looks like a picture is
+ * one, and everything else is the video. That is the same guess the map makes when it draws
+ * the marker, so a wrong one is visible immediately and fixed with Unassign.
+ */
+async function paste(row, box) {
+  const url = prompt(`Link for "${row.name}":
+
+A YouTube address, or the address of a file under Unused.`);
+  if (!url) return;
+
+  const trimmed = url.trim();
+  if (!/^https?:\/\//i.test(trimmed)) {
+    progress(box, 'That is not an http address.');
+    return;
+  }
+
+  const buttons = [...box.querySelectorAll('button')];
+  for (const button of buttons) button.disabled = true;
+  progress(box, 'Saving to the repo…');
+
+  try {
+    await write(row.marker, /\.(webp|jpe?g|png|gif|avif)$/i.test(trimmed) ? 'image' : 'video', trimmed);
+    done(`Linked to "${row.name}". The map republishes in about a minute.`);
+  } catch (error) {
+    progress(box, `Not saved: ${error.message}`);
+    for (const button of buttons) button.disabled = false;
+    console.error(error);
+  }
+}
+
+/**
+ * Takes a file off a marker. The file itself is left alone - it turns up under Unused,
+ * where it can go on another marker or be deleted on purpose.
+ */
+async function unassign(row, box) {
+  if (!confirm(`Take this ${row.kind === 'video' ? 'video' : 'photo'} off "${row.name}"?
+
+The file stays in storage and moves to Unused.`)) {
+    return;
+  }
+
+  const buttons = [...box.querySelectorAll('button')];
+  for (const button of buttons) button.disabled = true;
+  progress(box, 'Saving to the repo…');
+
+  try {
+    await write(row.marker, row.field, null);
+    done(`Taken off "${row.name}". The map republishes in about a minute.`);
+  } catch (error) {
+    progress(box, `Not saved: ${error.message}`);
+    for (const button of buttons) button.disabled = false;
+    console.error(error);
+  }
+}
+
+/**
+ * Writes one field of one marker and commits the list.
+ *
+ * The whole list goes, as the editor's Save does: the Worker works out what changed against
+ * the revision this page loaded, so somebody else's edits in the meantime are merged rather
+ * than overwritten.
+ */
+async function write(marker, field, value) {
+  const had = marker[field];
+  if (value === null) delete marker[field];
+  else marker[field] = value;
+
+  try {
+    const result = await saveMarkers(scene, markers);
+    // The Worker merged with somebody else's save; its version is the one to keep working
+    // from, or the next save from here would read their markers as deletions.
+    if (result.list) markers = result.list;
+  } catch (error) {
+    // Put the marker back the way it was, or the page would show a change that is not in
+    // the repository and the next save would carry it in silently.
+    if (had === undefined) delete marker[field];
+    else marker[field] = had;
+    throw error;
+  }
+}
+
+/** Says how it went, and draws the page again around the change. */
+function done(text) {
+  note.textContent = text;
+  note.classList.remove('warn');
+  rebuild();
+}
+
+/** The line inside a card that says what is happening to it. */
+function progress(box, text) {
+  const line =
+    box.parentElement.querySelector('.progress') ??
+    Object.assign(document.createElement('p'), { className: 'progress' });
+  line.textContent = text;
+  box.before(line);
+}
+
+/** The file picker, as a promise. A cancelled pick never resolves, and nothing waits on it. */
+function pick(accept) {
+  return new Promise((resolve) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = accept;
+    input.addEventListener('change', () => resolve(input.files[0] ?? null), { once: true });
+    input.click();
+  });
+}
+
+const mb = (bytes) => (bytes / 1048576).toFixed(1);
+
 function preview(row) {
   if (row.inline) {
     // muted and playsinline so a browser is willing to show the frame at all; no controls,
@@ -348,11 +630,14 @@ function counts() {
     youtube: of((row) => row.source === 'youtube'),
     photos: of((row) => row.kind === 'photo' && !row.orphan),
     orphans: of((row) => row.orphan),
+    missing: of((row) => row.missing),
   };
 
   for (const tab of bar.querySelectorAll('.tab')) {
     tab.querySelector('.n').textContent = numbers[tab.dataset.filter];
+    // A tab for something there is none of is a tab that only ever says zero.
     if (tab.dataset.filter === 'orphans') tab.hidden = !numbers.orphans;
+    if (tab.dataset.filter === 'missing') tab.hidden = !numbers.missing;
   }
 }
 
@@ -361,6 +646,7 @@ function matches(article) {
   if (filter === 'youtube') return article.dataset.source === 'youtube';
   if (filter === 'photos') return article.dataset.kind === 'photo';
   if (filter === 'orphans') return article.dataset.orphan === '1';
+  if (filter === 'missing') return article.dataset.missing === '1';
   return true;
 }
 
