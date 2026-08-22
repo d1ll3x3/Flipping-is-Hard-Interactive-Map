@@ -2681,6 +2681,35 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-94",
+      "type": "skip",
+      "name": "Cardboard Run",
+      "pos": [
+        9.79,
+        14.65,
+        123.13
+      ],
+      "path": [
+        [
+          1.63,
+          14.65,
+          103.62
+        ],
+        [
+          1.98,
+          20.09,
+          98.38
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": 2,
+      "timeSaved": null,
+      "video": "https://fih-map-videos.fih-map-editor-worker.workers.dev/cardboard-run-yucwz.mp4",
+      "image": null,
+      "notes": "Video by: Topper\nSkip found by: Topper",
+      "sourcePath": null
     }
   ]
 }
