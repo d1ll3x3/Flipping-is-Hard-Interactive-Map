@@ -2710,6 +2710,30 @@
       "image": null,
       "notes": "Video by: Topper\nSkip found by: Topper",
       "sourcePath": null
+    },
+    {
+      "id": "skip-95",
+      "type": "skip",
+      "name": "Plonk skip",
+      "pos": [
+        48.4,
+        120.56,
+        -121.82
+      ],
+      "path": [
+        [
+          47.96,
+          133.6,
+          -122.27
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
