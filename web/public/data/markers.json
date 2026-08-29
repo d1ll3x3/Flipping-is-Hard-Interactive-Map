@@ -2734,6 +2734,35 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-96",
+      "type": "skip",
+      "name": "Plonk fast skip",
+      "pos": [
+        41.56,
+        130.9,
+        -83.9
+      ],
+      "path": [
+        [
+          60.04,
+          130.73,
+          -114.75
+        ],
+        [
+          51.03,
+          133.6,
+          -123.96
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
