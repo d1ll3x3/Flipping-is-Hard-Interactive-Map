@@ -2714,7 +2714,7 @@
     {
       "id": "skip-95",
       "type": "skip",
-      "name": "Plonk skip",
+      "name": "Plonk Skip",
       "pos": [
         48.4,
         120.56,
@@ -2738,7 +2738,7 @@
     {
       "id": "skip-96",
       "type": "skip",
-      "name": "Plonk fast skip",
+      "name": "Plonk Fast Skip",
       "pos": [
         41.56,
         130.9,
@@ -2754,6 +2754,30 @@
           51.03,
           133.6,
           -123.96
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-97",
+      "type": "skip",
+      "name": "Plonk Rock Skip",
+      "pos": [
+        39.22,
+        130.9,
+        -76.25
+      ],
+      "path": [
+        [
+          49.92,
+          133.6,
+          -121.01
         ]
       ],
       "lookAt": null,
