@@ -2787,6 +2787,84 @@
       "image": null,
       "notes": "",
       "sourcePath": null
+    },
+    {
+      "id": "skip-98",
+      "type": "skip",
+      "name": "Cardboard Coin Skip",
+      "pos": [
+        14.22,
+        15.4,
+        137.56
+      ],
+      "path": [
+        [
+          15.88,
+          22.34,
+          137.18
+        ],
+        [
+          32.84,
+          15.83,
+          137.92
+        ],
+        [
+          40.86,
+          16.52,
+          137.69
+        ],
+        [
+          52.62,
+          15.04,
+          130.65
+        ],
+        [
+          54.13,
+          12.53,
+          129.18
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
+    },
+    {
+      "id": "skip-99",
+      "type": "skip",
+      "name": "Cardboard Coin Skip Return",
+      "pos": [
+        30.35,
+        10.08,
+        131.26
+      ],
+      "path": [
+        [
+          7.22,
+          20.76,
+          120.77
+        ],
+        [
+          6.31,
+          26.28,
+          123.09
+        ],
+        [
+          5.51,
+          34.63,
+          121.4
+        ]
+      ],
+      "lookAt": null,
+      "difficulty": null,
+      "timeSaved": null,
+      "video": null,
+      "image": null,
+      "notes": "",
+      "sourcePath": null
     }
   ]
 }
