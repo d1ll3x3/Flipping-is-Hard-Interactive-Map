@@ -2728,7 +2728,7 @@
         ]
       ],
       "lookAt": null,
-      "difficulty": null,
+      "difficulty": 2,
       "timeSaved": null,
       "video": null,
       "image": null,
@@ -2756,8 +2756,12 @@
           -123.96
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        75.46,
+        138.37,
+        -118.26
+      ],
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "image": null,
@@ -2775,13 +2779,22 @@
       ],
       "path": [
         [
+          50.58,
+          131.88,
+          -106.68
+        ],
+        [
           49.92,
-          133.6,
-          -121.01
+          133.59,
+          -120.88
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        71.19,
+        136.85,
+        -113.73
+      ],
+      "difficulty": 4,
       "timeSaved": null,
       "video": null,
       "image": null,
@@ -2824,8 +2837,12 @@
           129.18
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        1.56,
+        42.01,
+        138.89
+      ],
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "image": null,
@@ -2858,8 +2875,12 @@
           121.4
         ]
       ],
-      "lookAt": null,
-      "difficulty": null,
+      "lookAt": [
+        54.14,
+        39.63,
+        128.12
+      ],
+      "difficulty": 3,
       "timeSaved": null,
       "video": null,
       "image": null,
